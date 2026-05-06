@@ -28,12 +28,16 @@ from tqdm import tqdm
 import wandb
 
 # V3: pose metrics via vendored Geo4D code in generative_baselines/eval_common_v3.py
-_GB_DIR = "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/generative_baselines"
+_GB_DIR = str(Path(__file__).resolve().parents[1])
 if _GB_DIR not in sys.path:
     sys.path.insert(0, _GB_DIR)
 from eval_common_v3 import POSE_KEYS, aggregate, eval_pose_sequence  # noqa: E402
+from geo4d.path_utils import resolve_geo4d_path  # noqa: E402
 
-GEO4D_DIR = "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/Geo4D"
+GEO4D_DIR = os.environ.get(
+    "GEO4D_DIR",
+    "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/Geo4D",
+)
 
 
 def setup_geo4d_path():
@@ -55,12 +59,14 @@ def load_geo4d_model(ckpt_path: str, config_path: str, gpu_no: int = 0):
     model = instantiate_from_config(model_config)
     model = model.cuda(gpu_no)
     model.perframe_ae = True
+    ckpt_path = str(resolve_geo4d_path(ckpt_path, GEO4D_DIR))
     assert os.path.exists(ckpt_path), f"Checkpoint not found: {ckpt_path}"
     model = load_model_checkpoint(model, ckpt_path)
     model.eval()
 
     pointmap_vae = None
     if "vae_path" in config:
+        config["vae_path"] = str(resolve_geo4d_path(config["vae_path"], GEO4D_DIR))
         pointmap_vae_config = config.pop("pointmap_vae_config", OmegaConf.create())
         pointmap_vae = instantiate_from_config(pointmap_vae_config).eval().cuda(gpu_no)
         from lvdm.basics import disabled_train

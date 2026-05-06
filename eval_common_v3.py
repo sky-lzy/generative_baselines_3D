@@ -52,6 +52,63 @@ def _c2w_to_traj(c2w: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     return traj_tum, timestamps
 
 
+def _rotation_angle_deg(rotation_matrix: np.ndarray) -> float:
+    cos_theta = (np.trace(rotation_matrix) - 1.0) * 0.5
+    cos_theta = float(np.clip(cos_theta, -1.0, 1.0))
+    return float(np.degrees(np.arccos(cos_theta)))
+
+
+def _eval_pose_sequence_first_pose_scale(
+    pred_c2w: np.ndarray,
+    gt_c2w: np.ndarray,
+    seq: str,
+    metric_file: Path,
+    reason: Exception,
+) -> dict:
+    """Fallback for rank-degenerate trajectories where Umeyama cannot run."""
+    if len(pred_c2w) < 2:
+        raise reason
+
+    align = gt_c2w[0] @ np.linalg.inv(pred_c2w[0])
+    pred_aligned = np.einsum("ij,tjk->tik", align, pred_c2w)
+
+    pred_delta = pred_aligned[:, :3, 3] - pred_aligned[0, :3, 3]
+    gt_delta = gt_c2w[:, :3, 3] - gt_c2w[0, :3, 3]
+    pred_span = float(np.linalg.norm(pred_delta[-1]))
+    gt_span = float(np.linalg.norm(gt_delta[-1]))
+    scale = gt_span / pred_span if pred_span > 1e-8 and gt_span > 1e-8 else 1.0
+    pred_aligned[:, :3, 3] = gt_c2w[0, :3, 3] + scale * pred_delta
+
+    translation_error = pred_aligned[:, :3, 3] - gt_c2w[:, :3, 3]
+    ate = float(np.sqrt(np.mean(np.sum(translation_error**2, axis=1))))
+
+    rpe_trans: list[float] = []
+    rpe_rot: list[float] = []
+    for i in range(len(pred_aligned) - 1):
+        pred_rel = np.linalg.inv(pred_aligned[i]) @ pred_aligned[i + 1]
+        gt_rel = np.linalg.inv(gt_c2w[i]) @ gt_c2w[i + 1]
+        rpe_trans.append(float(np.linalg.norm(pred_rel[:3, 3] - gt_rel[:3, 3])))
+        rpe_rot.append(_rotation_angle_deg(pred_rel[:3, :3] @ gt_rel[:3, :3].T))
+
+    out = {
+        "ate": float(ate),
+        "rpe_trans": float(np.sqrt(np.mean(np.square(rpe_trans)))),
+        "rpe_rot": float(np.sqrt(np.mean(np.square(rpe_rot)))),
+        "n_frames": int(len(pred_c2w)),
+        "alignment": "first_pose_scale_fallback",
+    }
+    metric_file.write_text(
+        "Seq: {seq}\n\n"
+        "Geo4D/evo Sim(3) alignment failed; used first-pose + baseline-scale fallback.\n"
+        "Reason: {reason}\n"
+        "ATE: {ate:.8f}\n"
+        "RPE_trans: {rpe_trans:.8f}\n"
+        "RPE_rot: {rpe_rot:.8f}\n".format(seq=seq, reason=reason, **out),
+        encoding="utf-8",
+    )
+    return out
+
+
 def eval_pose_sequence(
     pred_c2w: np.ndarray,
     gt_c2w: np.ndarray,
@@ -75,18 +132,24 @@ def eval_pose_sequence(
     save_dir.mkdir(parents=True, exist_ok=True)
     metric_file = save_dir / f"{seq}_eval_metric.txt"
 
-    ate, rpe_trans, rpe_rot = _vo_eval.eval_metrics(
-        pred_traj=pred_traj,
-        gt_traj=gt_traj,
-        seq=seq,
-        filename=str(metric_file),
-    )
+    try:
+        ate, rpe_trans, rpe_rot = _vo_eval.eval_metrics(
+            pred_traj=pred_traj,
+            gt_traj=gt_traj,
+            seq=seq,
+            filename=str(metric_file),
+        )
+    except Exception as exc:
+        if "Degenerate covariance rank" not in str(exc):
+            raise
+        return _eval_pose_sequence_first_pose_scale(pred_c2w, gt_c2w, seq, metric_file, exc)
 
     return {
         "ate":       float(ate),
         "rpe_trans": float(rpe_trans),
         "rpe_rot":   float(rpe_rot),
         "n_frames":  int(len(pred_c2w)),
+        "alignment": "sim3_umeyama",
     }
 
 

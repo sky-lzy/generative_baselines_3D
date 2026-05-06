@@ -29,19 +29,23 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-import torch.nn.functional as F
 from tqdm import tqdm
 import wandb
 
-GEO4D_DIR = "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/Geo4D"
+GEO4D_DIR = os.environ.get(
+    "GEO4D_DIR",
+    "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/Geo4D",
+)
 
 # V3: depth metrics via vendored Geo4D code in generative_baselines/eval_common_v3.py
-_GB_DIR = "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/generative_baselines"
+_GB_DIR = str(Path(__file__).resolve().parents[1])
 if _GB_DIR not in sys.path:
     sys.path.insert(0, _GB_DIR)
 from eval_common_v3 import (  # noqa: E402
     DEPTH_KEYS, aggregate, eval_depth_sequence, load_depth_metric_from_npz,
 )
+from geo4d.depth_utils import match_depth_to_gt  # noqa: E402
+from geo4d.path_utils import resolve_geo4d_path  # noqa: E402
 
 METRIC_KEYS = ("d1", "d2", "d3", "abs_rel", "sq_rel", "rmse", "rmse_log", "log10", "silog")
 
@@ -217,12 +221,14 @@ def load_geo4d_model(ckpt_path: str, config_path: str, gpu_no: int = 0):
     model = instantiate_from_config(model_config)
     model = model.cuda(gpu_no)
     model.perframe_ae = True
+    ckpt_path = str(resolve_geo4d_path(ckpt_path, GEO4D_DIR))
     assert os.path.exists(ckpt_path), f"Checkpoint not found: {ckpt_path}"
     model = load_model_checkpoint(model, ckpt_path)
     model.eval()
 
     pointmap_vae = None
     if "vae_path" in config:
+        config["vae_path"] = str(resolve_geo4d_path(config["vae_path"], GEO4D_DIR))
         pointmap_vae_config = config.pop("pointmap_vae_config", OmegaConf.create())
         pointmap_vae = instantiate_from_config(pointmap_vae_config).eval().cuda(gpu_no)
         from lvdm.basics import disabled_train
@@ -435,6 +441,10 @@ def main() -> None:
         cached_depth = sample_out / "pred_depth_geo4d.npz"
         if cached_depth.exists() and not args.rerun:
             pred_depth = np.load(cached_depth)["depth"]
+            matched_depth = match_depth_to_gt(pred_depth, gt_depth)
+            if matched_depth.shape != pred_depth.shape:
+                pred_depth = matched_depth
+                np.savez_compressed(cached_depth, depth=pred_depth)
         else:
             try:
                 pred_depth = infer_geo4d_depth(
@@ -449,19 +459,17 @@ def main() -> None:
                 print(f"Error running Geo4D on {sample_dir.name}: {e}")
                 import traceback; traceback.print_exc()
                 continue
+            pred_depth = match_depth_to_gt(pred_depth, gt_depth)
             sample_out.mkdir(parents=True, exist_ok=True)
             np.savez_compressed(cached_depth, depth=pred_depth)
 
-        if pred_depth.shape != gt_depth.shape:
-            t_pred = torch.from_numpy(pred_depth).unsqueeze(1)
-            t_pred = F.interpolate(t_pred, size=gt_depth.shape[-2:],
-                                   mode="bilinear", align_corners=False)
-            pred_depth = t_pred.squeeze(1).numpy()
+        pred_depth = match_depth_to_gt(pred_depth, gt_depth)
+        gt_depth_eval = gt_depth[: pred_depth.shape[0]]
 
         try:
             metrics = eval_depth_sequence(
                 pred_depth_THW=pred_depth,
-                gt_depth_THW=gt_depth,
+                gt_depth_THW=gt_depth_eval,
                 dataset=args.dataset,
                 normalize_unit_per_video=True,
             )

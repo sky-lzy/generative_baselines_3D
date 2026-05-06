@@ -27,7 +27,10 @@ import torch
 import wandb
 from tqdm import tqdm
 
-RAYDIFFUSION_DIR = "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/generative_baselines/RayDiffusion"
+RAYDIFFUSION_DIR = os.environ.get(
+    "RAYDIFFUSION_DIR",
+    str(Path(__file__).resolve().parent),
+)
 sys.path.insert(0, RAYDIFFUSION_DIR)
 
 # V3: pose metrics via vendored Geo4D code in generative_baselines/eval_common_v3.py
@@ -350,6 +353,8 @@ def main():
     parser.add_argument("--max_frames", type=int, default=MAX_FRAMES_RAYDIFF,
                         help="Max frames to pass to RayDiffusion (default 8)")
     parser.add_argument("--device", default="cuda")
+    parser.add_argument("--rerun", action="store_true",
+                        help="Rerun RayDiffusion even if pred_cameras.npz already exists")
     parser.add_argument("--custom_run_name", default="raydiffusion_pose_eval_v3")
     parser.add_argument("--dataset", default="re10k", choices=["re10k", "aria"],
                         help="Kept for CLI compat with V2; aria correction is "
@@ -404,19 +409,26 @@ def main():
             gt_c2w = gt_c2w[:len(frames)]
             n_gt = len(frames)
 
-        try:
-            pred_c2w, sub_indices = run_raydiffusion_on_frames(model, cfg, frames, device, args.max_frames)
-        except Exception as e:
-            print(f"Error running RayDiffusion on {sample_dir.name}: {e}")
-            import traceback; traceback.print_exc()
-            continue
+        sample_out = output_dir / sample_dir.name
+        sample_out.mkdir(parents=True, exist_ok=True)
+        cached_pred = sample_out / "pred_cameras.npz"
+        if cached_pred.exists() and not args.rerun:
+            cache = np.load(cached_pred)
+            pred_c2w = cache["extrinsics"].astype(np.float64)
+            sub_indices = cache["frame_indices"].astype(np.int64)
+        else:
+            try:
+                pred_c2w, sub_indices = run_raydiffusion_on_frames(model, cfg, frames, device, args.max_frames)
+            except Exception as e:
+                print(f"Error running RayDiffusion on {sample_dir.name}: {e}")
+                import traceback; traceback.print_exc()
+                continue
+            np.savez_compressed(str(cached_pred),
+                                extrinsics=pred_c2w, frame_indices=sub_indices)
 
         # Evaluate only on the subsampled frames RayDiffusion produced.
         sub_indices = sub_indices[:len(pred_c2w)]
         gt_c2w_eval = gt_c2w[sub_indices]   # (K, 4, 4)
-
-        sample_out = output_dir / sample_dir.name
-        sample_out.mkdir(parents=True, exist_ok=True)
 
         try:
             metrics = eval_pose_sequence(
@@ -432,8 +444,6 @@ def main():
 
         with open(sample_out / "pose_metrics.json", "w") as f:
             json.dump(metrics, f, indent=2)
-        np.savez_compressed(str(sample_out / "pred_cameras.npz"),
-                            extrinsics=pred_c2w, frame_indices=sub_indices)
         plot_camera_trajectory(pred_c2w, gt_c2w_eval, str(sample_out / "camera_trajectory.png"))
         wandb.log({f"sample/{k}": metrics[k] for k in POSE_KEYS})
         per_seq.append(metrics)
