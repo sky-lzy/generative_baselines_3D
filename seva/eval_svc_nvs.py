@@ -9,6 +9,12 @@ from PIL import Image
 from tqdm import tqdm
 import imageio.v3 as iio
 
+from camera_utils import (
+    rescale_intrinsics_to_image,
+    resolve_seva_frame_window,
+    resolve_seva_target_size,
+)
+
 # Add SVC to path to avoid installation
 sys.path.insert(0, "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/stable-virtual-camera")
 
@@ -56,7 +62,24 @@ def get_args():
     parser.add_argument("--device", type=str, default="cuda:0")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--resize_hw", type=int, nargs=2, default=None, metavar=("H", "W"),
-                        help="Resize frames to (H, W) using torch bilinear before SVC inference.")
+                        help="Explicitly resize frames to (H, W); overrides --l_short.")
+    parser.add_argument("--l_short", type=int, default=576,
+                        help="Aspect-preserving SEVA resize: set shortest side to this "
+                             "value and round to stride 64. Use 0 to keep native size.")
+    parser.add_argument("--pretrained_model_name_or_path", type=str,
+                        default="stabilityai/stable-virtual-camera",
+                        help="Hugging Face repo id or local directory containing SEVA weights.")
+    parser.add_argument("--weight_name", type=str, default="model.safetensors",
+                        help="SEVA weight filename when loading from a local checkpoint directory.")
+    parser.add_argument("--intrinsics_scale", default="auto",
+                        help="'auto', 'none', a scalar, or 'sx,sy'. Use this when "
+                             "gt_cameras.npz intrinsics are stored at ray-map scale "
+                             "instead of RGB pixel scale.")
+    parser.add_argument("--frame_window", default="21",
+                        help="SEVA per-forward frame window T. Official default is 21. "
+                             "Use 'full' to process the whole clip in one forward.")
+    parser.add_argument("--camera_scale", type=float, default=2.0,
+                        help="SEVA translation normalization scale.")
     parser.add_argument("--dataset", default="re10k", choices=["re10k", "aria"],
                         help="'aria' converts GT cameras from Aria device frame to OpenCV "
                              "convention before passing to SEVA.")
@@ -104,8 +127,8 @@ def main():
     
     model = load_model(
         model_version=args.model_version,
-        pretrained_model_name_or_path="stabilityai/stable-virtual-camera",
-        weight_name="model.safetensors",
+        pretrained_model_name_or_path=args.pretrained_model_name_or_path,
+        weight_name=args.weight_name,
         device="cpu",
     ).eval()
     model = SGMWrapper(model).to(args.device)
@@ -143,7 +166,14 @@ def main():
         if args.dataset == "aria":
             c2w_np = aria_c2w_to_opencv(c2w_np)
         c2ws = torch.from_numpy(c2w_np).float()[:, :3, :4]  # [T, 3, 4]
-        Ks = torch.from_numpy(cameras["intrinsics"]).float() # [T, 3, 3]
+        K_np, K_scale = rescale_intrinsics_to_image(
+            cameras["intrinsics"].astype(np.float64),
+            image_hw=(H, W),
+            intrinsics_scale=args.intrinsics_scale,
+        )
+        if K_scale != (1.0, 1.0):
+            print(f"{sample_dir.name}: scaled intrinsics to RGB pixels by sx={K_scale[0]:g}, sy={K_scale[1]:g}")
+        Ks = torch.from_numpy(K_np).float() # [T, 3, 3]
         
         # Ensure T matches between video and cameras
         T = min(T, len(c2ws))
@@ -153,11 +183,14 @@ def main():
         Ks = Ks[:T]
         
         if args.resize_hw is not None:
-            target_h, target_w = args.resize_hw
+            resize_hw = (args.resize_hw[0], args.resize_hw[1])
         else:
-            # Ensure H and W are multiples of 64 for the U-Net
-            target_h = (H + 31) // 64 * 64
-            target_w = (W + 31) // 64 * 64
+            resize_hw = None
+        target_h, target_w = resolve_seva_target_size(
+            image_hw=(H, W),
+            resize_hw=resize_hw,
+            l_short=args.l_short,
+        )
             
         if target_h != H or target_w != W:
             videos = torch.nn.functional.interpolate(
@@ -191,7 +224,7 @@ def main():
         version_dict = {
             "H": H,
             "W": W,
-            "T": T,
+            "T": resolve_seva_frame_window(T, args.frame_window),
             "C": 4,
             "f": 8,
             "options": {
@@ -201,7 +234,7 @@ def main():
                 "log_snr_shift": 2.4,
                 "guider_types": 1,
                 "cfg": 2.0,
-                "camera_scale": 2.0,
+                "camera_scale": args.camera_scale,
                 "num_steps": 50,
                 "cfg_min": 1.2,
                 "encoding_t": 1,
