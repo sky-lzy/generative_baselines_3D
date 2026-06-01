@@ -1,0 +1,3401 @@
+{
+  "note": "OOD rows include 50-sequence 50-view runs with all C(50,2)=1225 relative-pose pairs per sequence, plus 50-sequence 2-view long-baseline runs with 100 sampled pairs per dataset/method. Oracle rows use a GT-assisted per-sequence SO3 camera-basis fit from predicted relative translation directions to GT directions.",
+  "rows": [
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.656573456774278,
+          "sequence": "02267acf6fb98de36173bf4e7db9734c8c421dcb00267e42964dc15134cbb1be"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.3965155166229656,
+          "sequence": "0238de14089be825251ca9a7c91c471a941bde76f78ae7b637ef306f30df544e"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.40676759562884846,
+          "sequence": "05cd8f26e146d8fee12e1f393ba17fd76c3de796dcac9bb5573d9ee508a3c765"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.48428000346394257,
+          "sequence": "077339a1f609c142d7988dcda4f890a88ff8ab3f944485e989f06181b4cb1429"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.7854032224348659,
+          "sequence": "0ec879405fe1a7a393876fed993657e0f7dda7fa16788ad48c669e9b67215a3c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.741474006890514,
+          "sequence": "14452271416631599c6e7a2362b2c5330e08fbf0ec2adfea7930d84cba4e3d69"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.5224160127967855,
+          "sequence": "1881f3837a7e28b96a43fa87b9cc5a406104c776cda31f808e1c48d5ed8b8a6d"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.585406656656414,
+          "sequence": "18ae5d387baba346017f225c7661c885ab4ce1ef7dd028a9ad80773002528557"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.8429182712915341,
+          "sequence": "1e5ce991775e9266dcd553306ae9cc153ffd19101b789ff66526bc3877c54fdf"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.7955675069233762,
+          "sequence": "1f48fd8ca3d0d6e9c879239ff2f7f824996bd741bcfb74f4e546f2a0f4cf35f5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.8829807847894774,
+          "sequence": "219db02f78c0b4c688439cce8ca9dbc72b8a64820dd1075f39f54a236e71af9d"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.171622663148681,
+          "sequence": "309a93c9e8aeeb1f7851b23da892aaa750c7072d50297d835613df2ee601bf2c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.649096887616109,
+          "sequence": "334ff324884919582938372c65ab33ffa0d25fc2e89ce5a896a317f6c2531c90"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.5073922418350184,
+          "sequence": "36a33881ba53b1f7f6e6d4cb8e3a9b914f9f954a5fa0e79c449890a3fdcc53b7"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.6000758997593968,
+          "sequence": "39c7fd84f7908d0a3feb90090cd6ad77d45aee8f11a0fcc9d0db08989fb544e1"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.2639687996115527,
+          "sequence": "44cdf8e4e44c8a7537517311a981901944319faa55a880e1a8d67d5933d20180"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.7258715359257361,
+          "sequence": "46425ea6629700648544fc7ebf066696885eecbb5346269dceda39f3707367c0"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.6660834175729333,
+          "sequence": "494835cf61b77ab1cb7dd9fb71995be8117ccebd3b9be69717060be759d1336b"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.8977896679721677,
+          "sequence": "4dbff8a392bbd187d5655d5199307632f834386e00875b343d31b2b8195b4241"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.7087682574751035,
+          "sequence": "5019ee7f71f5367a6f6c21248051519d1247eb17f5e1c6bcfd40c8f6ad047aaa"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.3832782663198602,
+          "sequence": "599b9dc15771ada7ce5eed6c2bc69c90977a2fa072a82f7121714f4a882f6ee5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.0088774415270285,
+          "sequence": "5ad1e824cc04de35689a995671675dc195f7fbb0947d7feeaa6040a1a235f0c7"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.5413939479777953,
+          "sequence": "5f57615993d0136efc3628e41994c4cec16779a2b31a47f0a5b8a31637927491"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.5631904093358138,
+          "sequence": "61b27b6168d547f1a0b08e62be1d8a490dffa280a8e4fce518a577c97190eeba"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.7780660456315656,
+          "sequence": "7ab720a2e21e729185ab0147e2aeda65d0ae2c0434641f6b13102b01e927919b"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.0062747254423647,
+          "sequence": "887529ade78bd981de09e31648c9788f14691f50d113cb5aa5f0e38e75304ec7"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.1819823860904797,
+          "sequence": "90c1a602500d27c99e643ac442861a3e18e9221f1277d70feaac50988ff9df60"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 18.444791098527947,
+          "sequence": "91b61a0a233266b6ac1bebb2e11974686229a478f4ad60201b56d579e50b1320"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.315934796296213,
+          "sequence": "924228bfa8983b5aa7921a609d5046036c96022f8458c037460386e74f3ffec6"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.6992545531833535,
+          "sequence": "935620afb47080ea06056d891f8bd7d70e7b306ee1aac7b282813b3aecd3eba5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.869084847803664,
+          "sequence": "948657fcea737d80c2bdd7c5f7c3d83d17b13f7456d1975e4601a1b542b2442d"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.3174145310667242,
+          "sequence": "9bc29652c28b8999a86d0fc012d66c440ec8985f8f5544c7accc9c08ff70b09d"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.6390386086229122,
+          "sequence": "9c567331ea71ab56d8a96c10ab4d17b8ae3350fcaf689908cdcf608e1d8ae6db"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.37466925505454524,
+          "sequence": "9d746529972b9f3957bb5a4895984946638bd1945880934c448c2431523dd1d1"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.666597055940719,
+          "sequence": "9f361436f272b69706cdba2747ab7b86d7227bbbd95458cc927255d11f6e9bbb"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.47632884836903466,
+          "sequence": "9fc68c3eec536f03f0f3ece51cefee2424a2d6a057aafa9de07c08e5cee1995f"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.9342135915435977,
+          "sequence": "a126efe829a3872bb092e09b58ece5c87d464dd3c3ec5665b1b5fddb696d55ff"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.232007736775614,
+          "sequence": "ae90ea23130506b51f0aa19e518d2cc920ebb8c9a2b89a2178c00d3f5959440b"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.7003617958516273,
+          "sequence": "b93f5691ba1cc8890d0b0fb5792668d8c8e084e3b3ae1a476fc5e2c1e38b79ae"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.8470917025809991,
+          "sequence": "c7418b7d13490f78a288ad199137162909ecb78bfed6e582e451fd47cd622ec9"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.755690619490093,
+          "sequence": "c9fa8e4f985a871be37f8bcb5baab74cfc535b12c3898e7469536599a63b9184"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.5394882739306868,
+          "sequence": "d2ce0396dc6df5a579dbd8189885ce978c19490709875043e3566efba054236f"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.9399875122151773,
+          "sequence": "dae20e296aa8b102aecfe17d9fed0503aae9f92b1d32246a1c9f6d67e6452bcf"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.7531871071179651,
+          "sequence": "e834869939ea68d24743bb9f5b13016f4fce585a44740d0b60ee2fc0086e7d7f"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.117459602496825,
+          "sequence": "ec0d0f130fbe697564dbac8df4b8a07665868a6ed0441cd29458607c67f61836"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.6353777663884069,
+          "sequence": "f1a05a3e7d1680caa08ed114483fcfbccaf6c72905d2333f6f8f405dbb36454f"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.5148968509684342,
+          "sequence": "f20fc26d6d46029dc7dac01435523d4d015b27ef2d53bc415007ee695edc8a17"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.6641796910550428,
+          "sequence": "f2ee054873ffbfae0269060f956ef713579852b6a94ded2faceee282baf3448a"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.7298113963865428,
+          "sequence": "f3ae99f69bc9d97bc98e83cffedc837422a7bd343d876560d2a60552a3b35779"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.914141890841565,
+          "sequence": "f47839e25e89f44f1741d3fffd8674544893f2d704f7082b30cce77847bf0a45"
+        }
+      ],
+      "method": "Pi3",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 95.54263945578231,
+        "Auc_30": 97.56680272108844,
+        "Auc_5": 90.46726530612244,
+        "Racc_15": 99.68163265306123,
+        "Racc_30": 100.0,
+        "Racc_5": 98.5926530612245,
+        "Tacc_15": 99.31755102040817,
+        "Tacc_30": 99.78285714285714,
+        "Tacc_5": 96.54367346938776,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/dl3dv_eval/pi3_50view_s50",
+      "raw": {
+        "Auc_15": 94.61616326530611,
+        "Auc_30": 96.27499319727889,
+        "Auc_5": 89.11379591836734,
+        "Racc_15": 99.46122448979592,
+        "Racc_30": 100.0,
+        "Racc_5": 98.65632653061225,
+        "Tacc_15": 97.75020408163265,
+        "Tacc_30": 98.02612244897959,
+        "Tacc_5": 96.09795918367347,
+        "num_pairs": 61250.0
+      },
+      "setting": "DL3DV-Eval 50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 5.439985417801847,
+          "sequence": "02267acf6fb98de36173bf4e7db9734c8c421dcb00267e42964dc15134cbb1be"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.439214346929963,
+          "sequence": "0238de14089be825251ca9a7c91c471a941bde76f78ae7b637ef306f30df544e"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 6.701809317442685,
+          "sequence": "05cd8f26e146d8fee12e1f393ba17fd76c3de796dcac9bb5573d9ee508a3c765"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 6.365319268296442,
+          "sequence": "077339a1f609c142d7988dcda4f890a88ff8ab3f944485e989f06181b4cb1429"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.7691802183814165,
+          "sequence": "0ec879405fe1a7a393876fed993657e0f7dda7fa16788ad48c669e9b67215a3c"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.197956991818195,
+          "sequence": "14452271416631599c6e7a2362b2c5330e08fbf0ec2adfea7930d84cba4e3d69"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.264816574763356,
+          "sequence": "1881f3837a7e28b96a43fa87b9cc5a406104c776cda31f808e1c48d5ed8b8a6d"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 7.148123129107213,
+          "sequence": "18ae5d387baba346017f225c7661c885ab4ce1ef7dd028a9ad80773002528557"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.84792047862041,
+          "sequence": "1e5ce991775e9266dcd553306ae9cc153ffd19101b789ff66526bc3877c54fdf"
+        },
+        {
+          "num_vectors": 1224.0,
+          "rmsd": 3.6392327289871997,
+          "sequence": "1f48fd8ca3d0d6e9c879239ff2f7f824996bd741bcfb74f4e546f2a0f4cf35f5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 7.375691057102154,
+          "sequence": "219db02f78c0b4c688439cce8ca9dbc72b8a64820dd1075f39f54a236e71af9d"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 6.604092932819306,
+          "sequence": "309a93c9e8aeeb1f7851b23da892aaa750c7072d50297d835613df2ee601bf2c"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.917418902659191,
+          "sequence": "334ff324884919582938372c65ab33ffa0d25fc2e89ce5a896a317f6c2531c90"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 5.327098217990344,
+          "sequence": "36a33881ba53b1f7f6e6d4cb8e3a9b914f9f954a5fa0e79c449890a3fdcc53b7"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 5.748851400857016,
+          "sequence": "39c7fd84f7908d0a3feb90090cd6ad77d45aee8f11a0fcc9d0db08989fb544e1"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 5.690031368117583,
+          "sequence": "44cdf8e4e44c8a7537517311a981901944319faa55a880e1a8d67d5933d20180"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.48745085598509,
+          "sequence": "46425ea6629700648544fc7ebf066696885eecbb5346269dceda39f3707367c0"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.349076024233131,
+          "sequence": "494835cf61b77ab1cb7dd9fb71995be8117ccebd3b9be69717060be759d1336b"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.350412075831064,
+          "sequence": "4dbff8a392bbd187d5655d5199307632f834386e00875b343d31b2b8195b4241"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.324853703433112,
+          "sequence": "5019ee7f71f5367a6f6c21248051519d1247eb17f5e1c6bcfd40c8f6ad047aaa"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 5.028844178034299,
+          "sequence": "599b9dc15771ada7ce5eed6c2bc69c90977a2fa072a82f7121714f4a882f6ee5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 6.763210641698454,
+          "sequence": "5ad1e824cc04de35689a995671675dc195f7fbb0947d7feeaa6040a1a235f0c7"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.2251102946957935,
+          "sequence": "5f57615993d0136efc3628e41994c4cec16779a2b31a47f0a5b8a31637927491"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.0120211976784184,
+          "sequence": "61b27b6168d547f1a0b08e62be1d8a490dffa280a8e4fce518a577c97190eeba"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 25.233321254753577,
+          "sequence": "7ab720a2e21e729185ab0147e2aeda65d0ae2c0434641f6b13102b01e927919b"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.5803310126877026,
+          "sequence": "887529ade78bd981de09e31648c9788f14691f50d113cb5aa5f0e38e75304ec7"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 6.172510394222002,
+          "sequence": "90c1a602500d27c99e643ac442861a3e18e9221f1277d70feaac50988ff9df60"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 16.529548710147747,
+          "sequence": "91b61a0a233266b6ac1bebb2e11974686229a478f4ad60201b56d579e50b1320"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.760944241310983,
+          "sequence": "924228bfa8983b5aa7921a609d5046036c96022f8458c037460386e74f3ffec6"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.437098518971512,
+          "sequence": "935620afb47080ea06056d891f8bd7d70e7b306ee1aac7b282813b3aecd3eba5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.9781171990199873,
+          "sequence": "948657fcea737d80c2bdd7c5f7c3d83d17b13f7456d1975e4601a1b542b2442d"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 7.511778990559624,
+          "sequence": "9bc29652c28b8999a86d0fc012d66c440ec8985f8f5544c7accc9c08ff70b09d"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.797844846030811,
+          "sequence": "9c567331ea71ab56d8a96c10ab4d17b8ae3350fcaf689908cdcf608e1d8ae6db"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 9.983690520210187,
+          "sequence": "9d746529972b9f3957bb5a4895984946638bd1945880934c448c2431523dd1d1"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.382269926113658,
+          "sequence": "9f361436f272b69706cdba2747ab7b86d7227bbbd95458cc927255d11f6e9bbb"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.15920197505038,
+          "sequence": "9fc68c3eec536f03f0f3ece51cefee2424a2d6a057aafa9de07c08e5cee1995f"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.117237130796281,
+          "sequence": "a126efe829a3872bb092e09b58ece5c87d464dd3c3ec5665b1b5fddb696d55ff"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 41.6716002708582,
+          "sequence": "ae90ea23130506b51f0aa19e518d2cc920ebb8c9a2b89a2178c00d3f5959440b"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 10.390257254573639,
+          "sequence": "b93f5691ba1cc8890d0b0fb5792668d8c8e084e3b3ae1a476fc5e2c1e38b79ae"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.776623897000375,
+          "sequence": "c7418b7d13490f78a288ad199137162909ecb78bfed6e582e451fd47cd622ec9"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.750731878326034,
+          "sequence": "c9fa8e4f985a871be37f8bcb5baab74cfc535b12c3898e7469536599a63b9184"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.6368348443894662,
+          "sequence": "d2ce0396dc6df5a579dbd8189885ce978c19490709875043e3566efba054236f"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.235103137167086,
+          "sequence": "dae20e296aa8b102aecfe17d9fed0503aae9f92b1d32246a1c9f6d67e6452bcf"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 2.5855034176843574,
+          "sequence": "e834869939ea68d24743bb9f5b13016f4fce585a44740d0b60ee2fc0086e7d7f"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.606964595988193,
+          "sequence": "ec0d0f130fbe697564dbac8df4b8a07665868a6ed0441cd29458607c67f61836"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 15.3491172744493,
+          "sequence": "f1a05a3e7d1680caa08ed114483fcfbccaf6c72905d2333f6f8f405dbb36454f"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.183754049313457,
+          "sequence": "f20fc26d6d46029dc7dac01435523d4d015b27ef2d53bc415007ee695edc8a17"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.7764477288442184,
+          "sequence": "f2ee054873ffbfae0269060f956ef713579852b6a94ded2faceee282baf3448a"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.245045795055079,
+          "sequence": "f3ae99f69bc9d97bc98e83cffedc837422a7bd343d876560d2a60552a3b35779"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 5.826581412242466,
+          "sequence": "f47839e25e89f44f1741d3fffd8674544893f2d704f7082b30cce77847bf0a45"
+        }
+      ],
+      "method": "Ours/VWM",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 55.826829931972796,
+        "Auc_30": 74.7454149659864,
+        "Auc_5": 18.227265306122447,
+        "Racc_15": 96.92408163265306,
+        "Racc_30": 98.37714285714286,
+        "Racc_5": 72.85061224489796,
+        "Tacc_15": 89.38775510204081,
+        "Tacc_30": 96.27428571428571,
+        "Tacc_5": 57.40571428571428,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/dl3dv_eval/ours_50view_s50_s40",
+      "raw": {
+        "Auc_15": 44.425142857142866,
+        "Auc_30": 67.55031292517006,
+        "Auc_5": 8.432326530612244,
+        "Racc_15": 96.88489795918368,
+        "Racc_30": 98.64163265306122,
+        "Racc_5": 77.02367346938776,
+        "Tacc_15": 82.73959183673469,
+        "Tacc_30": 94.50448979591837,
+        "Tacc_5": 27.082448979591838,
+        "num_pairs": 61250.0
+      },
+      "setting": "DL3DV-Eval 50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.654555476493293,
+          "sequence": "02267acf6fb98de36173bf4e7db9734c8c421dcb00267e42964dc15134cbb1be"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.781871831230836,
+          "sequence": "0238de14089be825251ca9a7c91c471a941bde76f78ae7b637ef306f30df544e"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.626163034489174,
+          "sequence": "05cd8f26e146d8fee12e1f393ba17fd76c3de796dcac9bb5573d9ee508a3c765"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.099945396414115,
+          "sequence": "077339a1f609c142d7988dcda4f890a88ff8ab3f944485e989f06181b4cb1429"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.953169515455979,
+          "sequence": "0ec879405fe1a7a393876fed993657e0f7dda7fa16788ad48c669e9b67215a3c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 13.73895793599171,
+          "sequence": "14452271416631599c6e7a2362b2c5330e08fbf0ec2adfea7930d84cba4e3d69"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.8285998526322125,
+          "sequence": "1881f3837a7e28b96a43fa87b9cc5a406104c776cda31f808e1c48d5ed8b8a6d"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.18051894964685,
+          "sequence": "18ae5d387baba346017f225c7661c885ab4ce1ef7dd028a9ad80773002528557"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 12.35613376819453,
+          "sequence": "1e5ce991775e9266dcd553306ae9cc153ffd19101b789ff66526bc3877c54fdf"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.030948538310529,
+          "sequence": "1f48fd8ca3d0d6e9c879239ff2f7f824996bd741bcfb74f4e546f2a0f4cf35f5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.47241606229206,
+          "sequence": "219db02f78c0b4c688439cce8ca9dbc72b8a64820dd1075f39f54a236e71af9d"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.578762420152884,
+          "sequence": "309a93c9e8aeeb1f7851b23da892aaa750c7072d50297d835613df2ee601bf2c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.626844644593188,
+          "sequence": "334ff324884919582938372c65ab33ffa0d25fc2e89ce5a896a317f6c2531c90"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.736903124989378,
+          "sequence": "36a33881ba53b1f7f6e6d4cb8e3a9b914f9f954a5fa0e79c449890a3fdcc53b7"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.51888171952946,
+          "sequence": "39c7fd84f7908d0a3feb90090cd6ad77d45aee8f11a0fcc9d0db08989fb544e1"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 11.500728617945805,
+          "sequence": "44cdf8e4e44c8a7537517311a981901944319faa55a880e1a8d67d5933d20180"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 15.308532806078793,
+          "sequence": "46425ea6629700648544fc7ebf066696885eecbb5346269dceda39f3707367c0"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.548453905554128,
+          "sequence": "494835cf61b77ab1cb7dd9fb71995be8117ccebd3b9be69717060be759d1336b"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.499423731769427,
+          "sequence": "4dbff8a392bbd187d5655d5199307632f834386e00875b343d31b2b8195b4241"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.239371457238953,
+          "sequence": "5019ee7f71f5367a6f6c21248051519d1247eb17f5e1c6bcfd40c8f6ad047aaa"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.784926717564677,
+          "sequence": "599b9dc15771ada7ce5eed6c2bc69c90977a2fa072a82f7121714f4a882f6ee5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 12.441233766070258,
+          "sequence": "5ad1e824cc04de35689a995671675dc195f7fbb0947d7feeaa6040a1a235f0c7"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.329098841835513,
+          "sequence": "5f57615993d0136efc3628e41994c4cec16779a2b31a47f0a5b8a31637927491"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.216976785373756,
+          "sequence": "61b27b6168d547f1a0b08e62be1d8a490dffa280a8e4fce518a577c97190eeba"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.489985400736673,
+          "sequence": "7ab720a2e21e729185ab0147e2aeda65d0ae2c0434641f6b13102b01e927919b"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.015133320156188,
+          "sequence": "887529ade78bd981de09e31648c9788f14691f50d113cb5aa5f0e38e75304ec7"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.996138225298774,
+          "sequence": "90c1a602500d27c99e643ac442861a3e18e9221f1277d70feaac50988ff9df60"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.19943490449121,
+          "sequence": "91b61a0a233266b6ac1bebb2e11974686229a478f4ad60201b56d579e50b1320"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.27686025883133,
+          "sequence": "924228bfa8983b5aa7921a609d5046036c96022f8458c037460386e74f3ffec6"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.888863256390863,
+          "sequence": "935620afb47080ea06056d891f8bd7d70e7b306ee1aac7b282813b3aecd3eba5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.550757187879469,
+          "sequence": "948657fcea737d80c2bdd7c5f7c3d83d17b13f7456d1975e4601a1b542b2442d"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.781930362489279,
+          "sequence": "9bc29652c28b8999a86d0fc012d66c440ec8985f8f5544c7accc9c08ff70b09d"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.246978425858694,
+          "sequence": "9c567331ea71ab56d8a96c10ab4d17b8ae3350fcaf689908cdcf608e1d8ae6db"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.257820074435375,
+          "sequence": "9d746529972b9f3957bb5a4895984946638bd1945880934c448c2431523dd1d1"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.838338303262397,
+          "sequence": "9f361436f272b69706cdba2747ab7b86d7227bbbd95458cc927255d11f6e9bbb"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.859281409062299,
+          "sequence": "9fc68c3eec536f03f0f3ece51cefee2424a2d6a057aafa9de07c08e5cee1995f"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.818307091177404,
+          "sequence": "a126efe829a3872bb092e09b58ece5c87d464dd3c3ec5665b1b5fddb696d55ff"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 32.8460998188194,
+          "sequence": "ae90ea23130506b51f0aa19e518d2cc920ebb8c9a2b89a2178c00d3f5959440b"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.290150005890133,
+          "sequence": "b93f5691ba1cc8890d0b0fb5792668d8c8e084e3b3ae1a476fc5e2c1e38b79ae"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.34692524822898,
+          "sequence": "c7418b7d13490f78a288ad199137162909ecb78bfed6e582e451fd47cd622ec9"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.915913139487161,
+          "sequence": "c9fa8e4f985a871be37f8bcb5baab74cfc535b12c3898e7469536599a63b9184"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.172706210956809,
+          "sequence": "d2ce0396dc6df5a579dbd8189885ce978c19490709875043e3566efba054236f"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 11.994629527902267,
+          "sequence": "dae20e296aa8b102aecfe17d9fed0503aae9f92b1d32246a1c9f6d67e6452bcf"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.229260080116461,
+          "sequence": "e834869939ea68d24743bb9f5b13016f4fce585a44740d0b60ee2fc0086e7d7f"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.929013170730765,
+          "sequence": "ec0d0f130fbe697564dbac8df4b8a07665868a6ed0441cd29458607c67f61836"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 12.327298373930692,
+          "sequence": "f1a05a3e7d1680caa08ed114483fcfbccaf6c72905d2333f6f8f405dbb36454f"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.131669912350898,
+          "sequence": "f20fc26d6d46029dc7dac01435523d4d015b27ef2d53bc415007ee695edc8a17"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.995036159857916,
+          "sequence": "f2ee054873ffbfae0269060f956ef713579852b6a94ded2faceee282baf3448a"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.04069094196662,
+          "sequence": "f3ae99f69bc9d97bc98e83cffedc837422a7bd343d876560d2a60552a3b35779"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.67992393445552,
+          "sequence": "f47839e25e89f44f1741d3fffd8674544893f2d704f7082b30cce77847bf0a45"
+        }
+      ],
+      "method": "Geo4D",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 37.68609523809524,
+        "Auc_30": 61.31662585034011,
+        "Auc_5": 7.524244897959184,
+        "Racc_15": 90.92408163265307,
+        "Racc_30": 97.9869387755102,
+        "Racc_5": 57.12816326530612,
+        "Tacc_15": 79.11836734693878,
+        "Tacc_30": 92.0130612244898,
+        "Tacc_5": 38.34448979591837,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/dl3dv_eval/geo4d_50view_s50_s5",
+      "raw": {
+        "Auc_15": 25.296761904761905,
+        "Auc_30": 49.23956462585035,
+        "Auc_5": 3.6137142857142854,
+        "Racc_15": 92.3461224489796,
+        "Racc_30": 98.22530612244897,
+        "Racc_5": 64.64163265306122,
+        "Tacc_15": 58.08489795918368,
+        "Tacc_30": 84.15510204081633,
+        "Tacc_5": 13.338775510204082,
+        "num_pairs": 61250.0
+      },
+      "setting": "DL3DV-Eval 50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.7031916722893845,
+          "sequence": "7scenes_sample_00000"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.769267468151446,
+          "sequence": "7scenes_sample_00001"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.4275603718262264,
+          "sequence": "7scenes_sample_00002"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.891711640048449,
+          "sequence": "7scenes_sample_00003"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.883796905596693,
+          "sequence": "7scenes_sample_00004"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.6196613886957945,
+          "sequence": "7scenes_sample_00005"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.9115640474658893,
+          "sequence": "7scenes_sample_00006"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.186842439938461,
+          "sequence": "7scenes_sample_00007"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.6391424166664095,
+          "sequence": "7scenes_sample_00008"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.6311435264346477,
+          "sequence": "7scenes_sample_00009"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.725594040189229,
+          "sequence": "7scenes_sample_00010"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.759839296106038,
+          "sequence": "7scenes_sample_00011"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.967042550511643,
+          "sequence": "7scenes_sample_00012"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.476673959384973,
+          "sequence": "7scenes_sample_00013"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.688631290929629,
+          "sequence": "7scenes_sample_00014"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.5292912972677133,
+          "sequence": "7scenes_sample_00015"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.8559597867271975,
+          "sequence": "7scenes_sample_00016"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.43319643350752,
+          "sequence": "7scenes_sample_00017"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 13.782196372532454,
+          "sequence": "7scenes_sample_00018"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.019367897791861,
+          "sequence": "7scenes_sample_00019"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.034392849163782,
+          "sequence": "7scenes_sample_00020"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.593462153220514,
+          "sequence": "7scenes_sample_00021"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.848510628155456,
+          "sequence": "7scenes_sample_00022"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 13.655351144156517,
+          "sequence": "7scenes_sample_00023"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.444530197087789,
+          "sequence": "7scenes_sample_00024"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.544425202330423,
+          "sequence": "7scenes_sample_00025"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.658774710774595,
+          "sequence": "7scenes_sample_00026"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.190197703166356,
+          "sequence": "7scenes_sample_00027"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.8546355659604163,
+          "sequence": "7scenes_sample_00028"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.9027140419888213,
+          "sequence": "7scenes_sample_00029"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.2004797702855603,
+          "sequence": "7scenes_sample_00030"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.0213630104169535,
+          "sequence": "7scenes_sample_00031"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 30.457569952940446,
+          "sequence": "7scenes_sample_00032"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.781959828664252,
+          "sequence": "7scenes_sample_00033"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.2068158759089433,
+          "sequence": "7scenes_sample_00034"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.9220035523697243,
+          "sequence": "7scenes_sample_00035"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.907070813113816,
+          "sequence": "7scenes_sample_00036"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.620167440862421,
+          "sequence": "7scenes_sample_00037"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.1350284263292747,
+          "sequence": "7scenes_sample_00038"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.122452746786898,
+          "sequence": "7scenes_sample_00039"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.144818045293586,
+          "sequence": "7scenes_sample_00040"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.57122226187664,
+          "sequence": "7scenes_sample_00041"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.744386894706066,
+          "sequence": "7scenes_sample_00042"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 12.382043418794009,
+          "sequence": "7scenes_sample_00043"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.067764807693699,
+          "sequence": "7scenes_sample_00044"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.9272643251961545,
+          "sequence": "7scenes_sample_00045"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.518595902609385,
+          "sequence": "7scenes_sample_00046"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.082835306548288,
+          "sequence": "7scenes_sample_00047"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.6807584796312565,
+          "sequence": "7scenes_sample_00048"
+        },
+        {
+          "num_vectors": 1224.0,
+          "rmsd": 11.329408430584147,
+          "sequence": "7scenes_sample_00049"
+        }
+      ],
+      "method": "Pi3",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 65.77785034013606,
+        "Auc_30": 80.34819047619047,
+        "Auc_5": 32.225306122448984,
+        "Racc_15": 98.18122448979591,
+        "Racc_30": 99.99836734693878,
+        "Racc_5": 83.89714285714285,
+        "Tacc_15": 91.67836734693877,
+        "Tacc_30": 97.02204081632652,
+        "Tacc_5": 66.6008163265306,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/7scenes/pi3_50view_s50",
+      "raw": {
+        "Auc_15": 65.52228571428572,
+        "Auc_30": 80.1481360544218,
+        "Auc_5": 30.797061224489795,
+        "Racc_15": 99.91183673469388,
+        "Racc_30": 100.0,
+        "Racc_5": 89.45632653061224,
+        "Tacc_15": 91.08734693877551,
+        "Tacc_30": 96.6073469387755,
+        "Tacc_5": 61.222857142857144,
+        "num_pairs": 61250.0
+      },
+      "setting": "7Scenes 50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 8.73392104233578,
+          "sequence": "7scenes_sample_00000"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 18.150073109370055,
+          "sequence": "7scenes_sample_00001"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 17.725573162774804,
+          "sequence": "7scenes_sample_00002"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 17.043377886637238,
+          "sequence": "7scenes_sample_00003"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 11.916497519642865,
+          "sequence": "7scenes_sample_00004"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 7.479783935065517,
+          "sequence": "7scenes_sample_00005"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 16.865227406389177,
+          "sequence": "7scenes_sample_00006"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 14.709328243709026,
+          "sequence": "7scenes_sample_00007"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 9.220496549583876,
+          "sequence": "7scenes_sample_00008"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 14.415834988956892,
+          "sequence": "7scenes_sample_00009"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 10.710131406168264,
+          "sequence": "7scenes_sample_00010"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 11.099565886741265,
+          "sequence": "7scenes_sample_00011"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 8.719047519090891,
+          "sequence": "7scenes_sample_00012"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 13.474806221795108,
+          "sequence": "7scenes_sample_00013"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 13.70828148572961,
+          "sequence": "7scenes_sample_00014"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 14.820679357891965,
+          "sequence": "7scenes_sample_00015"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 18.859264183877833,
+          "sequence": "7scenes_sample_00016"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 19.26771215289715,
+          "sequence": "7scenes_sample_00017"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 27.367098117709034,
+          "sequence": "7scenes_sample_00018"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 26.341634677010443,
+          "sequence": "7scenes_sample_00019"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 22.887755432821404,
+          "sequence": "7scenes_sample_00020"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 32.34785238126226,
+          "sequence": "7scenes_sample_00021"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 12.904817037316898,
+          "sequence": "7scenes_sample_00022"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 20.411273842001822,
+          "sequence": "7scenes_sample_00023"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 24.593380982905508,
+          "sequence": "7scenes_sample_00024"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 22.928095842898475,
+          "sequence": "7scenes_sample_00025"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 14.503090443541543,
+          "sequence": "7scenes_sample_00026"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 9.196607301564805,
+          "sequence": "7scenes_sample_00027"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 11.886382801931607,
+          "sequence": "7scenes_sample_00028"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 10.361159380633987,
+          "sequence": "7scenes_sample_00029"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 7.014608149712483,
+          "sequence": "7scenes_sample_00030"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 8.1987706414481,
+          "sequence": "7scenes_sample_00031"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 33.81425674550528,
+          "sequence": "7scenes_sample_00032"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 23.02241294850465,
+          "sequence": "7scenes_sample_00033"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 7.21290615029617,
+          "sequence": "7scenes_sample_00034"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 13.278382654752283,
+          "sequence": "7scenes_sample_00035"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 12.713986996919013,
+          "sequence": "7scenes_sample_00036"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 17.395065970004882,
+          "sequence": "7scenes_sample_00037"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 13.988631372748479,
+          "sequence": "7scenes_sample_00038"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 13.53780048369729,
+          "sequence": "7scenes_sample_00039"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 7.557659840335777,
+          "sequence": "7scenes_sample_00040"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 16.841954534300537,
+          "sequence": "7scenes_sample_00041"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 10.600795718259755,
+          "sequence": "7scenes_sample_00042"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 24.243710231047398,
+          "sequence": "7scenes_sample_00043"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 6.532138660968434,
+          "sequence": "7scenes_sample_00044"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 15.50967952229372,
+          "sequence": "7scenes_sample_00045"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 11.60170512592486,
+          "sequence": "7scenes_sample_00046"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 12.49073133692458,
+          "sequence": "7scenes_sample_00047"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 15.008302598960976,
+          "sequence": "7scenes_sample_00048"
+        },
+        {
+          "num_vectors": 1222.0,
+          "rmsd": 24.4737284287243,
+          "sequence": "7scenes_sample_00049"
+        }
+      ],
+      "method": "Ours/VWM",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 16.839183673469385,
+        "Auc_30": 42.567619047619054,
+        "Auc_5": 0.9449795918367346,
+        "Racc_15": 79.40897959183674,
+        "Racc_30": 96.64163265306122,
+        "Racc_5": 24.048979591836737,
+        "Tacc_15": 54.400000000000006,
+        "Tacc_30": 82.85224489795918,
+        "Tacc_5": 12.204081632653061,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/7scenes/ours_50view_s50_s40",
+      "raw": {
+        "Auc_15": 13.060136054421767,
+        "Auc_30": 37.28859863945578,
+        "Auc_5": 0.8421224489795919,
+        "Racc_15": 84.14204081632654,
+        "Racc_30": 98.92897959183674,
+        "Racc_5": 29.227755102040813,
+        "Tacc_15": 40.52897959183673,
+        "Tacc_30": 77.70938775510204,
+        "Tacc_5": 6.38204081632653,
+        "num_pairs": 61250.0
+      },
+      "setting": "7Scenes 50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.28335825583508,
+          "sequence": "7scenes_sample_00000"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 23.730661096464466,
+          "sequence": "7scenes_sample_00001"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 24.671963118682356,
+          "sequence": "7scenes_sample_00002"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 21.415414832605357,
+          "sequence": "7scenes_sample_00003"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 15.65272395306879,
+          "sequence": "7scenes_sample_00004"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.877126194561669,
+          "sequence": "7scenes_sample_00005"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 28.703635942256415,
+          "sequence": "7scenes_sample_00006"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 13.577157183630613,
+          "sequence": "7scenes_sample_00007"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 11.686626519609085,
+          "sequence": "7scenes_sample_00008"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 21.292561519965286,
+          "sequence": "7scenes_sample_00009"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.887723338178125,
+          "sequence": "7scenes_sample_00010"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 12.96165962530888,
+          "sequence": "7scenes_sample_00011"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.96353126045784,
+          "sequence": "7scenes_sample_00012"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 22.868060643005432,
+          "sequence": "7scenes_sample_00013"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 11.562953344892815,
+          "sequence": "7scenes_sample_00014"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 18.588792185076308,
+          "sequence": "7scenes_sample_00015"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 20.50845121079799,
+          "sequence": "7scenes_sample_00016"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 13.106296916633491,
+          "sequence": "7scenes_sample_00017"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 20.66877338788079,
+          "sequence": "7scenes_sample_00018"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 28.394007227128583,
+          "sequence": "7scenes_sample_00019"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 21.230943644852427,
+          "sequence": "7scenes_sample_00020"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 27.582523253769946,
+          "sequence": "7scenes_sample_00021"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.266436712691437,
+          "sequence": "7scenes_sample_00022"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 34.42677559163661,
+          "sequence": "7scenes_sample_00023"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 32.787104543968,
+          "sequence": "7scenes_sample_00024"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 23.989642640414065,
+          "sequence": "7scenes_sample_00025"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 20.97262335746125,
+          "sequence": "7scenes_sample_00026"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 18.346634363448587,
+          "sequence": "7scenes_sample_00027"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.504283973634465,
+          "sequence": "7scenes_sample_00028"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 11.312663897467553,
+          "sequence": "7scenes_sample_00029"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.050048392026749,
+          "sequence": "7scenes_sample_00030"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.058201934688839,
+          "sequence": "7scenes_sample_00031"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 31.514994594247792,
+          "sequence": "7scenes_sample_00032"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 35.14865184670274,
+          "sequence": "7scenes_sample_00033"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.104917704036982,
+          "sequence": "7scenes_sample_00034"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.131952346155535,
+          "sequence": "7scenes_sample_00035"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.627336824357519,
+          "sequence": "7scenes_sample_00036"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 12.07735169937274,
+          "sequence": "7scenes_sample_00037"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 13.724613311570074,
+          "sequence": "7scenes_sample_00038"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 18.279416272697183,
+          "sequence": "7scenes_sample_00039"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 13.574957132478646,
+          "sequence": "7scenes_sample_00040"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.93370459757772,
+          "sequence": "7scenes_sample_00041"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 15.524245710382718,
+          "sequence": "7scenes_sample_00042"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 36.77635161816993,
+          "sequence": "7scenes_sample_00043"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.47236804841741,
+          "sequence": "7scenes_sample_00044"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 26.40859912829497,
+          "sequence": "7scenes_sample_00045"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 25.82098936014931,
+          "sequence": "7scenes_sample_00046"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 16.835415404972398,
+          "sequence": "7scenes_sample_00047"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 24.043998739849954,
+          "sequence": "7scenes_sample_00048"
+        },
+        {
+          "num_vectors": 1224.0,
+          "rmsd": 29.871159588287856,
+          "sequence": "7scenes_sample_00049"
+        }
+      ],
+      "method": "Geo4D",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 11.345414965986395,
+        "Auc_30": 32.48266666666667,
+        "Auc_5": 0.6638367346938776,
+        "Racc_15": 67.37795918367347,
+        "Racc_30": 90.34122448979592,
+        "Racc_5": 23.175510204081633,
+        "Tacc_15": 43.44816326530612,
+        "Tacc_30": 72.56816326530611,
+        "Tacc_5": 9.418775510204082,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/7scenes/geo4d_50view_s50_s5",
+      "raw": {
+        "Auc_15": 10.293659863945578,
+        "Auc_30": 28.63112925170068,
+        "Auc_5": 0.8646530612244898,
+        "Racc_15": 82.58775510204082,
+        "Racc_30": 98.21061224489796,
+        "Racc_5": 34.59428571428572,
+        "Tacc_15": 28.191020408163265,
+        "Tacc_30": 61.671836734693876,
+        "Tacc_5": 4.24,
+        "num_pairs": 61250.0
+      },
+      "setting": "7Scenes 50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.003425343854991138,
+          "sequence": "02267acf6fb98de36173bf4e7db9734c8c421dcb00267e42964dc15134cbb1be"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.007496026319473964,
+          "sequence": "0238de14089be825251ca9a7c91c471a941bde76f78ae7b637ef306f30df544e"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.02431093538976413,
+          "sequence": "05cd8f26e146d8fee12e1f393ba17fd76c3de796dcac9bb5573d9ee508a3c765"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1558486527061782,
+          "sequence": "077339a1f609c142d7988dcda4f890a88ff8ab3f944485e989f06181b4cb1429"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.008668798605843329,
+          "sequence": "0ec879405fe1a7a393876fed993657e0f7dda7fa16788ad48c669e9b67215a3c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.004577239829294737,
+          "sequence": "14452271416631599c6e7a2362b2c5330e08fbf0ec2adfea7930d84cba4e3d69"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0007424920580773719,
+          "sequence": "1881f3837a7e28b96a43fa87b9cc5a406104c776cda31f808e1c48d5ed8b8a6d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.011575305674931782,
+          "sequence": "18ae5d387baba346017f225c7661c885ab4ce1ef7dd028a9ad80773002528557"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.002669921128110647,
+          "sequence": "1e5ce991775e9266dcd553306ae9cc153ffd19101b789ff66526bc3877c54fdf"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01408804150995488,
+          "sequence": "1f48fd8ca3d0d6e9c879239ff2f7f824996bd741bcfb74f4e546f2a0f4cf35f5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0014057713406101884,
+          "sequence": "219db02f78c0b4c688439cce8ca9dbc72b8a64820dd1075f39f54a236e71af9d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.004895384759070003,
+          "sequence": "309a93c9e8aeeb1f7851b23da892aaa750c7072d50297d835613df2ee601bf2c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 4.334624594996238e-06,
+          "sequence": "334ff324884919582938372c65ab33ffa0d25fc2e89ce5a896a317f6c2531c90"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00022006158051689654,
+          "sequence": "36a33881ba53b1f7f6e6d4cb8e3a9b914f9f954a5fa0e79c449890a3fdcc53b7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10169458179335839,
+          "sequence": "39c7fd84f7908d0a3feb90090cd6ad77d45aee8f11a0fcc9d0db08989fb544e1"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0005201854943119047,
+          "sequence": "44cdf8e4e44c8a7537517311a981901944319faa55a880e1a8d67d5933d20180"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01636571339981178,
+          "sequence": "46425ea6629700648544fc7ebf066696885eecbb5346269dceda39f3707367c0"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.002181214496600435,
+          "sequence": "494835cf61b77ab1cb7dd9fb71995be8117ccebd3b9be69717060be759d1336b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.005156571019700115,
+          "sequence": "4dbff8a392bbd187d5655d5199307632f834386e00875b343d31b2b8195b4241"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0017755516054412637,
+          "sequence": "5019ee7f71f5367a6f6c21248051519d1247eb17f5e1c6bcfd40c8f6ad047aaa"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.001431757206803093,
+          "sequence": "599b9dc15771ada7ce5eed6c2bc69c90977a2fa072a82f7121714f4a882f6ee5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.007243790066356577,
+          "sequence": "5ad1e824cc04de35689a995671675dc195f7fbb0947d7feeaa6040a1a235f0c7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0009427614568325485,
+          "sequence": "5f57615993d0136efc3628e41994c4cec16779a2b31a47f0a5b8a31637927491"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0016439406276256966,
+          "sequence": "61b27b6168d547f1a0b08e62be1d8a490dffa280a8e4fce518a577c97190eeba"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00602062852117651,
+          "sequence": "7ab720a2e21e729185ab0147e2aeda65d0ae2c0434641f6b13102b01e927919b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.018173732918951527,
+          "sequence": "887529ade78bd981de09e31648c9788f14691f50d113cb5aa5f0e38e75304ec7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0030227970440099535,
+          "sequence": "90c1a602500d27c99e643ac442861a3e18e9221f1277d70feaac50988ff9df60"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0037261866230910356,
+          "sequence": "91b61a0a233266b6ac1bebb2e11974686229a478f4ad60201b56d579e50b1320"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.022349364908708164,
+          "sequence": "924228bfa8983b5aa7921a609d5046036c96022f8458c037460386e74f3ffec6"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.005470486882356733,
+          "sequence": "935620afb47080ea06056d891f8bd7d70e7b306ee1aac7b282813b3aecd3eba5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.012875164460508664,
+          "sequence": "948657fcea737d80c2bdd7c5f7c3d83d17b13f7456d1975e4601a1b542b2442d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.003779146411515473,
+          "sequence": "9bc29652c28b8999a86d0fc012d66c440ec8985f8f5544c7accc9c08ff70b09d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0008797748614417826,
+          "sequence": "9c567331ea71ab56d8a96c10ab4d17b8ae3350fcaf689908cdcf608e1d8ae6db"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0013047619538396516,
+          "sequence": "9d746529972b9f3957bb5a4895984946638bd1945880934c448c2431523dd1d1"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00432321234923105,
+          "sequence": "9f361436f272b69706cdba2747ab7b86d7227bbbd95458cc927255d11f6e9bbb"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0014441750169287557,
+          "sequence": "9fc68c3eec536f03f0f3ece51cefee2424a2d6a057aafa9de07c08e5cee1995f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.009523171800146581,
+          "sequence": "a126efe829a3872bb092e09b58ece5c87d464dd3c3ec5665b1b5fddb696d55ff"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.39349446227815993,
+          "sequence": "ae90ea23130506b51f0aa19e518d2cc920ebb8c9a2b89a2178c00d3f5959440b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10694410264623087,
+          "sequence": "b93f5691ba1cc8890d0b0fb5792668d8c8e084e3b3ae1a476fc5e2c1e38b79ae"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00399937507686693,
+          "sequence": "c7418b7d13490f78a288ad199137162909ecb78bfed6e582e451fd47cd622ec9"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.003077449815045294,
+          "sequence": "c9fa8e4f985a871be37f8bcb5baab74cfc535b12c3898e7469536599a63b9184"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.004422234132758149,
+          "sequence": "d2ce0396dc6df5a579dbd8189885ce978c19490709875043e3566efba054236f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.003875526811952546,
+          "sequence": "dae20e296aa8b102aecfe17d9fed0503aae9f92b1d32246a1c9f6d67e6452bcf"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0018569584331072188,
+          "sequence": "e834869939ea68d24743bb9f5b13016f4fce585a44740d0b60ee2fc0086e7d7f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.009954001975618139,
+          "sequence": "ec0d0f130fbe697564dbac8df4b8a07665868a6ed0441cd29458607c67f61836"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0020284613470242293,
+          "sequence": "f1a05a3e7d1680caa08ed114483fcfbccaf6c72905d2333f6f8f405dbb36454f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00021237109422066156,
+          "sequence": "f20fc26d6d46029dc7dac01435523d4d015b27ef2d53bc415007ee695edc8a17"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.001197895603756591,
+          "sequence": "f2ee054873ffbfae0269060f956ef713579852b6a94ded2faceee282baf3448a"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0015115650969803921,
+          "sequence": "f3ae99f69bc9d97bc98e83cffedc837422a7bd343d876560d2a60552a3b35779"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0023752744503402886,
+          "sequence": "f47839e25e89f44f1741d3fffd8674544893f2d704f7082b30cce77847bf0a45"
+        }
+      ],
+      "method": "Pi3",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 68.86666666666667,
+        "Auc_30": 78.9666666666667,
+        "Auc_5": 49.400000000000006,
+        "Racc_15": 85.0,
+        "Racc_30": 95.0,
+        "Racc_5": 66.0,
+        "Tacc_15": 98.0,
+        "Tacc_30": 100.0,
+        "Tacc_5": 96.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/dl3dv_eval/pi3_2view_long2_perseq",
+      "raw": {
+        "Auc_15": 92.20000000000002,
+        "Auc_30": 94.59999999999998,
+        "Auc_5": 85.8,
+        "Racc_15": 97.0,
+        "Racc_30": 99.0,
+        "Racc_5": 94.0,
+        "Tacc_15": 97.0,
+        "Tacc_30": 97.0,
+        "Tacc_5": 94.0,
+        "num_pairs": 100.0
+      },
+      "setting": "DL3DV-Eval 2-view long"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1168597722471668,
+          "sequence": "02267acf6fb98de36173bf4e7db9734c8c421dcb00267e42964dc15134cbb1be"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.039655667207530026,
+          "sequence": "0238de14089be825251ca9a7c91c471a941bde76f78ae7b637ef306f30df544e"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.037093763704146944,
+          "sequence": "05cd8f26e146d8fee12e1f393ba17fd76c3de796dcac9bb5573d9ee508a3c765"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.5848405012645161,
+          "sequence": "077339a1f609c142d7988dcda4f890a88ff8ab3f944485e989f06181b4cb1429"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.028305454650420753,
+          "sequence": "0ec879405fe1a7a393876fed993657e0f7dda7fa16788ad48c669e9b67215a3c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1500654398225136,
+          "sequence": "14452271416631599c6e7a2362b2c5330e08fbf0ec2adfea7930d84cba4e3d69"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08946365259973613,
+          "sequence": "1881f3837a7e28b96a43fa87b9cc5a406104c776cda31f808e1c48d5ed8b8a6d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.13221555811803415,
+          "sequence": "18ae5d387baba346017f225c7661c885ab4ce1ef7dd028a9ad80773002528557"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01231436050628145,
+          "sequence": "1e5ce991775e9266dcd553306ae9cc153ffd19101b789ff66526bc3877c54fdf"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.016532697474077002,
+          "sequence": "1f48fd8ca3d0d6e9c879239ff2f7f824996bd741bcfb74f4e546f2a0f4cf35f5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0002788693169980123,
+          "sequence": "219db02f78c0b4c688439cce8ca9dbc72b8a64820dd1075f39f54a236e71af9d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.028423204655261824,
+          "sequence": "309a93c9e8aeeb1f7851b23da892aaa750c7072d50297d835613df2ee601bf2c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.020304639419469587,
+          "sequence": "334ff324884919582938372c65ab33ffa0d25fc2e89ce5a896a317f6c2531c90"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.055447443136605226,
+          "sequence": "36a33881ba53b1f7f6e6d4cb8e3a9b914f9f954a5fa0e79c449890a3fdcc53b7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.008712563739348702,
+          "sequence": "39c7fd84f7908d0a3feb90090cd6ad77d45aee8f11a0fcc9d0db08989fb544e1"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03288454948128763,
+          "sequence": "44cdf8e4e44c8a7537517311a981901944319faa55a880e1a8d67d5933d20180"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09672056901190729,
+          "sequence": "46425ea6629700648544fc7ebf066696885eecbb5346269dceda39f3707367c0"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0597443255040272,
+          "sequence": "494835cf61b77ab1cb7dd9fb71995be8117ccebd3b9be69717060be759d1336b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1697997761297772,
+          "sequence": "4dbff8a392bbd187d5655d5199307632f834386e00875b343d31b2b8195b4241"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07057310678099897,
+          "sequence": "5019ee7f71f5367a6f6c21248051519d1247eb17f5e1c6bcfd40c8f6ad047aaa"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.273383107036898,
+          "sequence": "599b9dc15771ada7ce5eed6c2bc69c90977a2fa072a82f7121714f4a882f6ee5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08222984148245228,
+          "sequence": "5ad1e824cc04de35689a995671675dc195f7fbb0947d7feeaa6040a1a235f0c7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06619986499399289,
+          "sequence": "5f57615993d0136efc3628e41994c4cec16779a2b31a47f0a5b8a31637927491"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.059098385042718124,
+          "sequence": "61b27b6168d547f1a0b08e62be1d8a490dffa280a8e4fce518a577c97190eeba"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.21326735634914837,
+          "sequence": "7ab720a2e21e729185ab0147e2aeda65d0ae2c0434641f6b13102b01e927919b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09280275493074348,
+          "sequence": "887529ade78bd981de09e31648c9788f14691f50d113cb5aa5f0e38e75304ec7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0844883255417305,
+          "sequence": "90c1a602500d27c99e643ac442861a3e18e9221f1277d70feaac50988ff9df60"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.043384229585209905,
+          "sequence": "91b61a0a233266b6ac1bebb2e11974686229a478f4ad60201b56d579e50b1320"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10889025284665951,
+          "sequence": "924228bfa8983b5aa7921a609d5046036c96022f8458c037460386e74f3ffec6"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.05498985064522752,
+          "sequence": "935620afb47080ea06056d891f8bd7d70e7b306ee1aac7b282813b3aecd3eba5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1577585257773955,
+          "sequence": "948657fcea737d80c2bdd7c5f7c3d83d17b13f7456d1975e4601a1b542b2442d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.05938246596740156,
+          "sequence": "9bc29652c28b8999a86d0fc012d66c440ec8985f8f5544c7accc9c08ff70b09d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.015067622062397878,
+          "sequence": "9c567331ea71ab56d8a96c10ab4d17b8ae3350fcaf689908cdcf608e1d8ae6db"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0920195929348402,
+          "sequence": "9d746529972b9f3957bb5a4895984946638bd1945880934c448c2431523dd1d1"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.25687249480601526,
+          "sequence": "9f361436f272b69706cdba2747ab7b86d7227bbbd95458cc927255d11f6e9bbb"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06868000246351164,
+          "sequence": "9fc68c3eec536f03f0f3ece51cefee2424a2d6a057aafa9de07c08e5cee1995f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06448227617795299,
+          "sequence": "a126efe829a3872bb092e09b58ece5c87d464dd3c3ec5665b1b5fddb696d55ff"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04937010648238965,
+          "sequence": "ae90ea23130506b51f0aa19e518d2cc920ebb8c9a2b89a2178c00d3f5959440b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.28411895845510265,
+          "sequence": "b93f5691ba1cc8890d0b0fb5792668d8c8e084e3b3ae1a476fc5e2c1e38b79ae"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08452431360719878,
+          "sequence": "c7418b7d13490f78a288ad199137162909ecb78bfed6e582e451fd47cd622ec9"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.052647437800160415,
+          "sequence": "c9fa8e4f985a871be37f8bcb5baab74cfc535b12c3898e7469536599a63b9184"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03794391680843351,
+          "sequence": "d2ce0396dc6df5a579dbd8189885ce978c19490709875043e3566efba054236f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.028836816507243537,
+          "sequence": "dae20e296aa8b102aecfe17d9fed0503aae9f92b1d32246a1c9f6d67e6452bcf"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.021145172881514972,
+          "sequence": "e834869939ea68d24743bb9f5b13016f4fce585a44740d0b60ee2fc0086e7d7f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.11750853538051831,
+          "sequence": "ec0d0f130fbe697564dbac8df4b8a07665868a6ed0441cd29458607c67f61836"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.23374114354843317,
+          "sequence": "f1a05a3e7d1680caa08ed114483fcfbccaf6c72905d2333f6f8f405dbb36454f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04065742010542758,
+          "sequence": "f20fc26d6d46029dc7dac01435523d4d015b27ef2d53bc415007ee695edc8a17"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.043597419333159027,
+          "sequence": "f2ee054873ffbfae0269060f956ef713579852b6a94ded2faceee282baf3448a"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.010432945107455882,
+          "sequence": "f3ae99f69bc9d97bc98e83cffedc837422a7bd343d876560d2a60552a3b35779"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0415830694593753,
+          "sequence": "f47839e25e89f44f1741d3fffd8674544893f2d704f7082b30cce77847bf0a45"
+        }
+      ],
+      "method": "Ours/VWM",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 27.133333333333336,
+        "Auc_30": 43.566666666666684,
+        "Auc_5": 8.4,
+        "Racc_15": 47.0,
+        "Racc_30": 68.0,
+        "Racc_5": 18.0,
+        "Tacc_15": 96.0,
+        "Tacc_30": 96.0,
+        "Tacc_5": 80.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/dl3dv_eval/ours_2view_long2_perseq_s40",
+      "raw": {
+        "Auc_15": 51.600000000000016,
+        "Auc_30": 70.13333333333331,
+        "Auc_5": 12.000000000000002,
+        "Racc_15": 89.0,
+        "Racc_30": 95.0,
+        "Racc_5": 61.0,
+        "Tacc_15": 87.0,
+        "Tacc_30": 90.0,
+        "Tacc_5": 44.0,
+        "num_pairs": 100.0
+      },
+      "setting": "DL3DV-Eval 2-view long"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2126495493303027,
+          "sequence": "02267acf6fb98de36173bf4e7db9734c8c421dcb00267e42964dc15134cbb1be"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.14217097508403287,
+          "sequence": "0238de14089be825251ca9a7c91c471a941bde76f78ae7b637ef306f30df544e"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08280159558353192,
+          "sequence": "05cd8f26e146d8fee12e1f393ba17fd76c3de796dcac9bb5573d9ee508a3c765"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0011329593233576757,
+          "sequence": "077339a1f609c142d7988dcda4f890a88ff8ab3f944485e989f06181b4cb1429"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09052187704989306,
+          "sequence": "0ec879405fe1a7a393876fed993657e0f7dda7fa16788ad48c669e9b67215a3c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0791087614215509,
+          "sequence": "14452271416631599c6e7a2362b2c5330e08fbf0ec2adfea7930d84cba4e3d69"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.42807006895128014,
+          "sequence": "1881f3837a7e28b96a43fa87b9cc5a406104c776cda31f808e1c48d5ed8b8a6d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10222104488710997,
+          "sequence": "18ae5d387baba346017f225c7661c885ab4ce1ef7dd028a9ad80773002528557"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07113120352247321,
+          "sequence": "1e5ce991775e9266dcd553306ae9cc153ffd19101b789ff66526bc3877c54fdf"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.048642847052570166,
+          "sequence": "1f48fd8ca3d0d6e9c879239ff2f7f824996bd741bcfb74f4e546f2a0f4cf35f5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.046554947994785684,
+          "sequence": "219db02f78c0b4c688439cce8ca9dbc72b8a64820dd1075f39f54a236e71af9d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09151039869228797,
+          "sequence": "309a93c9e8aeeb1f7851b23da892aaa750c7072d50297d835613df2ee601bf2c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03231178708737457,
+          "sequence": "334ff324884919582938372c65ab33ffa0d25fc2e89ce5a896a317f6c2531c90"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1914917790987722,
+          "sequence": "36a33881ba53b1f7f6e6d4cb8e3a9b914f9f954a5fa0e79c449890a3fdcc53b7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06863020633217784,
+          "sequence": "39c7fd84f7908d0a3feb90090cd6ad77d45aee8f11a0fcc9d0db08989fb544e1"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.015069432170443778,
+          "sequence": "44cdf8e4e44c8a7537517311a981901944319faa55a880e1a8d67d5933d20180"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10002821844220354,
+          "sequence": "46425ea6629700648544fc7ebf066696885eecbb5346269dceda39f3707367c0"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0940575708949637,
+          "sequence": "494835cf61b77ab1cb7dd9fb71995be8117ccebd3b9be69717060be759d1336b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.02441921681877311,
+          "sequence": "4dbff8a392bbd187d5655d5199307632f834386e00875b343d31b2b8195b4241"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1337327151421224,
+          "sequence": "5019ee7f71f5367a6f6c21248051519d1247eb17f5e1c6bcfd40c8f6ad047aaa"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1522120193861459,
+          "sequence": "599b9dc15771ada7ce5eed6c2bc69c90977a2fa072a82f7121714f4a882f6ee5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08843697020727595,
+          "sequence": "5ad1e824cc04de35689a995671675dc195f7fbb0947d7feeaa6040a1a235f0c7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.015270016202770187,
+          "sequence": "5f57615993d0136efc3628e41994c4cec16779a2b31a47f0a5b8a31637927491"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.058442027560537325,
+          "sequence": "61b27b6168d547f1a0b08e62be1d8a490dffa280a8e4fce518a577c97190eeba"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2478128527125278,
+          "sequence": "7ab720a2e21e729185ab0147e2aeda65d0ae2c0434641f6b13102b01e927919b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.38704033648670566,
+          "sequence": "887529ade78bd981de09e31648c9788f14691f50d113cb5aa5f0e38e75304ec7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03164696121580706,
+          "sequence": "90c1a602500d27c99e643ac442861a3e18e9221f1277d70feaac50988ff9df60"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.042168621487756616,
+          "sequence": "91b61a0a233266b6ac1bebb2e11974686229a478f4ad60201b56d579e50b1320"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.027978778780153944,
+          "sequence": "924228bfa8983b5aa7921a609d5046036c96022f8458c037460386e74f3ffec6"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.15437566196002128,
+          "sequence": "935620afb47080ea06056d891f8bd7d70e7b306ee1aac7b282813b3aecd3eba5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.11485626309448464,
+          "sequence": "948657fcea737d80c2bdd7c5f7c3d83d17b13f7456d1975e4601a1b542b2442d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07947739680277162,
+          "sequence": "9bc29652c28b8999a86d0fc012d66c440ec8985f8f5544c7accc9c08ff70b09d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.023107051191746823,
+          "sequence": "9c567331ea71ab56d8a96c10ab4d17b8ae3350fcaf689908cdcf608e1d8ae6db"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.13772994406068217,
+          "sequence": "9d746529972b9f3957bb5a4895984946638bd1945880934c448c2431523dd1d1"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.11384829150809911,
+          "sequence": "9f361436f272b69706cdba2747ab7b86d7227bbbd95458cc927255d11f6e9bbb"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07641449342374501,
+          "sequence": "9fc68c3eec536f03f0f3ece51cefee2424a2d6a057aafa9de07c08e5cee1995f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.015305435661953883,
+          "sequence": "a126efe829a3872bb092e09b58ece5c87d464dd3c3ec5665b1b5fddb696d55ff"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3583495680711158,
+          "sequence": "ae90ea23130506b51f0aa19e518d2cc920ebb8c9a2b89a2178c00d3f5959440b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.11565717975296869,
+          "sequence": "b93f5691ba1cc8890d0b0fb5792668d8c8e084e3b3ae1a476fc5e2c1e38b79ae"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.024767427028088897,
+          "sequence": "c7418b7d13490f78a288ad199137162909ecb78bfed6e582e451fd47cd622ec9"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.30463751032903974,
+          "sequence": "c9fa8e4f985a871be37f8bcb5baab74cfc535b12c3898e7469536599a63b9184"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.007896577771918873,
+          "sequence": "d2ce0396dc6df5a579dbd8189885ce978c19490709875043e3566efba054236f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.18345569324110575,
+          "sequence": "dae20e296aa8b102aecfe17d9fed0503aae9f92b1d32246a1c9f6d67e6452bcf"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08334718228936247,
+          "sequence": "e834869939ea68d24743bb9f5b13016f4fce585a44740d0b60ee2fc0086e7d7f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.009668014549714004,
+          "sequence": "ec0d0f130fbe697564dbac8df4b8a07665868a6ed0441cd29458607c67f61836"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.12817846914714043,
+          "sequence": "f1a05a3e7d1680caa08ed114483fcfbccaf6c72905d2333f6f8f405dbb36454f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.029459872457966177,
+          "sequence": "f20fc26d6d46029dc7dac01435523d4d015b27ef2d53bc415007ee695edc8a17"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04826514329608155,
+          "sequence": "f2ee054873ffbfae0269060f956ef713579852b6a94ded2faceee282baf3448a"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.040563704973961064,
+          "sequence": "f3ae99f69bc9d97bc98e83cffedc837422a7bd343d876560d2a60552a3b35779"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0013072332089472947,
+          "sequence": "f47839e25e89f44f1741d3fffd8674544893f2d704f7082b30cce77847bf0a45"
+        }
+      ],
+      "method": "Geo4D",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 6.066666666666667,
+        "Auc_30": 21.100000000000005,
+        "Auc_5": 0.8,
+        "Racc_15": 21.0,
+        "Racc_30": 50.0,
+        "Racc_5": 2.0,
+        "Tacc_15": 96.0,
+        "Tacc_30": 100.0,
+        "Tacc_5": 72.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/dl3dv_eval/geo4d_2view_long2_perseq_s5",
+      "raw": {
+        "Auc_15": 0.4,
+        "Auc_30": 1.5333333333333332,
+        "Auc_5": 0.0,
+        "Racc_15": 27.0,
+        "Racc_30": 53.0,
+        "Racc_5": 9.0,
+        "Tacc_15": 2.0,
+        "Tacc_30": 11.0,
+        "Tacc_5": 0.0,
+        "num_pairs": 100.0
+      },
+      "setting": "DL3DV-Eval 2-view long"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.007458438358037165,
+          "sequence": "7scenes_sample_00000"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07006836811914137,
+          "sequence": "7scenes_sample_00001"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.013987902218946684,
+          "sequence": "7scenes_sample_00002"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.028798061167704926,
+          "sequence": "7scenes_sample_00003"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0016840529111272738,
+          "sequence": "7scenes_sample_00004"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0005941994485245121,
+          "sequence": "7scenes_sample_00005"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06317155681142575,
+          "sequence": "7scenes_sample_00006"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.041134912943097963,
+          "sequence": "7scenes_sample_00007"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07746719551082328,
+          "sequence": "7scenes_sample_00008"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03284163612285996,
+          "sequence": "7scenes_sample_00009"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03374454223089742,
+          "sequence": "7scenes_sample_00010"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03656803234939359,
+          "sequence": "7scenes_sample_00011"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.8604368018812559,
+          "sequence": "7scenes_sample_00012"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.044297474155613595,
+          "sequence": "7scenes_sample_00013"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.019614420987549157,
+          "sequence": "7scenes_sample_00014"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.898455174291736,
+          "sequence": "7scenes_sample_00015"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.048055854314475836,
+          "sequence": "7scenes_sample_00016"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.006048047148751389,
+          "sequence": "7scenes_sample_00017"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.48192579515971273,
+          "sequence": "7scenes_sample_00018"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.15382904657166305,
+          "sequence": "7scenes_sample_00019"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.02846298644602583,
+          "sequence": "7scenes_sample_00020"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.47538765755925155,
+          "sequence": "7scenes_sample_00021"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03025247112697319,
+          "sequence": "7scenes_sample_00022"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.003505260170104542,
+          "sequence": "7scenes_sample_00023"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.13471794716403923,
+          "sequence": "7scenes_sample_00024"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.17927705984445008,
+          "sequence": "7scenes_sample_00025"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07138581301705245,
+          "sequence": "7scenes_sample_00026"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.045760530956087675,
+          "sequence": "7scenes_sample_00027"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03659983096667866,
+          "sequence": "7scenes_sample_00028"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.013926578597249925,
+          "sequence": "7scenes_sample_00029"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03621129365114007,
+          "sequence": "7scenes_sample_00030"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.004315738116364489,
+          "sequence": "7scenes_sample_00031"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10831889576439774,
+          "sequence": "7scenes_sample_00032"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2114067898770453,
+          "sequence": "7scenes_sample_00033"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06277587290453063,
+          "sequence": "7scenes_sample_00034"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0010704170970041514,
+          "sequence": "7scenes_sample_00035"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.008297169475994848,
+          "sequence": "7scenes_sample_00036"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.039708227608801376,
+          "sequence": "7scenes_sample_00037"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0011709748251961705,
+          "sequence": "7scenes_sample_00038"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04992008480996958,
+          "sequence": "7scenes_sample_00039"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.013941421465088947,
+          "sequence": "7scenes_sample_00040"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.004166911304676034,
+          "sequence": "7scenes_sample_00041"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.040201328807804644,
+          "sequence": "7scenes_sample_00042"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10786592165964785,
+          "sequence": "7scenes_sample_00043"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03951027586695509,
+          "sequence": "7scenes_sample_00044"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0820306094482548,
+          "sequence": "7scenes_sample_00045"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01560267964066275,
+          "sequence": "7scenes_sample_00046"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1148318167080082,
+          "sequence": "7scenes_sample_00047"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.006171073996156522,
+          "sequence": "7scenes_sample_00048"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.010849573688810753,
+          "sequence": "7scenes_sample_00049"
+        }
+      ],
+      "method": "Pi3",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 53.73333333333334,
+        "Auc_30": 66.3,
+        "Auc_5": 24.6,
+        "Racc_15": 75.0,
+        "Racc_30": 82.0,
+        "Racc_5": 50.0,
+        "Tacc_15": 92.0,
+        "Tacc_30": 96.0,
+        "Tacc_5": 84.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/7scenes/pi3_2view_long2_perseq",
+      "raw": {
+        "Auc_15": 58.53333333333334,
+        "Auc_30": 74.16666666666664,
+        "Auc_5": 21.999999999999996,
+        "Racc_15": 94.0,
+        "Racc_30": 94.0,
+        "Racc_5": 76.0,
+        "Tacc_15": 88.0,
+        "Tacc_30": 91.0,
+        "Tacc_5": 45.0,
+        "num_pairs": 100.0
+      },
+      "setting": "7Scenes 2-view long"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03934151576329721,
+          "sequence": "7scenes_sample_00000"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.18090469517865726,
+          "sequence": "7scenes_sample_00001"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2550053720102529,
+          "sequence": "7scenes_sample_00002"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.034789530194207885,
+          "sequence": "7scenes_sample_00003"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10766946305703605,
+          "sequence": "7scenes_sample_00004"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07417830375377707,
+          "sequence": "7scenes_sample_00005"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.199474498899805,
+          "sequence": "7scenes_sample_00006"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.19075074929818084,
+          "sequence": "7scenes_sample_00007"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.7175822864354172,
+          "sequence": "7scenes_sample_00008"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10430591205809416,
+          "sequence": "7scenes_sample_00009"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.4249715152234469,
+          "sequence": "7scenes_sample_00010"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3397907094148392,
+          "sequence": "7scenes_sample_00011"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01998563600922581,
+          "sequence": "7scenes_sample_00012"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.4990743248512453,
+          "sequence": "7scenes_sample_00013"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.030287267810663376,
+          "sequence": "7scenes_sample_00014"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.046422881464776924,
+          "sequence": "7scenes_sample_00015"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06729235888099742,
+          "sequence": "7scenes_sample_00016"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.4887621484801373,
+          "sequence": "7scenes_sample_00017"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.20706725177843577,
+          "sequence": "7scenes_sample_00018"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.9112593823072791,
+          "sequence": "7scenes_sample_00019"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3877736320727217,
+          "sequence": "7scenes_sample_00020"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5871202749389209,
+          "sequence": "7scenes_sample_00021"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.015862667339806423,
+          "sequence": "7scenes_sample_00022"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.05766117697471517,
+          "sequence": "7scenes_sample_00023"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.15872249734419905,
+          "sequence": "7scenes_sample_00024"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.24766571216297803,
+          "sequence": "7scenes_sample_00025"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.42133207847054377,
+          "sequence": "7scenes_sample_00026"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08388076557815792,
+          "sequence": "7scenes_sample_00027"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.13471134956581302,
+          "sequence": "7scenes_sample_00028"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.12805417605973574,
+          "sequence": "7scenes_sample_00029"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10817229187049947,
+          "sequence": "7scenes_sample_00030"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.050380916905537955,
+          "sequence": "7scenes_sample_00031"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1009615502561748,
+          "sequence": "7scenes_sample_00032"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.018451829097215676,
+          "sequence": "7scenes_sample_00033"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6434542739262272,
+          "sequence": "7scenes_sample_00034"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.021855297683320077,
+          "sequence": "7scenes_sample_00035"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.003190452968135516,
+          "sequence": "7scenes_sample_00036"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.354870074710776,
+          "sequence": "7scenes_sample_00037"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.923191782571301,
+          "sequence": "7scenes_sample_00038"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.005051085555315726,
+          "sequence": "7scenes_sample_00039"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04434307237509426,
+          "sequence": "7scenes_sample_00040"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.39768384274355073,
+          "sequence": "7scenes_sample_00041"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.029673120256006665,
+          "sequence": "7scenes_sample_00042"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.13512774551979892,
+          "sequence": "7scenes_sample_00043"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.05013346081009828,
+          "sequence": "7scenes_sample_00044"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.039660392487468527,
+          "sequence": "7scenes_sample_00045"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03292836797409722,
+          "sequence": "7scenes_sample_00046"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1587034816423925,
+          "sequence": "7scenes_sample_00047"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.4790589183186063,
+          "sequence": "7scenes_sample_00048"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00165996823814277,
+          "sequence": "7scenes_sample_00049"
+        }
+      ],
+      "method": "Ours/VWM",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 16.866666666666667,
+        "Auc_30": 37.20000000000002,
+        "Auc_5": 1.0,
+        "Racc_15": 43.0,
+        "Racc_30": 66.0,
+        "Racc_5": 7.000000000000001,
+        "Tacc_15": 76.0,
+        "Tacc_30": 92.0,
+        "Tacc_5": 50.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/7scenes/ours_2view_long2_perseq_s40",
+      "raw": {
+        "Auc_15": 18.933333333333337,
+        "Auc_30": 40.0,
+        "Auc_5": 0.8,
+        "Racc_15": 70.0,
+        "Racc_30": 81.0,
+        "Racc_5": 31.0,
+        "Tacc_15": 52.0,
+        "Tacc_30": 73.0,
+        "Tacc_5": 15.0,
+        "num_pairs": 100.0
+      },
+      "setting": "7Scenes 2-view long"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.21772600125023267,
+          "sequence": "7scenes_sample_00000"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09559873464291582,
+          "sequence": "7scenes_sample_00001"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.38511382111406034,
+          "sequence": "7scenes_sample_00002"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.15922441724447445,
+          "sequence": "7scenes_sample_00003"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.17565598558603174,
+          "sequence": "7scenes_sample_00004"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04491713119131006,
+          "sequence": "7scenes_sample_00005"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6834538171591552,
+          "sequence": "7scenes_sample_00006"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1440533345911095,
+          "sequence": "7scenes_sample_00007"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.7968778836155685,
+          "sequence": "7scenes_sample_00008"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2006397359475881,
+          "sequence": "7scenes_sample_00009"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03148336729058282,
+          "sequence": "7scenes_sample_00010"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.23161942083516962,
+          "sequence": "7scenes_sample_00011"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3087442455349081,
+          "sequence": "7scenes_sample_00012"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.12355414737519933,
+          "sequence": "7scenes_sample_00013"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.15534533441797063,
+          "sequence": "7scenes_sample_00014"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03805894478958489,
+          "sequence": "7scenes_sample_00015"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.036512772605545155,
+          "sequence": "7scenes_sample_00016"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3834985066033636,
+          "sequence": "7scenes_sample_00017"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.9127430106300721,
+          "sequence": "7scenes_sample_00018"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3471018903645014,
+          "sequence": "7scenes_sample_00019"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2663835273494869,
+          "sequence": "7scenes_sample_00020"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1541217705476738,
+          "sequence": "7scenes_sample_00021"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1665040179526922,
+          "sequence": "7scenes_sample_00022"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.17301623169306135,
+          "sequence": "7scenes_sample_00023"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.46030965199121215,
+          "sequence": "7scenes_sample_00024"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.17401374836954434,
+          "sequence": "7scenes_sample_00025"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.514939747922029,
+          "sequence": "7scenes_sample_00026"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0049586616102076705,
+          "sequence": "7scenes_sample_00027"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5067683512360406,
+          "sequence": "7scenes_sample_00028"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.15493516673005545,
+          "sequence": "7scenes_sample_00029"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06887987053647436,
+          "sequence": "7scenes_sample_00030"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04672392354761872,
+          "sequence": "7scenes_sample_00031"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1356977616024735,
+          "sequence": "7scenes_sample_00032"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.6010903019193692,
+          "sequence": "7scenes_sample_00033"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09090109213575365,
+          "sequence": "7scenes_sample_00034"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.41168610540821904,
+          "sequence": "7scenes_sample_00035"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.008177687924674952,
+          "sequence": "7scenes_sample_00036"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.02267602634386373,
+          "sequence": "7scenes_sample_00037"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.016371738248237004,
+          "sequence": "7scenes_sample_00038"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.4218433956999681,
+          "sequence": "7scenes_sample_00039"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.049144171844273034,
+          "sequence": "7scenes_sample_00040"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6459793640585548,
+          "sequence": "7scenes_sample_00041"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1873259991167085,
+          "sequence": "7scenes_sample_00042"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.02592270234832203,
+          "sequence": "7scenes_sample_00043"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5020190974474137,
+          "sequence": "7scenes_sample_00044"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0005564892344832438,
+          "sequence": "7scenes_sample_00045"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07800711224875496,
+          "sequence": "7scenes_sample_00046"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.19933877937299943,
+          "sequence": "7scenes_sample_00047"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.268580747999006,
+          "sequence": "7scenes_sample_00048"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.22006850497804029,
+          "sequence": "7scenes_sample_00049"
+        }
+      ],
+      "method": "Geo4D",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 3.0666666666666673,
+        "Auc_30": 14.133333333333331,
+        "Auc_5": 0.0,
+        "Racc_15": 12.0,
+        "Racc_30": 42.0,
+        "Racc_5": 1.0,
+        "Tacc_15": 74.0,
+        "Tacc_30": 94.0,
+        "Tacc_5": 32.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/7scenes/geo4d_2view_long2_perseq_s5",
+      "raw": {
+        "Auc_15": 0.0,
+        "Auc_30": 0.5000000000000001,
+        "Auc_5": 0.0,
+        "Racc_15": 25.0,
+        "Racc_30": 52.0,
+        "Racc_5": 3.0,
+        "Tacc_15": 1.0,
+        "Tacc_30": 12.0,
+        "Tacc_5": 0.0,
+        "num_pairs": 100.0
+      },
+      "setting": "7Scenes 2-view long"
+    }
+  ]
+}

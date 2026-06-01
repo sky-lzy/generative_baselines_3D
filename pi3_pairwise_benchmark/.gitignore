@@ -1,0 +1,31 @@
+# Local/generated artifacts
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# External upstream checkouts and model weights are fetched locally.
+external/
+checkpoints/
+*.ckpt
+*.pth
+*.pt
+*.safetensors
+
+# Heavy/generated benchmark outputs.
+outputs/slurm/
+outputs/datasets/
+outputs/*visualizations*/
+outputs/*comparison*/
+outputs/*protocol*/
+outputs/**/*.png
+outputs/**/*.jpg
+outputs/**/*.jpeg
+outputs/**/*.npy
+outputs/**/*.npz
+outputs/**/*.ply
+outputs/**/*.glb
+
+# Runtime scratch/logging.
+logs/
+wandb/

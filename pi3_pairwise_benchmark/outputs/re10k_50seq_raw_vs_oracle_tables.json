@@ -1,0 +1,1704 @@
+{
+  "base_output_dir": "/n/netscratch/kempner_rcai_lab/Lab/video_model/test-time/pi3_pairwise_benchmark/smoke_50view/13198546/outputs",
+  "note": "Oracle rows apply a GT-assisted per-sequence SO3 camera-basis rotation fit from predicted relative translation directions to GT directions. This is an upper-bound diagnostic, not a fair benchmark.",
+  "rows": [
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.1258597912867774,
+          "sequence": "000c3ab189999a83"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.0702611475298793,
+          "sequence": "000db54a47bd43fe"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.5348588285469842,
+          "sequence": "0017ce4c6a39d122"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.526076524430646,
+          "sequence": "002ae53df0e0afe2"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.0641939062098364,
+          "sequence": "004334c94bbc8bd5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.1931242815216905,
+          "sequence": "0043978734eec081"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.53770477620937,
+          "sequence": "004dd4b46a06e5be"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.8514743260807638,
+          "sequence": "004e9db3337e8206"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.090939218824489,
+          "sequence": "005dd9a58df1ba3c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.2634250843427415,
+          "sequence": "00620c2b77518524"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.2034478449121675,
+          "sequence": "0068e97c1c1f61aa"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.333993621126546,
+          "sequence": "007876f71baf453f"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.9716411555780488,
+          "sequence": "007b4ae7c05f2ea2"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 12.099878972265522,
+          "sequence": "008cd8c450342e49"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.517204598516455,
+          "sequence": "0090cc64d7b7bb24"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.339823808152899,
+          "sequence": "00969c45a093d43c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 34.664089565572816,
+          "sequence": "00a54225c5cb1913"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.2808486982084424,
+          "sequence": "00a5a2af678f37d5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.273745908429915,
+          "sequence": "00beb03ef95dc637"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.6224378034106968,
+          "sequence": "00ca5123d8ff6f83"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.7897454651813365,
+          "sequence": "00cf0a94235771bb"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.3638431912689448,
+          "sequence": "00cfc0ecd345deb4"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.099797978669837,
+          "sequence": "00d83c48cb78ec83"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.079167793635695,
+          "sequence": "00e12e215c028984"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.192721876408782,
+          "sequence": "00e8df74b6805da7"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.0204272413877173,
+          "sequence": "0122933cf8ab3317"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.5074056923363458,
+          "sequence": "0131c9aed0fb3940"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 37.210025173984015,
+          "sequence": "0134d6a876481ed8"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.361291861059822,
+          "sequence": "0145c694b53b120d"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.5048420699074125,
+          "sequence": "01497290d8b93a9b"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.50093733197442,
+          "sequence": "015631b21f792a12"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.4418087966710202,
+          "sequence": "01570ac1c73e9ca2"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.2138784859659288,
+          "sequence": "015d8a2a2834d38c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.5761854715671675,
+          "sequence": "0181b66a65650830"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.6293983509368208,
+          "sequence": "0181d3b41c2cf87c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.2890618574198949,
+          "sequence": "01842c6b21e1d679"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.818079825125868,
+          "sequence": "01866b81c3b90f2c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.5603287244034796,
+          "sequence": "018f7907401f2fef"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.9168535153208683,
+          "sequence": "0190fe72a727c853"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.6029322994798199,
+          "sequence": "0196dedebec3dad2"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.4676246384609035,
+          "sequence": "01a2277ee817b310"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.6701826855953918,
+          "sequence": "01a5cc3805e94c21"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.2959304468094768,
+          "sequence": "01a628e2c509b823"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 0.7882553175223652,
+          "sequence": "01aaf4ebb084dc16"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.51544026208642,
+          "sequence": "01b08e2f20321127"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.5250855137069572,
+          "sequence": "01be77405b16df11"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.6567731457540107,
+          "sequence": "01cefee9563f691a"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.149534604491154,
+          "sequence": "01cf2d900cb03afb"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.579529276425613,
+          "sequence": "01cf55ae3e378faf"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 1.8938793314707292,
+          "sequence": "01e18dbbf22ff263"
+        }
+      ],
+      "method": "Pi3",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 84.11091156462585,
+        "Auc_30": 90.01235374149661,
+        "Auc_5": 68.56032653061224,
+        "Racc_15": 99.45795918367347,
+        "Racc_30": 99.99510204081633,
+        "Racc_5": 97.55265306122449,
+        "Tacc_15": 94.56163265306122,
+        "Tacc_30": 96.78204081632653,
+        "Tacc_5": 85.33387755102041,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "/n/netscratch/kempner_rcai_lab/Lab/video_model/test-time/pi3_pairwise_benchmark/smoke_50view/13198546/outputs/pi3_50view_save",
+      "raw": {
+        "Auc_15": 79.21861224489795,
+        "Auc_30": 87.13714285714285,
+        "Auc_5": 58.70008163265305,
+        "Racc_15": 100.0,
+        "Racc_30": 100.0,
+        "Racc_5": 100.0,
+        "Tacc_15": 93.32734693877552,
+        "Tacc_30": 95.86775510204082,
+        "Tacc_5": 79.53959183673469,
+        "num_pairs": 61250.0
+      },
+      "setting": "50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 0.8249715711721677,
+          "sequence": "000c3ab189999a83"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.3136438614745343,
+          "sequence": "000db54a47bd43fe"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 2.232624613872284,
+          "sequence": "0017ce4c6a39d122"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.551105490488692,
+          "sequence": "002ae53df0e0afe2"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 2.782080275497764,
+          "sequence": "004334c94bbc8bd5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.9533048263438015,
+          "sequence": "0043978734eec081"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.9976969263148383,
+          "sequence": "004dd4b46a06e5be"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.335935427806986,
+          "sequence": "004e9db3337e8206"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 2.064352914508594,
+          "sequence": "005dd9a58df1ba3c"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 2.0463698482874593,
+          "sequence": "00620c2b77518524"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.093560757493665,
+          "sequence": "0068e97c1c1f61aa"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.2392658250787267,
+          "sequence": "007876f71baf453f"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.2428739179254062,
+          "sequence": "007b4ae7c05f2ea2"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.4771894355350286,
+          "sequence": "008cd8c450342e49"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.293714444734033,
+          "sequence": "0090cc64d7b7bb24"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 6.309500073201664,
+          "sequence": "00969c45a093d43c"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 11.737070035526527,
+          "sequence": "00a54225c5cb1913"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.7525245981032758,
+          "sequence": "00a5a2af678f37d5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 5.7209809453416085,
+          "sequence": "00beb03ef95dc637"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.236549636772976,
+          "sequence": "00ca5123d8ff6f83"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.078674623155255,
+          "sequence": "00cf0a94235771bb"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.6680287327159484,
+          "sequence": "00cfc0ecd345deb4"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.7166850033212502,
+          "sequence": "00d83c48cb78ec83"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 5.4930771526955935,
+          "sequence": "00e12e215c028984"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.1542104099393242,
+          "sequence": "00e8df74b6805da7"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.715596571651468,
+          "sequence": "0122933cf8ab3317"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.0299512605219843,
+          "sequence": "0131c9aed0fb3940"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 5.839496055729953,
+          "sequence": "0134d6a876481ed8"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 2.1142720882702175,
+          "sequence": "0145c694b53b120d"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 2.6511711597383787,
+          "sequence": "01497290d8b93a9b"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.8670105316383734,
+          "sequence": "015631b21f792a12"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 2.2393656753839353,
+          "sequence": "01570ac1c73e9ca2"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.9186894687479246,
+          "sequence": "015d8a2a2834d38c"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.5004643482313695,
+          "sequence": "0181b66a65650830"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 5.364409743999567,
+          "sequence": "0181d3b41c2cf87c"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.2586012560726636,
+          "sequence": "01842c6b21e1d679"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.2359344152497735,
+          "sequence": "01866b81c3b90f2c"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.998283688440461,
+          "sequence": "018f7907401f2fef"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.245619990979615,
+          "sequence": "0190fe72a727c853"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.662784318825093,
+          "sequence": "0196dedebec3dad2"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 2.3588719659851973,
+          "sequence": "01a2277ee817b310"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.153767122024506,
+          "sequence": "01a5cc3805e94c21"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.3711038962000301,
+          "sequence": "01a628e2c509b823"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.6249650820893318,
+          "sequence": "01aaf4ebb084dc16"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.2570945812033827,
+          "sequence": "01b08e2f20321127"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.7877840050604257,
+          "sequence": "01be77405b16df11"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 3.1990308059408292,
+          "sequence": "01cefee9563f691a"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 4.167085144289605,
+          "sequence": "01cf2d900cb03afb"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 2.3716456224096003,
+          "sequence": "01cf55ae3e378faf"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 1.916706796627242,
+          "sequence": "01e18dbbf22ff263"
+        }
+      ],
+      "method": "Ours/VWM",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 72.71325170068027,
+        "Auc_30": 85.90454421768709,
+        "Auc_5": 37.76489795918367,
+        "Racc_15": 99.58367346938776,
+        "Racc_30": 100.0,
+        "Racc_5": 90.36081632653061,
+        "Tacc_15": 97.58857142857143,
+        "Tacc_30": 99.62612244897959,
+        "Tacc_5": 74.26775510204081,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "/n/netscratch/kempner_rcai_lab/Lab/video_model/test-time/pi3_pairwise_benchmark/smoke_50view/13198546/outputs/ours_50view_s40",
+      "raw": {
+        "Auc_15": 43.65551020408163,
+        "Auc_30": 68.86508843537415,
+        "Auc_5": 9.882122448979594,
+        "Racc_15": 100.0,
+        "Racc_30": 100.0,
+        "Racc_5": 97.16408163265307,
+        "Tacc_15": 83.79755102040816,
+        "Tacc_30": 97.29469387755103,
+        "Tacc_5": 22.56,
+        "num_pairs": 61250.0
+      },
+      "setting": "50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.190125272536887,
+          "sequence": "000c3ab189999a83"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.612564199630524,
+          "sequence": "000db54a47bd43fe"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.703471230297267,
+          "sequence": "0017ce4c6a39d122"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 22.154147658467995,
+          "sequence": "002ae53df0e0afe2"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 19.873177335348494,
+          "sequence": "004334c94bbc8bd5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 15.505371206306572,
+          "sequence": "0043978734eec081"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.972860488589442,
+          "sequence": "004dd4b46a06e5be"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.746351107609378,
+          "sequence": "004e9db3337e8206"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.4181677212869825,
+          "sequence": "005dd9a58df1ba3c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 21.927997909856312,
+          "sequence": "00620c2b77518524"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 18.16618661720991,
+          "sequence": "0068e97c1c1f61aa"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.981269952124213,
+          "sequence": "007876f71baf453f"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.53819228367215,
+          "sequence": "007b4ae7c05f2ea2"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 18.06933358809602,
+          "sequence": "008cd8c450342e49"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.81004709070302,
+          "sequence": "0090cc64d7b7bb24"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 18.522396745101233,
+          "sequence": "00969c45a093d43c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 20.220849444502086,
+          "sequence": "00a54225c5cb1913"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.61113810180672,
+          "sequence": "00a5a2af678f37d5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 24.831478611952413,
+          "sequence": "00beb03ef95dc637"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 16.501070436672002,
+          "sequence": "00ca5123d8ff6f83"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 13.281098563782802,
+          "sequence": "00cf0a94235771bb"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.945614968334658,
+          "sequence": "00cfc0ecd345deb4"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 11.16708766003131,
+          "sequence": "00d83c48cb78ec83"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 13.172375027275882,
+          "sequence": "00e12e215c028984"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.736651044550674,
+          "sequence": "00e8df74b6805da7"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.54689938310077,
+          "sequence": "0122933cf8ab3317"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.594722391025758,
+          "sequence": "0131c9aed0fb3940"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 21.163198251252993,
+          "sequence": "0134d6a876481ed8"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 25.826052706053172,
+          "sequence": "0145c694b53b120d"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.780068442113823,
+          "sequence": "01497290d8b93a9b"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.739433444308718,
+          "sequence": "015631b21f792a12"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.357138888254587,
+          "sequence": "01570ac1c73e9ca2"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 12.331190541481053,
+          "sequence": "015d8a2a2834d38c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.970843257882956,
+          "sequence": "0181b66a65650830"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 20.36405992149321,
+          "sequence": "0181d3b41c2cf87c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.595299053790883,
+          "sequence": "01842c6b21e1d679"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.013053080640294,
+          "sequence": "01866b81c3b90f2c"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 11.97375528345349,
+          "sequence": "018f7907401f2fef"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.156810141179449,
+          "sequence": "0190fe72a727c853"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.917827462332507,
+          "sequence": "0196dedebec3dad2"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.147946065630444,
+          "sequence": "01a2277ee817b310"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.402766505129694,
+          "sequence": "01a5cc3805e94c21"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.684080091305894,
+          "sequence": "01a628e2c509b823"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 9.699260646726088,
+          "sequence": "01aaf4ebb084dc16"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 11.63631694381709,
+          "sequence": "01b08e2f20321127"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 6.605229431501394,
+          "sequence": "01be77405b16df11"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.487718281412889,
+          "sequence": "01cefee9563f691a"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 21.611756466272773,
+          "sequence": "01cf2d900cb03afb"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 10.880766367645013,
+          "sequence": "01cf55ae3e378faf"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.776690550631742,
+          "sequence": "01e18dbbf22ff263"
+        }
+      ],
+      "method": "Geo4D",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 41.74323809523809,
+        "Auc_30": 61.8211156462585,
+        "Auc_5": 12.975673469387756,
+        "Racc_15": 99.25387755102041,
+        "Racc_30": 100.0,
+        "Racc_5": 85.05142857142857,
+        "Tacc_15": 71.72081632653061,
+        "Tacc_30": 87.59510204081633,
+        "Tacc_5": 34.13387755102041,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "/n/netscratch/kempner_rcai_lab/Lab/video_model/test-time/pi3_pairwise_benchmark/smoke_50view/13198546/outputs/geo4d_50view_s5",
+      "raw": {
+        "Auc_15": 8.134530612244898,
+        "Auc_30": 25.29910204081633,
+        "Auc_5": 0.4457142857142857,
+        "Racc_15": 100.0,
+        "Racc_30": 100.0,
+        "Racc_5": 98.9795918367347,
+        "Tacc_15": 23.874285714285715,
+        "Tacc_30": 56.751020408163264,
+        "Tacc_5": 1.126530612244898,
+        "num_pairs": 61250.0
+      },
+      "setting": "50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.013986928135210035,
+          "sequence": "000c3ab189999a83"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.007704862504055079,
+          "sequence": "000db54a47bd43fe"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.006901284783856371,
+          "sequence": "0017ce4c6a39d122"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.048425864214218184,
+          "sequence": "002ae53df0e0afe2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.017485939504662235,
+          "sequence": "004334c94bbc8bd5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.010281373482532366,
+          "sequence": "0043978734eec081"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.024953370171612983,
+          "sequence": "004dd4b46a06e5be"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.020643827278872446,
+          "sequence": "004e9db3337e8206"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.017909648883559292,
+          "sequence": "005dd9a58df1ba3c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0002767544662356996,
+          "sequence": "00620c2b77518524"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.006990586934907895,
+          "sequence": "0068e97c1c1f61aa"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0010924854389854554,
+          "sequence": "007876f71baf453f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.006848050273400397,
+          "sequence": "007b4ae7c05f2ea2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08570496884233554,
+          "sequence": "008cd8c450342e49"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0022184278848699146,
+          "sequence": "0090cc64d7b7bb24"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.018106493785053936,
+          "sequence": "00969c45a093d43c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01555394490252951,
+          "sequence": "00a54225c5cb1913"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.007740386555995173,
+          "sequence": "00a5a2af678f37d5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2158680564240673,
+          "sequence": "00beb03ef95dc637"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.006670892246139488,
+          "sequence": "00ca5123d8ff6f83"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01690137183033707,
+          "sequence": "00cf0a94235771bb"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.005151644305069824,
+          "sequence": "00cfc0ecd345deb4"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.016884974096296454,
+          "sequence": "00d83c48cb78ec83"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0031146956572019914,
+          "sequence": "00e12e215c028984"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0063234946569712,
+          "sequence": "00e8df74b6805da7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.004486969584284649,
+          "sequence": "0122933cf8ab3317"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.003381562477243988,
+          "sequence": "0131c9aed0fb3940"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.05004331919421003,
+          "sequence": "0134d6a876481ed8"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0005908619206958995,
+          "sequence": "0145c694b53b120d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.002465760900233305,
+          "sequence": "01497290d8b93a9b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0010249288935971887,
+          "sequence": "015631b21f792a12"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.005843437685574637,
+          "sequence": "01570ac1c73e9ca2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0043337515326935085,
+          "sequence": "015d8a2a2834d38c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0007105051721996323,
+          "sequence": "0181b66a65650830"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0057921581762962904,
+          "sequence": "0181d3b41c2cf87c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.005908774086118199,
+          "sequence": "01842c6b21e1d679"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.006419435344729362,
+          "sequence": "01866b81c3b90f2c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01868824366666073,
+          "sequence": "018f7907401f2fef"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0022536470422943257,
+          "sequence": "0190fe72a727c853"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.017788494297904158,
+          "sequence": "0196dedebec3dad2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.009505442352472693,
+          "sequence": "01a2277ee817b310"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0010505024141975777,
+          "sequence": "01a5cc3805e94c21"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.011749984945764508,
+          "sequence": "01a628e2c509b823"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.003597121199707296,
+          "sequence": "01aaf4ebb084dc16"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00902846146296618,
+          "sequence": "01b08e2f20321127"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.002871133973756902,
+          "sequence": "01be77405b16df11"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.007549129519245125,
+          "sequence": "01cefee9563f691a"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00653347717548753,
+          "sequence": "01cf2d900cb03afb"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.028789547890300967,
+          "sequence": "01cf55ae3e378faf"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0048744882628491875,
+          "sequence": "01e18dbbf22ff263"
+        }
+      ],
+      "method": "Pi3",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 79.46666666666668,
+        "Auc_30": 88.63333333333337,
+        "Auc_5": 63.800000000000004,
+        "Racc_15": 95.0,
+        "Racc_30": 98.0,
+        "Racc_5": 73.0,
+        "Tacc_15": 100.0,
+        "Tacc_30": 100.0,
+        "Tacc_5": 98.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "/n/netscratch/kempner_rcai_lab/Lab/video_model/test-time/pi3_pairwise_benchmark/smoke_50view/13198546/outputs/pi3_2view_long2_perseq",
+      "raw": {
+        "Auc_15": 85.39999999999999,
+        "Auc_30": 91.3666666666667,
+        "Auc_5": 70.0,
+        "Racc_15": 100.0,
+        "Racc_30": 100.0,
+        "Racc_5": 100.0,
+        "Tacc_15": 94.0,
+        "Tacc_30": 98.0,
+        "Tacc_5": 89.0,
+        "num_pairs": 100.0
+      },
+      "setting": "2-view long"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0358542885632768,
+          "sequence": "000c3ab189999a83"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1038982210176967,
+          "sequence": "000db54a47bd43fe"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07141583759535748,
+          "sequence": "0017ce4c6a39d122"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.17850580264592494,
+          "sequence": "002ae53df0e0afe2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03351506059574909,
+          "sequence": "004334c94bbc8bd5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09314028325982054,
+          "sequence": "0043978734eec081"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1550875188602745,
+          "sequence": "004dd4b46a06e5be"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.015888058932817518,
+          "sequence": "004e9db3337e8206"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03127871432704929,
+          "sequence": "005dd9a58df1ba3c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06931941344445247,
+          "sequence": "00620c2b77518524"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.15011962702458428,
+          "sequence": "0068e97c1c1f61aa"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.029040033841529794,
+          "sequence": "007876f71baf453f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.106512966097228,
+          "sequence": "007b4ae7c05f2ea2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.36892292186998976,
+          "sequence": "008cd8c450342e49"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09676058534915896,
+          "sequence": "0090cc64d7b7bb24"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10855736916391828,
+          "sequence": "00969c45a093d43c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.18294606172615305,
+          "sequence": "00a54225c5cb1913"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2235362762168967,
+          "sequence": "00a5a2af678f37d5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.3399297427567822,
+          "sequence": "00beb03ef95dc637"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01672763928111271,
+          "sequence": "00ca5123d8ff6f83"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.18737182165643557,
+          "sequence": "00cf0a94235771bb"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0489540971846388,
+          "sequence": "00cfc0ecd345deb4"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07647080720576833,
+          "sequence": "00d83c48cb78ec83"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.47779624017779143,
+          "sequence": "00e12e215c028984"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06305329088780065,
+          "sequence": "00e8df74b6805da7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.013970780577246539,
+          "sequence": "0122933cf8ab3317"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06621042082175616,
+          "sequence": "0131c9aed0fb3940"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.8569936548062629,
+          "sequence": "0134d6a876481ed8"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.013116178143348815,
+          "sequence": "0145c694b53b120d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.05612212434687636,
+          "sequence": "01497290d8b93a9b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.19541219695487877,
+          "sequence": "015631b21f792a12"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.23018326398767686,
+          "sequence": "01570ac1c73e9ca2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.013348464849228478,
+          "sequence": "015d8a2a2834d38c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03916586157497661,
+          "sequence": "0181b66a65650830"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.12476566598049615,
+          "sequence": "0181d3b41c2cf87c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1076695014394196,
+          "sequence": "01842c6b21e1d679"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5403761591300094,
+          "sequence": "01866b81c3b90f2c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2866214723185002,
+          "sequence": "018f7907401f2fef"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.11692910222690393,
+          "sequence": "0190fe72a727c853"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.15038308654104537,
+          "sequence": "0196dedebec3dad2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09800840144969701,
+          "sequence": "01a2277ee817b310"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07223009626673113,
+          "sequence": "01a5cc3805e94c21"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06824199784140218,
+          "sequence": "01a628e2c509b823"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03887915203277522,
+          "sequence": "01aaf4ebb084dc16"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.141657991261678,
+          "sequence": "01b08e2f20321127"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09005747190045141,
+          "sequence": "01be77405b16df11"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3162160583151043,
+          "sequence": "01cefee9563f691a"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.377836445341121,
+          "sequence": "01cf2d900cb03afb"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1721503387512741,
+          "sequence": "01cf55ae3e378faf"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10358138156276817,
+          "sequence": "01e18dbbf22ff263"
+        }
+      ],
+      "method": "Ours/VWM",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 47.06666666666667,
+        "Auc_30": 66.80000000000003,
+        "Auc_5": 14.2,
+        "Racc_15": 81.0,
+        "Racc_30": 95.0,
+        "Racc_5": 52.0,
+        "Tacc_15": 90.0,
+        "Tacc_30": 96.0,
+        "Tacc_5": 60.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "/n/netscratch/kempner_rcai_lab/Lab/video_model/test-time/pi3_pairwise_benchmark/smoke_50view/13198546/outputs/ours_2view_long2_perseq_s40",
+      "raw": {
+        "Auc_15": 38.466666666666676,
+        "Auc_30": 62.30000000000001,
+        "Auc_5": 9.000000000000002,
+        "Racc_15": 98.0,
+        "Racc_30": 99.0,
+        "Racc_5": 94.0,
+        "Tacc_15": 70.0,
+        "Tacc_30": 94.0,
+        "Tacc_5": 23.0,
+        "num_pairs": 100.0
+      },
+      "setting": "2-view long"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04000984170534599,
+          "sequence": "000c3ab189999a83"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.012809921478573332,
+          "sequence": "000db54a47bd43fe"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0444414520616715,
+          "sequence": "0017ce4c6a39d122"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.13342588420763257,
+          "sequence": "002ae53df0e0afe2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.70373000926388,
+          "sequence": "004334c94bbc8bd5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0963621339782268,
+          "sequence": "0043978734eec081"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09282369864686392,
+          "sequence": "004dd4b46a06e5be"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03549956692101152,
+          "sequence": "004e9db3337e8206"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.05856378350503988,
+          "sequence": "005dd9a58df1ba3c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.13784422963046553,
+          "sequence": "00620c2b77518524"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.024023389392805596,
+          "sequence": "0068e97c1c1f61aa"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.02138271198432823,
+          "sequence": "007876f71baf453f"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.023404712958452555,
+          "sequence": "007b4ae7c05f2ea2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1157367074097673,
+          "sequence": "008cd8c450342e49"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09844444911469896,
+          "sequence": "0090cc64d7b7bb24"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.029280181161780796,
+          "sequence": "00969c45a093d43c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03395409459825084,
+          "sequence": "00a54225c5cb1913"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10983246649620242,
+          "sequence": "00a5a2af678f37d5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08757547275096703,
+          "sequence": "00beb03ef95dc637"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.055001423590799195,
+          "sequence": "00ca5123d8ff6f83"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04588997344546446,
+          "sequence": "00cf0a94235771bb"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.059635585317114305,
+          "sequence": "00cfc0ecd345deb4"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00152467179575863,
+          "sequence": "00d83c48cb78ec83"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.010840409295287274,
+          "sequence": "00e12e215c028984"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.11924204872726893,
+          "sequence": "00e8df74b6805da7"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1392439816598099,
+          "sequence": "0122933cf8ab3317"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5785087386555541,
+          "sequence": "0131c9aed0fb3940"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.7003710959978142,
+          "sequence": "0134d6a876481ed8"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.35938333571581804,
+          "sequence": "0145c694b53b120d"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.008653826202311499,
+          "sequence": "01497290d8b93a9b"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07365727660474473,
+          "sequence": "015631b21f792a12"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.008091849224924211,
+          "sequence": "01570ac1c73e9ca2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5267839273614012,
+          "sequence": "015d8a2a2834d38c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08125751835396959,
+          "sequence": "0181b66a65650830"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.32640263253307006,
+          "sequence": "0181d3b41c2cf87c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.002325971551216762,
+          "sequence": "01842c6b21e1d679"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.05978629872335731,
+          "sequence": "01866b81c3b90f2c"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.05092474799349359,
+          "sequence": "018f7907401f2fef"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04504786442478851,
+          "sequence": "0190fe72a727c853"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0017235476396511168,
+          "sequence": "0196dedebec3dad2"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.39454751426791146,
+          "sequence": "01a2277ee817b310"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.11765543302270114,
+          "sequence": "01a5cc3805e94c21"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0846558837748103,
+          "sequence": "01a628e2c509b823"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.19587947260772162,
+          "sequence": "01aaf4ebb084dc16"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1785424036677233,
+          "sequence": "01b08e2f20321127"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.008862499280290793,
+          "sequence": "01be77405b16df11"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07903732386956691,
+          "sequence": "01cefee9563f691a"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01076212182062906,
+          "sequence": "01cf2d900cb03afb"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.17109110993756682,
+          "sequence": "01cf55ae3e378faf"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1600601630308266,
+          "sequence": "01e18dbbf22ff263"
+        }
+      ],
+      "method": "Geo4D",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 42.666666666666664,
+        "Auc_30": 60.86666666666668,
+        "Auc_5": 20.8,
+        "Racc_15": 70.0,
+        "Racc_30": 91.0,
+        "Racc_5": 47.0,
+        "Tacc_15": 90.0,
+        "Tacc_30": 98.0,
+        "Tacc_5": 72.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "/n/netscratch/kempner_rcai_lab/Lab/video_model/test-time/pi3_pairwise_benchmark/smoke_50view/13198546/outputs/geo4d_2view_long2_perseq_s5",
+      "raw": {
+        "Auc_15": 9.933333333333334,
+        "Auc_30": 23.4,
+        "Auc_5": 1.2,
+        "Racc_15": 91.0,
+        "Racc_30": 97.0,
+        "Racc_5": 69.0,
+        "Tacc_15": 23.0,
+        "Tacc_30": 47.0,
+        "Tacc_5": 4.0,
+        "num_pairs": 100.0
+      },
+      "setting": "2-view long"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+# Default paths for the Pi3-style Re10K pairwise pose benchmark.
+pi3_root: sparse_view/pi3_pairwise_benchmark/external/Pi3
+re10k_root: /net/holy-isilon/ifs/rc_labs/ydu_lab/zhiyi24/workspace/video_world_model/data/re10k
+video_world_model_root: /n/holylfs05/LABS/rcai_lab/Lab/video_model/test-time/video_world_model
+seed: 42
+device: cuda
+output_root: sparse_view/pi3_pairwise_benchmark/outputs/re10k_pose
+

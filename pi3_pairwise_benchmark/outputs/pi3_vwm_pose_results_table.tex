@@ -1,0 +1,93 @@
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.5pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{Pi3 reproduction, VWM, and Geo4D pose results under Pi3-style evaluation. Re10K entries are \textbf{Racc/Tacc/Auc} at \textbf{@5, @15, @30} degrees, written as three lines per cell; higher is better. Sintel/TUM entries are \textbf{ATE/RPE-t/RPE-r}; lower is better. ``Pi3 full repro'' is the full benchmark reproduction used to compare with the paper, while ``Pi3 matched ref.'' is the Pi3 result on the exact subset/window used for VWM comparison. Geo4D uses raw Pi3 angular metrics for Re10K and aligned Pi3/evo distance metrics for Sintel/TUM, i.e. \texttt{align=True} and \texttt{correct\_scale=True}. The Geo4D paper reports Sintel as 0.185/0.063/0.547 over 14 dynamic sequences and TUM-dynamics as 0.073/0.020/0.635 under its own benchmark protocol; our Sintel/TUM rows are matched-sequence/window comparisons to Pi3/VWM, not strict Geo4D-paper reproductions.}
+\label{tab:pi3_vwm_pose_results}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llccccccc}
+\toprule
+\begin{tabular}[c]{@{}l@{}}Dataset\\sequence\end{tabular}
+& \begin{tabular}[c]{@{}l@{}}Setting\\scope\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}Pi3\\paper\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}Pi3\\full repro\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}Pi3\\matched ref.\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}VWM\\512$\times$384 crop\\40 steps\end{tabular}
+& Geo4D
+& \begin{tabular}[c]{@{}c@{}}VWM\\320$\times$240\\40 steps\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}VWM\\512$\times$384 crop\\4 steps\end{tabular} \\
+\midrule
+\multicolumn{9}{l}{\textbf{Re10K} random 10 \quad metric: Racc/Tacc/Auc $\uparrow$} \\
+& \begin{tabular}[c]{@{}l@{}}Pi3 1719\\matched 3 seq\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}@5: 98.83/78.32/58.63\\@15: 99.86/92.02/78.39\\@30: 99.99/95.62/85.90\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}@5: 98.812/80.013/62.748\\@15: 99.841/92.436/80.151\\@30: 99.997/95.645/87.307\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}@5: 100.0/100.0/90.37\\@15: 100.0/100.0/96.79\\@30: 100.0/100.0/98.40\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}@5: 34.81/4.44/0.44\\@15: 93.33/45.19/15.65\\@30: 100.0/88.89/42.69\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}@5: 48.89/2.22/0.89\\@15: 97.04/17.78/7.95\\@30: 100.0/41.48/19.11\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}@5: 46.67/5.93/0.74\\@15: 91.85/43.70/17.23\\@30: 100.0/65.93/36.05\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}@5: 11.11/4.44/0.00\\@15: 71.11/48.89/11.85\\@30: 95.56/73.33/38.07\end{tabular}
+\\
+\multicolumn{9}{l}{\textbf{Re10K} sorted 10 \quad metric: Racc/Tacc/Auc $\uparrow$} \\
+& matched 3 seq
+& --
+& --
+& \begin{tabular}[c]{@{}c@{}}@5: 100.0/100.0/90.37\\@15: 100.0/100.0/96.79\\@30: 100.0/100.0/98.40\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}@5: 44.44/2.96/0.59\\@15: 99.26/72.59/28.94\\@30: 100.0/100.0/60.91\end{tabular}
+& \begin{tabular}[c]{@{}c@{}}@5: 48.15/5.19/1.63\\@15: 100.0/48.15/16.64\\@30: 100.0/79.26/43.04\end{tabular}
+& --
+& --
+\\
+\midrule
+\multicolumn{9}{l}{\textbf{Sintel} \texttt{alley\_2} \quad metric: ATE/RPE-t/RPE-r $\downarrow$} \\
+& full seq
+& 0.074/0.040/0.282
+& 0.0732/0.0392/0.2767
+& 0.0123/0.0106/0.0705
+& 0.0628/0.0098/2.239
+& 0.1566/0.0665/1.028
+& 0.0458/0.0111/1.284
+& 0.0563/0.0082/1.945
+\\
+\midrule
+\multicolumn{9}{l}{\textbf{TUM} \texttt{sitting\_halfsphere} \quad metric: ATE/RPE-t/RPE-r $\downarrow$} \\
+& 90 frames
+& 0.014/0.009/0.312
+& 0.0142/0.0090/0.3118
+& 0.0095/0.0067/0.357
+& 0.0692/0.0101/2.019
+& 0.1248/0.0300/1.167
+& 0.0786/0.0100/1.549
+& 0.0679/0.0102/4.682
+\\
+& first 50
+& --
+& --
+& 0.0088/0.0068/0.388
+& 0.0263/0.0112/3.882
+& 0.0730/0.0318/1.119
+& --
+& --
+\\
+& last 50
+& --
+& --
+& 0.0070/0.0062/0.345
+& 0.0293/0.0112/3.285
+& 0.0760/0.0339/1.288
+& --
+& --
+\\
+& mean 50s
+& --
+& --
+& 0.0079/0.0065/0.367
+& 0.0278/0.0112/3.584
+& 0.0745/0.0328/1.203
+& --
+& --
+\\
+\bottomrule
+\end{tabular}
+}
+\end{table*}

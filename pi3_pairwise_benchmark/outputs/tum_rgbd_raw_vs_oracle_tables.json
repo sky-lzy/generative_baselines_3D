@@ -1,0 +1,1703 @@
+{
+  "note": "TUM RGB-D rows use 50 raw RGB-D trajectory windows with 50 frames each. 50-view rows evaluate all C(50,2)=1225 relative-pose pairs per sequence. 2-view rows use 2 deterministic long-baseline pairs per sequence; Geo4D has 99 valid pairs because one pair hit an OpenCV PnP degeneracy. Oracle rows use a GT-assisted per-sequence SO3 camera-basis fit from predicted relative translation directions to GT directions.",
+  "rows": [
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.9499477886278305,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00000_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.4973415346406735,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00100_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.5470871838016005,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.198924070146582,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.5150409988579563,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00450_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.3995955123047636,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.721984751313423,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 22.79371122214067,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00800_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 15.864319926899705,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00000_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 29.80179887460643,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00100_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 43.64471485336627,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 24.465170805068745,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00350_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 22.051247359029325,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00450_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.891660585706713,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00000_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.380828275392023,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00100_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 20.00221658905205,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00200_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 21.936297294638894,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00350_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 16.07883002414844,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00450_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.532492918460511,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00050_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.222487025751743,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00200_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.399046800827639,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00300_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.583454236655072,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00400_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.014409052462506,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00550_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.6304327249179518,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00650_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.770738390182804,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00750_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.931166755663544,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00900_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 15.355951015348856,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start01000_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 2.2506250978143774,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00050_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.587850754244397,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.7333916580670365,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 3.4005881084166094,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00400_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 7.7221737623374365,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.553987065410324,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 22.081250563928418,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00750_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 8.16636069858526,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00050_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 14.75494606699971,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00150_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 22.025985005080102,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 18.8507677756845,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00400_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 15.992408065354615,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00500_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 23.455942844430222,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00600_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 22.792192278381023,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00050_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 26.38217467425792,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00150_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 25.731370428402574,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00250_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 27.24264672756073,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00400_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.761205755675814,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00000_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.65758915674521,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00100_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.319448517718896,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00250_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.199142322424335,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00350_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 5.067413254808051,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00450_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 4.446613426627602,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00600_step5"
+        }
+      ],
+      "method": "Pi3",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 49.71243537414966,
+        "Auc_30": 62.62432653061225,
+        "Auc_5": 29.42726530612245,
+        "Racc_15": 91.09387755102041,
+        "Racc_30": 95.81387755102041,
+        "Racc_5": 82.35265306122449,
+        "Tacc_15": 69.8269387755102,
+        "Tacc_30": 83.6930612244898,
+        "Tacc_5": 47.17551020408163,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/tum_rgbd/pi3_50view_s50",
+      "raw": {
+        "Auc_15": 48.78040816326531,
+        "Auc_30": 61.82356462585032,
+        "Auc_5": 28.30922448979592,
+        "Racc_15": 100.0,
+        "Racc_30": 100.0,
+        "Racc_5": 99.83999999999999,
+        "Tacc_15": 66.66122448979593,
+        "Tacc_30": 80.75428571428571,
+        "Tacc_5": 45.2669387755102,
+        "num_pairs": 61250.0
+      },
+      "setting": "TUM RGB-D 50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 11.066475107775489,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00000_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 6.005206549798041,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00100_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 16.722243902642155,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 20.581856715213757,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 7.871183453759157,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00450_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 11.924151154688824,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 26.402339723603262,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 33.86194753656001,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00800_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 22.865941263944762,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00000_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 23.00456557399623,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00100_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 37.57485079359831,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 21.923467005703024,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00350_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 22.82245443092653,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00450_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 22.805136540768288,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00000_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 34.59899190874139,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00100_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 18.504251895387682,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00200_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 24.987386230090667,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00350_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 34.02626520994955,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00450_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 12.009338964567306,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00050_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 9.556549177471394,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00200_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 15.49394893636653,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00300_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 20.656743780058115,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00400_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 10.026114308300299,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00550_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 16.73157948071354,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00650_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 16.507118300614376,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00750_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 8.091679171911853,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00900_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 15.210142930664592,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start01000_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 10.130878576898246,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00050_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 14.837483810720183,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 15.284493231866376,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 10.661109808319853,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00400_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 22.34847654078744,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 28.328050470786863,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 39.368381219095575,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00750_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 25.675851843903374,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00050_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 33.14754572066136,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00150_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 29.473043113760234,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 25.313922644704174,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00400_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 22.898036336583555,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00500_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 33.84578689660146,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00600_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 26.37394798427818,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00050_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 38.4311673827811,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00150_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 29.03287363594949,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00250_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 28.848061563715735,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00400_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 17.048565885034915,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00000_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 18.958293154869104,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00100_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 13.844778086317644,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00250_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 17.23898084119456,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00350_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 15.670637977290363,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00450_step5"
+        },
+        {
+          "num_vectors": 1223.0,
+          "rmsd": 10.904663713554983,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00600_step5"
+        }
+      ],
+      "method": "Ours/VWM",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 15.543183673469391,
+        "Auc_30": 33.079074829931976,
+        "Auc_5": 2.1583673469387756,
+        "Racc_15": 73.81061224489795,
+        "Racc_30": 87.75836734693877,
+        "Racc_5": 43.21142857142857,
+        "Tacc_15": 43.83183673469388,
+        "Tacc_30": 66.84244897959184,
+        "Tacc_5": 12.169795918367347,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/tum_rgbd/ours_50view_s50_s40",
+      "raw": {
+        "Auc_15": 11.809741496598638,
+        "Auc_30": 29.169795918367353,
+        "Auc_5": 1.3113469387755103,
+        "Racc_15": 84.15673469387755,
+        "Racc_30": 95.48081632653061,
+        "Racc_5": 54.563265306122446,
+        "Tacc_15": 32.40489795918368,
+        "Tacc_30": 58.86530612244898,
+        "Tacc_5": 6.571428571428571,
+        "num_pairs": 61250.0
+      },
+      "setting": "TUM RGB-D 50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.951018381630146,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00000_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 15.221696423481909,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00100_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 39.19174906029428,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 27.093977322092154,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.39467444857262,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00450_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 20.965970843933576,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 34.54546026681652,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 40.08529048286497,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00800_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 27.2765177805403,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00000_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 24.126613603471807,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00100_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 39.52146664383914,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 27.413515998452866,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00350_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 24.82721310455565,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00450_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 39.85620100517527,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00000_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 33.16673182983089,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00100_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 25.313932210137892,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00200_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 32.42732119298392,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00350_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 36.91208785806127,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00450_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 28.106705432825134,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00050_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 37.07529347580924,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00200_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 27.837729967565917,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00300_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 28.932683164819537,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00400_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 25.571506366095004,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00550_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 23.903747801602496,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00650_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.110740398358118,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00750_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 17.03531453965087,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00900_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 35.423509880768286,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start01000_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 19.781143978816836,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00050_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 20.015972124532453,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 20.57525838171205,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 28.442726951890904,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00400_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 33.07868112825944,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 35.27055035076347,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 34.16801229516679,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00750_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 30.723483472581922,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00050_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 36.942889797953924,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00150_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 26.613436428178076,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 26.411846235474414,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00400_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 36.2155962803148,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00500_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 36.26085846466938,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00600_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 22.54686274009508,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00050_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 36.28278675095286,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00150_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 37.121417060543514,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00250_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 31.923506903721787,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00400_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 28.108949693941398,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00000_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 30.02317414288447,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00100_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 26.308987948274286,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00250_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 22.81894751531492,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00350_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 27.24012682966973,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00450_step5"
+        },
+        {
+          "num_vectors": 1225.0,
+          "rmsd": 24.06700789869863,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00600_step5"
+        }
+      ],
+      "method": "Geo4D",
+      "mode": "stack",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 5.042285714285714,
+        "Auc_30": 15.66987755102041,
+        "Auc_5": 0.4068571428571429,
+        "Racc_15": 67.49551020408163,
+        "Racc_30": 80.16326530612244,
+        "Racc_5": 40.06367346938776,
+        "Tacc_15": 20.476734693877553,
+        "Tacc_30": 46.37714285714286,
+        "Tacc_5": 3.0448979591836736,
+        "num_pairs": 61250.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/tum_rgbd/geo4d_50view_s50_s5",
+      "raw": {
+        "Auc_15": 3.9675646258503403,
+        "Auc_30": 12.52887074829932,
+        "Auc_5": 0.24653061224489795,
+        "Racc_15": 80.7134693877551,
+        "Racc_30": 90.83918367346939,
+        "Racc_5": 55.2130612244898,
+        "Tacc_15": 12.164897959183673,
+        "Tacc_30": 30.8865306122449,
+        "Tacc_5": 1.5183673469387755,
+        "num_pairs": 61250.0
+      },
+      "setting": "TUM RGB-D 50-view"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.034662773455952575,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01577703065421662,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08532117084270016,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03368668982303096,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0018873223729011584,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.026255614961078033,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.003012933550314982,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1015057087632772,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00800_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.14096025875648338,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.36850520909510043,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6873295844883403,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09422936440562138,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00350_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.8366986663121871,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.13248403563684305,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.02193957975424605,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04584817847501026,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06633357468369495,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00350_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.15835234258885517,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.058387607447497096,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.017318089447896073,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.004565519762610664,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00300_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00950718632712492,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.010401500739303309,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00550_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.013739099332803536,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00650_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.014801830021346997,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00750_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0028572785579379905,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00900_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.024530314712259093,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start01000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.009710376726637908,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.007400658322456361,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.00956901425159719,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01098742161471371,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5702316623546327,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.40240436626679965,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.21538048531086063,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00750_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.001773639328545352,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09491973050473039,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00150_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.44707104970867334,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.30340772161923474,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.19761643183755193,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00500_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6009870129783744,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00600_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01223112140495652,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6079758039736696,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00150_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04343230764657511,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5897697124226051,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08997874732588117,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04730186067342958,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03907217172454447,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.13212662409700443,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00350_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.01688470340788517,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0228306965184498,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00600_step5"
+        }
+      ],
+      "method": "Pi3",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 54.93333333333334,
+        "Auc_30": 66.46666666666667,
+        "Auc_5": 38.6,
+        "Racc_15": 77.0,
+        "Racc_30": 88.0,
+        "Racc_5": 63.0,
+        "Tacc_15": 84.0,
+        "Tacc_30": 98.0,
+        "Tacc_5": 68.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/tum_rgbd/pi3_2view_long2_perseq",
+      "raw": {
+        "Auc_15": 53.400000000000006,
+        "Auc_30": 67.70000000000002,
+        "Auc_5": 32.199999999999996,
+        "Racc_15": 99.0,
+        "Racc_30": 99.0,
+        "Racc_5": 97.0,
+        "Tacc_15": 69.0,
+        "Tacc_30": 87.0,
+        "Tacc_5": 48.0,
+        "num_pairs": 100.0
+      },
+      "setting": "TUM RGB-D 2-view long"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.13479270372774385,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.9216726781400486,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2317642761327004,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3553157995381034,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04900739602585331,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.29350596904148635,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.30800631517392757,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.5853926556564413,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00800_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6493600730981522,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6045408964852393,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.922494828585631,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06988506041187238,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00350_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.6734599395684364,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5327378902481813,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.41257243549100076,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6196629728034966,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.3682521138399355,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00350_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.255144322272112,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.19883112461232674,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.02407482372816439,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1277585508159488,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00300_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.16005073468054054,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.14423247245364956,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00550_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.048625266664504715,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00650_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2564567382858985,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00750_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08261074408886669,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00900_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5356058334006994,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start01000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3753807510232072,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.04625980847073964,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.06985443987139699,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.12482534973724788,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.986561324136247,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5265856070463694,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.09425254295366979,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00750_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2844723528527799,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3857120420443983,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00150_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3928733468227348,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.995680503269288,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.006452520981397445,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00500_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.287679372708092,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00600_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.1989684922509734,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.4381791135043072,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00150_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.39696920111418266,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07767085726106247,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.11787535855574004,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.25342406187522115,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.30390557281453007,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.011236596988015738,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00350_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.07688532112225574,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.14518814761540852,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00600_step5"
+        }
+      ],
+      "method": "Ours/VWM",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 20.93333333333333,
+        "Auc_30": 36.6,
+        "Auc_5": 3.3999999999999995,
+        "Racc_15": 61.0,
+        "Racc_30": 66.0,
+        "Racc_5": 34.0,
+        "Tacc_15": 60.0,
+        "Tacc_30": 82.0,
+        "Tacc_5": 26.0,
+        "num_pairs": 100.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/tum_rgbd/ours_2view_long2_perseq_s40",
+      "raw": {
+        "Auc_15": 11.866666666666665,
+        "Auc_30": 26.866666666666667,
+        "Auc_5": 2.4,
+        "Racc_15": 77.0,
+        "Racc_30": 83.0,
+        "Racc_5": 64.0,
+        "Tacc_15": 28.000000000000004,
+        "Tacc_30": 59.0,
+        "Tacc_5": 8.0,
+        "num_pairs": 100.0
+      },
+      "setting": "TUM RGB-D 2-view long"
+    },
+    {
+      "alignment_info": [
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.12706856635488392,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.26603066462751274,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3121247116351811,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 1.0,
+          "rmsd": 5.578801654593729e-16,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2299937997057799,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6739570418620825,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6627392888790398,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.261996541910452,
+          "sequence": "rgbd_dataset_freiburg3_sitting_halfsphere_start00800_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.29630142735118353,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6495641109299107,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.6798721410672375,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2704815044507602,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00350_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.053897645432271934,
+          "sequence": "rgbd_dataset_freiburg3_sitting_rpy_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.010962765673588786,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.012691083318230453,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10820869522142924,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5818000465068325,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00350_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.010632429287274852,
+          "sequence": "rgbd_dataset_freiburg3_sitting_static_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.5433259965752941,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.625803149617454,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.27714408572177657,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00300_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.0820426898367537,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.015005478335303149,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00550_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.28809549605547385,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00650_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.20401077443113919,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00750_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.4918662022756608,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start00900_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.10326694366743795,
+          "sequence": "rgbd_dataset_freiburg3_sitting_xyz_start01000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.008030626489283493,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.8698013096059478,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00200_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.023253323411142467,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00300_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.4944726178979818,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.4741306849583136,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00550_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5562623845368312,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00650_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.46461250376674307,
+          "sequence": "rgbd_dataset_freiburg3_walking_halfsphere_start00750_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.035259781857938835,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3244820333187932,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00150_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.8145850486000608,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.3305121994773132,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.24837561752485632,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00500_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2702883088168082,
+          "sequence": "rgbd_dataset_freiburg3_walking_rpy_start00600_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.2067586744214669,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00050_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.9455834477720964,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00150_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.18224811583416103,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.5923887677038807,
+          "sequence": "rgbd_dataset_freiburg3_walking_static_start00400_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.26076463681313067,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00000_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.4334792539887922,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00100_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.08203890201584778,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00250_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 1.3335693842205547,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00350_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.03489196851050731,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00450_step5"
+        },
+        {
+          "num_vectors": 2.0,
+          "rmsd": 0.25146867413173574,
+          "sequence": "rgbd_dataset_freiburg3_walking_xyz_start00600_step5"
+        }
+      ],
+      "method": "Geo4D",
+      "mode": "pair",
+      "num_sequences": 50,
+      "oracle_per_sequence_camera_basis_so3": {
+        "Auc_15": 16.632996632996633,
+        "Auc_30": 32.188552188552194,
+        "Auc_5": 2.6262626262626263,
+        "Racc_15": 54.54545454545454,
+        "Racc_30": 64.64646464646465,
+        "Racc_5": 21.21212121212121,
+        "Tacc_15": 61.61616161616161,
+        "Tacc_30": 85.85858585858585,
+        "Tacc_5": 27.27272727272727,
+        "num_pairs": 99.0
+      },
+      "output_dir": "sparse_view/pi3_pairwise_benchmark/outputs/datasets/tum_rgbd/geo4d_2view_long2_perseq_s5",
+      "raw": {
+        "Auc_15": 0.20202020202020202,
+        "Auc_30": 3.2996632996632997,
+        "Auc_5": 0.0,
+        "Racc_15": 58.58585858585859,
+        "Racc_30": 71.71717171717171,
+        "Racc_5": 40.4040404040404,
+        "Tacc_15": 3.0303030303030303,
+        "Tacc_30": 12.121212121212121,
+        "Tacc_5": 0.0,
+        "num_pairs": 99.0
+      },
+      "setting": "TUM RGB-D 2-view long"
+    }
+  ]
+}
