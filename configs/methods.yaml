@@ -1,0 +1,43 @@
+# Method registry.
+#
+# OURS entries mirror eval_pi3/hf/run_ours_hf.sh + run_extra.sh case maps (source of truth
+# during the July campaign). ckpt paths are absolute (the outputs/ ones live inside vwm_repo).
+# To add a new ours checkpoint: copy any 5B block, change tag + ckpt. scale_flags carries the
+# model's TRAINING scale convention into decode (D-style global-metric models need it; per-clip
+# and P90 models use the default decode — aligned metrics absorb the training scale).
+#
+# kind: ours_5b / ours_1p3b (algorithm+resolution presets below) | pi3 | da3 | geo4d
+_vwm: /net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new
+
+methods:
+  # ---- baselines (feed-forward / diffusion geometry) ----
+  pi3:   {kind: pi3}
+  da3:   {kind: da3}     # needs H100/H200 (compute capability >= 9.0)
+  geo4d: {kind: geo4d}
+
+  # ---- ours: 1.3B (240x320, wan_t2v_ray_depth_mot_concat; paper = non-concat) ----
+  ours_best_1p3b: {kind: ours_1p3b, ckpt: "${_vwm}/outputs/isambard_ours_0623_2305/last.ckpt"}
+  mix_best_1p3b:  {kind: ours_1p3b, ckpt: "${_vwm}/outputs/isambard_mix_0623_2305/last.ckpt"}
+  paper_1p3b:     {kind: ours_1p3b, ckpt: "/n/netscratch/ydu_lab/Lab/akiruga/nvs_june1/ckpts/paper_model.ckpt",
+                   algorithm: wan_t2v_ray_depth_mot}
+
+  # ---- ours: 5B (288x384, wan_t2v_ray_depth_mot_concat_5b, bf16 DiT) ----
+  5b_jun30:     {kind: ours_5b, ckpt: "${_vwm}/outputs/2026-06-30/14-52-33/checkpoints/epoch=0-step=25000.ckpt"}
+  5b_2ds_g30:   {kind: ours_5b, ckpt: "${_vwm}/outputs/2026-06-30/07-06-21/checkpoints/last.ckpt"}
+  aicr_nvs:     {kind: ours_5b, ckpt: "${_vwm}/outputs/aicr_5b_nvs_jul3/step4000_bf16.ckpt"}
+  aicr_v1v2geo: {kind: ours_5b, ckpt: "${_vwm}/outputs/aicr_5b_v1v2geo_jul3/step3500_bf16.ckpt"}
+  # A/B scale ablation (A = per-clip, B = per-dataset P90)
+  s5bA_77k: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_ab_jul4/s5bA_step77k.ckpt"}
+  s5bB_76k: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_ab_jul4/s5bB_step76k.ckpt"}
+  # D/E scale ablation (D = global-metric /10 -> NEEDS scale_flags; E = per-clip)
+  s5bD_6k: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bD_step6000.ckpt",
+            scale_flags: "--scale_mode global_metric --global_metric_scale 10.0"}
+  s5bE_6k: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bE_step6000.ckpt"}
+  s5bD_8k: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bD_new_step2000.ckpt",
+            scale_flags: "--scale_mode global_metric --global_metric_scale 10.0"}
+  s5bE_8k: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bE_new_step2000.ckpt"}
+
+# presets applied by kind (any per-method key above overrides these)
+kind_defaults:
+  ours_5b:   {algorithm: wan_t2v_ray_depth_mot_concat_5b, height: 288, width: 384, bf16: true}
+  ours_1p3b: {algorithm: wan_t2v_ray_depth_mot_concat, height: 240, width: 320, bf16: false}

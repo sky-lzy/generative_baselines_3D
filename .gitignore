@@ -1,0 +1,10 @@
+# run outputs (regenerable; results CSVs are small but machine-specific runs — keep out of git)
+preds/
+results/
+logs/
+# scorer scratch files (written next to the scripts)
+evaluation/results_ours/
+evaluation/results_baselines/
+# python
+__pycache__/
+*.pyc

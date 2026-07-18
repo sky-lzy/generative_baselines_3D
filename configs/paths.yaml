@@ -1,0 +1,38 @@
+# All roots the pipeline touches. Everything here is exported to the child scripts as env
+# vars (right column) — the copied scripts read these with the original locations as defaults,
+# so an unedited paths.yaml reproduces the original evaluation exactly.
+paths:
+  # source repo (model code, hydra configs, dataset loaders, frame-parity frames.json)  -> VWM_REPO
+  vwm_repo: /net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new
+  # pi3 harness root: eval DATA (frames + GT) lives in <pi3_root>/data                  -> PI3_ROOT
+  pi3_root: /net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/world_model_4d/pi3_eval/evaluation/Pi3_depthpose
+  # verbatim local copy of the pi3 METRIC code (md5-identical; see MANIFEST.md)         -> PI3_METRICS
+  pi3_metrics: ${paths.standardized_eval}/evaluation/pi3_metrics
+  # external decode helper (eval_common_v3.disparity_norm_to_metric_depth)              -> GEN3D_ROOT
+  gen3d_root: /net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/generative_baselines_3D
+  # Geo4D checkout (loaded by run_baseline_pi3 for the geo4d baseline)                  -> GEO4D_DIR
+  geo4d_dir: /net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/Geo4D
+  # RE10K-50 zero-shot eval data                                                        -> RE10K_HF50 / RE10K_ANN
+  re10k_hf50: /n/netscratch/ydu_lab/Lab/akiruga/vwm_eval_data/re10k_hf50
+  re10k_ann: /n/netscratch/ydu_lab/Lab/akiruga/vwm_eval_data/re10k_pi3frames
+  # HuggingFace cache (model weights)                                                   -> HF_HOME
+  hf_home: /n/netscratch/ydu_lab/Lab/akiruga
+  # this codebase (auto-detected by runner; only used for the interpolations above)
+  standardized_eval: /net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/world_model_4d/standardized_eval
+
+# where THIS codebase writes predictions and result CSVs (safe to point elsewhere).
+# To reuse predictions already computed by the original campaign (skip GPU inference and go
+# straight to scoring), point the matching entry at the original preds dir, e.g.
+#   preds.ours: ${paths.vwm_repo}/eval_pi3/preds_hf
+preds:
+  ours: ${paths.standardized_eval}/preds/ours            # run_ours_pi3 + run_eval_scannetpp
+  pi3: ${paths.standardized_eval}/preds/pi3               # run_pi3_c50 (layout <root>/pi3/<ds>)
+  baselines: ${paths.standardized_eval}/preds/baselines   # da3/geo4d + pi3-re10k50
+  spp_pose: ${paths.standardized_eval}/preds/spp_pose     # baseline scannetpp pose preds
+
+results:
+  pose: ${paths.standardized_eval}/results/pose                       # <tag>_<ds>.csv (ours + baselines)
+  depth_ablation: ${paths.standardized_eval}/results/depth_ablation   # scale/affine/LADS per (tag, ds)
+  re10k50: ${paths.standardized_eval}/results/re10k50                 # <tag>_re10k.csv
+  scannetpp_depth: ${paths.standardized_eval}/results/scannetpp_depth # <tag>_scannetpp.csv
+  scannetpp_pose: ${paths.standardized_eval}/results/scannetpp_pose   # <tag>_scannetpp_pose.csv

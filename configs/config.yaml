@@ -1,0 +1,50 @@
+# Main run config. Enable/disable what gets evaluated; runner.py expands the enabled
+# (method x dataset x task) matrix into ordered inference->evaluation commands.
+#
+# CLI overrides use OmegaConf dotlist, e.g.:
+#   python3 runner.py select.methods.s5bE_6k=true run.gpu=2 run.dry_run=true
+#   python3 runner.py run.stages=[evaluation]            # score existing preds only
+run:
+  gpu: 0                 # CUDA_VISIBLE_DEVICES for every job (single-GPU sequential runner)
+  dry_run: false         # print the exact commands instead of executing (agents: lift these into sbatch)
+  skip_existing: true    # skip a job if its final result CSV already exists
+  stages: [inference, evaluation]   # subset to run only one part
+  stop_on_error: false   # false = continue matrix, report failures at the end
+  sample_steps: 40       # ours diffusion sampling steps (the campaign default)
+
+select:
+  # ---- methods (tags defined in configs/methods.yaml) ----
+  methods:
+    pi3: true
+    da3: true
+    geo4d: true
+    s5bE_6k: true
+    s5bD_6k: false
+    s5bA_77k: false
+    s5bB_76k: false
+    5b_jun30: false
+    5b_2ds_g30: false
+    aicr_nvs: false
+    aicr_v1v2geo: false
+    ours_best_1p3b: false
+    mix_best_1p3b: false
+    paper_1p3b: false
+    s5bD_8k: false
+    s5bE_8k: false
+
+  # ---- datasets ----
+  # home-field: sintel/tum/scannetv2 (pose), sintel/bonn/kitti (depth)
+  # zero-shot : re10k50 (pose), scannetpp (depth + pose)
+  datasets:
+    sintel: true
+    tum: true
+    scannetv2: true
+    bonn: true
+    kitti: true
+    re10k50: true
+    scannetpp: true
+
+  # ---- tasks ----
+  tasks:
+    pose: true
+    depth: true
