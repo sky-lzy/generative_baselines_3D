@@ -11,6 +11,8 @@ run:
   stages: [inference, evaluation]   # subset to run only one part
   stop_on_error: false   # false = continue matrix, report failures at the end
   sample_steps: 40       # ours diffusion sampling steps (the campaign default)
+  only_method: null      # exact one-method selector; overrides its select.methods switch
+  only_dataset: null     # exact one-dataset selector; overrides its select.datasets switch
 
 select:
   # ---- methods (tags defined in configs/methods.yaml) ----
@@ -31,6 +33,11 @@ select:
     paper_1p3b: false
     s5bD_8k: false
     s5bE_8k: false
+    # Component variants are opt-in through these switches or run.only_method.
+    s5bF_original: false
+    s5bF_depth_v2: false
+    s5bF_depth_v2_shared_k: false
+    s5bF_depth_v2_shared_k_ba: false
 
   # ---- datasets ----
   # home-field: sintel/tum/scannetv2 (pose), sintel/bonn/kitti (depth)

@@ -108,7 +108,7 @@ def eval_pose(pspec, seq, frame_indices, pred_c2w):
     pred_traj = get_tum_poses([pred_c2w[i] for i in range(len(pred_c2w))])
     assert len(pred_traj[0]) == len(gt_traj[0]), \
         f"{seq}: pred {len(pred_traj[0])} vs gt {len(gt_traj[0])} poses"
-    fname = os.path.join(os.path.dirname(__file__), "results_ours", "_tmp_eval_metric.txt")
+    fname = os.path.join("/tmp", f"benchmark_eval_metric_{os.getpid()}.txt")
     os.makedirs(os.path.dirname(fname), exist_ok=True)
     ate, rpe_t, rpe_r = eval_metrics(pred_traj, gt_traj, seq=seq, filename=fname)
     return float(ate), float(rpe_t), float(rpe_r)

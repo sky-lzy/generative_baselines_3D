@@ -20,17 +20,17 @@ standardized_eval/
 │   ├── config.yaml         # enable/disable methods x datasets x tasks; run options
 │   ├── paths.yaml          # every data/code root + where preds/results are written
 │   └── methods.yaml        # method registry (ckpt/algorithm/resolution/scale flags)
-├── inference/              # verbatim inference scripts, one folder per method family
-│   ├── ours/               #   run_ours_pi3.py (5 home-field ds + RE10K-50), run_eval_scannetpp.py
+├── inference/              # campaign bridges, one folder per method family
+│   ├── ours/               #   original path plus opt-in v2/shared-K/BA components
 │   ├── pi3/                #   run_pi3_c50.py (official Pi3, first-50 frames), run_pi3_re10k50.py
 │   └── da3_geo4d/          #   run_baseline_pi3.py, run_baseline_scannetpp.py
-├── evaluation/             # verbatim scorers + the π³ metric code
+├── evaluation/             # campaign scorers + verbatim π³ metric code
 │   ├── pi3_metrics/        #   md5-identical copy of Pi3_depthpose relpose/evo_utils.py + utils/depth.py
 │   ├── eval_ours_pi3.py    #   pose (+π³ scale-aligned depth) for ours
 │   ├── eval_baseline_pi3.py#   same for DA3/Geo4D
 │   ├── score_depth_hf.py   #   headline depth: scale / affine-LSQ / LADS(L1) per-video alignment
 │   ├── eval_re10k_dist50.py, eval_scannetpp_pose.py, align_ablation.py
-├── tools/apply_patches.py  # the ONLY diffs vs the source repo (path shims), auditable + idempotent
+├── tools/apply_patches.py  # archival path-shim helper, auditable + idempotent
 ├── preds/  results/  logs/ # outputs (roots configurable in paths.yaml)
 └── MANIFEST.md             # source → copy map with md5s
 ```
@@ -55,6 +55,7 @@ What runs is controlled entirely by `configs/config.yaml`:
 re10k50 / scannetpp (zero-shot)
 - `select.tasks.pose|depth`
 - `run.stages` — `[inference, evaluation]`, or either alone
+- `run.only_method`, `run.only_dataset` — optional exact selectors for one cell
 - `run.skip_existing` — a step is skipped iff its result CSV already exists **and contains real
 values** (empty/header-only CSVs never count)
 - every key is CLI-overridable via OmegaConf dotlist (see examples above)
@@ -62,6 +63,51 @@ values** (empty/header-only CSVs never count)
 pose = sintel, tum, scannetv2, re10k50, scannetpp. 
 
 depth = sintel, bonn, kitti, scannetpp.  
+
+## Optional S5bF components
+
+The requested cumulative variants are registered for Sintel, Bonn, TUM, and
+ScanNet++. They are opt-in, so adding them does not replace the benchmark's
+historical default selection:
+
+| method key | fine-tuned depth VAE v2 | one predicted shared K | verified sparse BA |
+|---|---:|---:|---:|
+| `s5bF_original` | no | no | no |
+| `s5bF_depth_v2` | yes | no | no |
+| `s5bF_depth_v2_shared_k` | yes | yes | no |
+| `s5bF_depth_v2_shared_k_ba` | yes | yes | yes |
+
+Run one method/dataset cell with the registered settings:
+
+```bash
+python3 runner.py run.only_method=s5bF_depth_v2_shared_k_ba \
+  run.only_dataset=sintel run.stop_on_error=true
+```
+
+`run.only_method` and `run.only_dataset` select the requested cell even though
+the component methods are disabled in the default matrix. The same components
+can be enabled directly on either OURS inference entrypoint:
+
+```bash
+python inference/ours/run_ours_pi3.py ... \
+  --depth_vae_ckpt /path/to/depth-vae-v2.ckpt \
+  --shared_camera_intrinsics \
+  --bundle_adjust
+```
+
+`--bundle_adjust` requires both the v2 depth checkpoint and
+`--shared_camera_intrinsics`. With no component flags, the original inference
+behavior is preserved.
+
+The v2 decoder returns depth and its learned confidence. Confidence is saved
+as `pred_depth_confidence.npy`, but it is not used to filter BA observations or
+depth-evaluation pixels.
+
+Shared-intrinsics recovery consumes predicted Plücker rays only. The verified
+BA holds the shared intrinsics and dense decoder depth fixed, fixes frame 0 as
+the gauge, and jointly optimizes the remaining camera poses and sparse 3D track
+positions. The exact verified BA core requires Python 3.10 and is checksum
+validated before use.
 
 `bonn`/`kitti` pose CSVs carry the π³ scale-aligned depth columns (that's how the harness scores
 them); the headline depth numbers are the LADS rows in `results/depth_ablation/`.
@@ -119,9 +165,7 @@ script *files*.
 
 ## Verification policy
 
-Every file under `inference/` and `evaluation/` is a byte-copy of the campaign script it
-reproduces, **except** the path shims applied by `tools/apply_patches.py` (repo discovery via
-`VWM_REPO` env instead of `__file__`, hydra `initialize_config_dir`, and env-overridable data
-roots — originals as defaults). Re-run it any time (idempotent); `MANIFEST.md` maps each copy to
-its source. The π³ metric files in `evaluation/pi3_metrics/` are **md5-identical** to
-`pi3_eval/evaluation/Pi3_depthpose` — the metric code is untouched.
+Every file under `inference/` and `evaluation/` retains its campaign behavior
+except the documented path shims and optional OURS component integration. The
+π³ metric files remain **md5-identical** to `pi3_eval/evaluation/Pi3_depthpose`.
+`MANIFEST.md` maps each campaign copy to its source.

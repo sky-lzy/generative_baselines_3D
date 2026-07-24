@@ -1,8 +1,9 @@
-"""Apply the ONLY differences between standardized_eval copies and their verbatim originals.
+"""Apply the archival path-resolution shims to copied campaign scripts.
 
-Every patch is a path-resolution shim: the copies live outside the source repo, so
-__file__-relative repo discovery and a handful of hardcoded roots become env-var lookups
-whose DEFAULTS are the original values. No inference or metric logic is touched.
+Every patch in this helper is a path-resolution shim: the copies live outside the source
+repo, so __file__-relative repo discovery and a handful of hardcoded roots become env-var
+lookups whose defaults are the original values. Optional benchmark components are maintained
+directly in the OURS inference bridges and are outside this helper's scope.
 
 Idempotent: re-running on already-patched files is a no-op (each patch is skipped if its
 new text is already present). Run:  python3 tools/apply_patches.py
@@ -24,17 +25,17 @@ METRICS_LOCAL_INF = 'os.environ.get("PI3_METRICS", str(Path(__file__).resolve().
 PATCHES = {
  "inference/ours/run_ours_pi3.py": [
   ("REPO = Path(__file__).resolve().parent.parent\nsys.path.append(str(REPO))",
-   f"{REPO_ENV}\nsys.path.append(str(REPO))"),
+   f"{REPO_ENV}\nsys.path.insert(0, str(REPO))"),
   ("from hydra import compose, initialize\n",
-   f"from hydra import compose, initialize, initialize_config_dir  {TAG}\n"),
+   f"from hydra import compose, initialize_config_dir  {TAG}\n"),
   ('    with initialize(version_base=None, config_path="../configurations"):',
    f'    with initialize_config_dir(version_base=None, config_dir=str(REPO / "configurations")):  {TAG}'),
  ],
  "inference/ours/run_eval_scannetpp.py": [
   ("REPO = Path(__file__).resolve().parent.parent\nsys.path.append(str(REPO))",
-   f"{REPO_ENV}\nsys.path.append(str(REPO))"),
+   f"{REPO_ENV}\nsys.path.insert(0, str(REPO))"),
   ("from hydra import compose, initialize\n",
-   f"from hydra import compose, initialize, initialize_config_dir  {TAG}\n"),
+   f"from hydra import compose, initialize_config_dir  {TAG}\n"),
   ('    with initialize(version_base=None, config_path="../configurations"):',
    f'    with initialize_config_dir(version_base=None, config_dir=str(REPO / "configurations")):  {TAG}'),
   (f'sys.path.insert(0, "{G3}")',

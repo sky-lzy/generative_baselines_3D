@@ -2,11 +2,12 @@
 """standardized_eval runner — expands the enabled (method x dataset x task) matrix into
 ordered inference -> evaluation commands and runs them sequentially on one GPU.
 
-    mamba run -n test2 python3 runner.py                          # run configs/config.yaml
-    mamba run -n test2 python3 runner.py run.dry_run=true         # print commands only
-    mamba run -n test2 python3 runner.py run.stages=[evaluation]  # score existing preds only
-    mamba run -n test2 python3 runner.py select.methods.pi3=false run.gpu=3
-    mamba run -n test2 python3 runner.py select.datasets.scannetv2=false
+    python runner.py                          # run configs/config.yaml
+    python runner.py run.dry_run=true         # print commands only
+    python runner.py run.stages=[evaluation]  # score existing preds only
+    python runner.py run.only_method=s5bF_depth_v2 run.only_dataset=sintel
+    python runner.py select.methods.pi3=false run.gpu=3
+    python runner.py select.datasets.scannetv2=false
 
 Any config key is overridable from the CLI (OmegaConf dotlist). For parallel runs, launch one
 runner per GPU with disjoint selections (or wrap `run.dry_run=true` output in your own sbatch).
@@ -30,12 +31,20 @@ DSCFG = {"sintel": "pi3seq", "tum": "pi3seq_tum", "scannetv2": "pi3seq_scannetv2
 
 
 def load_cfg():
+    cli = OmegaConf.from_cli()
     cfg = OmegaConf.merge(
         OmegaConf.load(SE / "configs" / "paths.yaml"),
         OmegaConf.load(SE / "configs" / "methods.yaml"),
         OmegaConf.load(SE / "configs" / "config.yaml"),
-        OmegaConf.from_cli(),
+        cli,
     )
+    # This initialized copy lives inside the active VWM checkout.  Keep explicit
+    # CLI overrides, but otherwise make code/output roots follow this checkout
+    # instead of the archival absolute paths recorded by the source campaign.
+    if OmegaConf.select(cli, "paths.vwm_repo") is None:
+        cfg.paths.vwm_repo = os.environ.get("VWM_REPO", str(SE.parents[1]))
+    if OmegaConf.select(cli, "paths.standardized_eval") is None:
+        cfg.paths.standardized_eval = os.environ.get("BENCHMARK_ROOT", str(SE))
     OmegaConf.resolve(cfg)
     return cfg
 
@@ -67,6 +76,18 @@ def P(x):  # script path
     return str(SE / x)
 
 
+def ours_component_flags(spec):
+    """Translate optional method-registry components into the small inference CLI."""
+    flags = []
+    if spec.get("depth_vae_ckpt"):
+        flags += ["--depth_vae_ckpt", spec["depth_vae_ckpt"]]
+    if spec.get("shared_camera_intrinsics", False):
+        flags.append("--shared_camera_intrinsics")
+    if spec.get("bundle_adjust", False):
+        flags.append("--bundle_adjust")
+    return flags
+
+
 class Step:
     def __init__(self, stage, cmd, marker=None):
         self.stage, self.cmd, self.marker = stage, [str(c) for c in cmd], marker
@@ -88,6 +109,7 @@ def jobs_for_ours(cfg, spec, ds, tasks):
     """Ours diffusion models: run_ours_pi3 / run_eval_scannetpp -> pi3-metric scorers."""
     t, py = spec["tag"], sys.executable
     scale = str(spec.get("scale_flags", "") or "").split()
+    components = ours_component_flags(spec)
     steps = []
     if ds in HOMEFIELD:
         if not ((ds in POSE_DS and tasks.pose) or (ds in DEPTH_DS and tasks.depth)):
@@ -98,7 +120,7 @@ def jobs_for_ours(cfg, spec, ds, tasks):
             "--algorithm", spec["algorithm"], "--model", tag, "--dataset", ds,
             "--dataset_cfg", DSCFG[ds], "--height", spec["height"], "--width", spec["width"],
             "--frame_mode", "contig_first", "--output_dir", cfg.preds.ours,
-            "--sample_steps", cfg.run.sample_steps] + scale))
+            "--sample_steps", cfg.run.sample_steps] + scale + components))
         steps.append(Step("evaluation", [
             py, P("evaluation/eval_ours_pi3.py"), "--model", tag, "--dataset", ds,
             "--preds_dir", cfg.preds.ours, "--out_dir", cfg.results.pose],
@@ -117,7 +139,8 @@ def jobs_for_ours(cfg, spec, ds, tasks):
             "--algorithm", spec["algorithm"], "--model", t, "--dataset", "re10k_hf50",
             "--dataset_cfg", "pi3seq_re10k_hf50", "--height", spec["height"],
             "--width", spec["width"], "--frame_mode", "uniform",
-            "--output_dir", cfg.preds.ours, "--sample_steps", cfg.run.sample_steps] + scale))
+            "--output_dir", cfg.preds.ours, "--sample_steps", cfg.run.sample_steps]
+            + scale + components))
         steps.append(Step("evaluation", [
             py, P("evaluation/eval_re10k_dist50.py"), "--preds_dir", cfg.preds.ours,
             "--model", t, "--tag", t, "--out_dir", cfg.results.re10k50],
@@ -129,7 +152,8 @@ def jobs_for_ours(cfg, spec, ds, tasks):
             "--algorithm", spec["algorithm"], "--model", t, "--dataset_cfg", "scannetpp_full",
             "--height", spec["height"], "--width", spec["width"],
             "--sample_steps", cfg.run.sample_steps,
-            "--preds_dir", cfg.preds.ours, "--out_dir", cfg.results.scannetpp_depth] + scale,
+            "--preds_dir", cfg.preds.ours, "--out_dir", cfg.results.scannetpp_depth]
+            + scale + components,
             marker=f"{cfg.results.scannetpp_depth}/{t}_scannetpp.csv" if tasks.depth else None))
         if tasks.pose:
             steps.append(Step("evaluation", [
@@ -225,16 +249,35 @@ def _scannetpp_baseline(cfg, b, tasks):
 def build_matrix(cfg):
     tasks = cfg.select.tasks
     all_ds = HOMEFIELD + ["re10k50", "scannetpp"]
+    only_method = cfg.run.get("only_method")
+    only_dataset = cfg.run.get("only_dataset")
+    method_tags = (
+        [str(only_method)]
+        if only_method
+        else [tag for tag, enabled in cfg.select.methods.items() if enabled]
+    )
+    datasets = (
+        [str(only_dataset)]
+        if only_dataset
+        else [
+            ds
+            for ds in all_ds
+            if cfg.select.datasets.get(
+                "re10k50" if ds == "re10k50" else ds, False
+            )
+        ]
+    )
+    unknown_methods = [tag for tag in method_tags if tag not in cfg.methods]
+    if unknown_methods:
+        sys.exit(f"ERROR: unknown method selector(s): {', '.join(unknown_methods)}")
+    unknown_datasets = [ds for ds in datasets if ds not in all_ds]
+    if unknown_datasets:
+        sys.exit(f"ERROR: unknown dataset selector(s): {', '.join(unknown_datasets)}")
+
     jobs = []  # (name, spec, steps)
-    for tag, on in cfg.select.methods.items():
-        if not on:
-            continue
-        if tag not in cfg.methods:
-            sys.exit(f"ERROR: '{tag}' enabled in select.methods but not defined in methods.yaml")
+    for tag in method_tags:
         spec = method_spec(cfg, tag)
-        for ds in all_ds:
-            if not cfg.select.datasets.get("re10k50" if ds == "re10k50" else ds, False):
-                continue
+        for ds in datasets:
             if spec["kind"] in ("ours_5b", "ours_1p3b"):
                 steps = jobs_for_ours(cfg, spec, ds, tasks)
             elif spec["kind"] == "pi3":

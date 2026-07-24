@@ -8,6 +8,7 @@
 #
 # kind: ours_5b / ours_1p3b (algorithm+resolution presets below) | pi3 | da3 | geo4d
 _vwm: /net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new
+_depth_vae_v2: /n/netscratch/ydu_lab/Lab/zhiyi24/vwm_train_runs/depth_vae_omega_multidata_v2_20260720/checkpoints/epoch=0-step=10000.ckpt
 
 methods:
   # ---- baselines (feed-forward / diffusion geometry) ----
@@ -36,6 +37,22 @@ methods:
   s5bD_8k: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bD_new_step2000.ckpt",
             scale_flags: "--scale_mode global_metric --global_metric_scale 10.0"}
   s5bE_8k: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bE_new_step2000.ckpt"}
+
+  # ---- requested S5bF component ablation (same generative checkpoint/seed) ----
+  # Confidence is saved by every depth-v2 entry but is not a metric or BA mask.
+  s5bF_original:
+    {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bF_best.ckpt"}
+  s5bF_depth_v2:
+    {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bF_best.ckpt",
+     depth_vae_ckpt: "${_depth_vae_v2}"}
+  s5bF_depth_v2_shared_k:
+    {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bF_best.ckpt",
+     depth_vae_ckpt: "${_depth_vae_v2}",
+     shared_camera_intrinsics: true}
+  s5bF_depth_v2_shared_k_ba:
+    {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bF_best.ckpt",
+     depth_vae_ckpt: "${_depth_vae_v2}",
+     shared_camera_intrinsics: true, bundle_adjust: true}
 
 # presets applied by kind (any per-method key above overrides these)
 kind_defaults:

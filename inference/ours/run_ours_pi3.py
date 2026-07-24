@@ -26,18 +26,23 @@ from pathlib import Path
 import numpy as np
 import torch
 from omegaconf import OmegaConf
-from hydra import compose, initialize, initialize_config_dir  # [standardized_eval PATCH]
+from hydra import compose, initialize_config_dir  # [standardized_eval PATCH]
 from tqdm import tqdm
 
 REPO = Path(os.environ.get("VWM_REPO", "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new"))  # [standardized_eval PATCH] repo root via env
-sys.path.append(str(REPO))
+sys.path.insert(0, str(REPO))
 
 from datasets.pi3seq import Pi3SeqDataset
-from datasets.aria import raymap_to_camera
-
 from algorithms.wan.wan_t2v_ray_depth_mot import WanTextToVideoRayDepthMoT
 from algorithms.wan.wan_t2v_ray_depth_mot_concat import WanTextToVideoRayDepthMoTConcat
 from algorithms.wan.wan_t2v_ray_depth_mot_concat_5b import WanTextToVideoRayDepthMoTConcat5B
+from benchmark_components import (
+    attach_finetuned_depth_vae_v2,
+    recover_predicted_cameras,
+    restore_rng_state,
+    run_verified_sparse_bundle_adjustment,
+    save_rng_state,
+)
 
 DEVICE = "cuda"
 
@@ -87,10 +92,19 @@ def build_cfg(args):
     return cfg
 
 
-def load_model(algo_cfg, model_cls):
+def load_model(algo_cfg, model_cls, depth_vae_ckpt=None):
     """Verbatim from the inference script (env-gated bf16 DiT for the 5B)."""
     model = model_cls(algo_cfg)
     model.configure_model()
+    model.depth_vae_metadata = None
+    if depth_vae_ckpt is not None:
+        model.depth_vae_metadata = attach_finetuned_depth_vae_v2(
+            model, algo_cfg, depth_vae_ckpt
+        )
+        print(
+            f"INFO: attached Wan2.2 depth VAE v2 from {depth_vae_ckpt}",
+            flush=True,
+        )
     model = model.eval().to(DEVICE)
     if os.environ.get("INFER_DIT_BF16", "0") == "1":
         model.model = model.model.to(torch.bfloat16)
@@ -130,7 +144,14 @@ def set_model_frames(model, m: int):
 
 @torch.no_grad()
 @torch.autocast(DEVICE, dtype=torch.bfloat16)
-def run_one(model, batch, sample_steps):
+def run_one(
+    model,
+    batch,
+    sample_steps,
+    *,
+    shared_camera_intrinsics=False,
+    bundle_adjust=False,
+):
     m = batch["videos"].shape[1]
     lat_t = set_model_frames(model, m)
     T_lat = lat_t // 4
@@ -144,9 +165,24 @@ def run_one(model, batch, sample_steps):
     pred_ray_m = video[2 * T:3 * T]
     pred_depth = video[3 * T:]
     pred_raymaps = torch.cat([pred_ray_d, pred_ray_m], dim=1).float()        # (T, 6, rh, rw)
-    _, pred_ext = raymap_to_camera(pred_raymaps)                              # c2w (T, 4, 4)
+    cameras = recover_predicted_cameras(
+        pred_raymaps,
+        shared_intrinsics=shared_camera_intrinsics,
+        model_native_units=bundle_adjust,
+    )
     pred_depth_norm = pred_depth.float().mean(dim=1).cpu().numpy()           # (T, H, W) in [-1,1]
-    return pred_ext.cpu().numpy().astype(np.float64), pred_depth_norm.astype(np.float32)
+    confidence = getattr(model, "last_depth_confidence", None)
+    if confidence is not None:
+        confidence = confidence.float().mean(dim=1).squeeze(0).cpu().numpy()
+    base_depth = getattr(model, "last_old_depth", None)
+    if base_depth is not None:
+        base_depth = base_depth.float().mean(dim=1).squeeze(0).cpu().numpy()
+    return (
+        cameras,
+        pred_depth_norm.astype(np.float32),
+        None if confidence is None else confidence.astype(np.float32),
+        None if base_depth is None else base_depth.astype(np.float32),
+    )
 
 
 def main():
@@ -170,8 +206,33 @@ def main():
     ap.add_argument("--seqs", default=None, help="comma-separated seq subset (sharding); disjoint shards write same preds dir, score once")
     ap.add_argument("--scale_mode", default=None, help="e.g. global_metric (D); leave unset for per-clip (E)")
     ap.add_argument("--global_metric_scale", type=float, default=None, help="metres divisor for scale_mode=global_metric (D: 10.0)")
+    ap.add_argument(
+        "--depth_vae_ckpt",
+        default=None,
+        help="optional fine-tuned Wan2.2/5B depth VAE v2 checkpoint",
+    )
+    ap.add_argument(
+        "--shared_camera_intrinsics",
+        action="store_true",
+        help="fit one prediction-only intrinsic matrix per clip",
+    )
+    ap.add_argument(
+        "--bundle_adjust",
+        action="store_true",
+        help=(
+            "run the frozen verified sparse BA (camera poses + sparse points; "
+            "dense depth and intrinsics fixed)"
+        ),
+    )
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
+
+    if args.depth_vae_ckpt and args.algorithm != "wan_t2v_ray_depth_mot_concat_5b":
+        ap.error("--depth_vae_ckpt is supported here only for the 5B/Wan2.2 model")
+    if args.bundle_adjust and not args.depth_vae_ckpt:
+        ap.error("--bundle_adjust requires --depth_vae_ckpt (verified BA input)")
+    if args.bundle_adjust and not args.shared_camera_intrinsics:
+        ap.error("--bundle_adjust requires --shared_camera_intrinsics (verified pipeline)")
 
     if args.seed is not None:
         import random
@@ -180,7 +241,11 @@ def main():
 
     cfg = build_cfg(args)
     print(f"INFO: loading model {args.algorithm} from {args.ckpt_path}")
-    model = load_model(cfg.algorithm, _ALGO_CLASSES[args.algorithm])
+    model = load_model(
+        cfg.algorithm,
+        _ALGO_CLASSES[args.algorithm],
+        depth_vae_ckpt=args.depth_vae_ckpt,
+    )
     model.hist_guidance = args.hist_guidance
     model.lang_guidance = args.lang_guidance
     model.sample_steps = args.sample_steps
@@ -199,18 +264,50 @@ def main():
         n_src = int(batch["n_src"][0]) if torch.is_tensor(batch["n_src"]) else int(batch["n_src"])
 
         seq_dir = out_root / seq
+        component_path = seq_dir / "component_summary.json"
+        rng_state_path = seq_dir / "rng_state_after.pt"
         # Resume/skip: if this seq already has complete preds (from another shard), skip it.
-        # Lets extra shards join a shared preds dir mid-run to accelerate the tail (idempotent).
+        # Restoring the post-item RNG state keeps later items paired after preemption.
         if (seq_dir / "pred_c2w.npy").exists() and (seq_dir / "pred_depth_norm.npy").exists() \
-                and (seq_dir / "frames.json").exists():
+                and (seq_dir / "frames.json").exists() \
+                and component_path.exists() and rng_state_path.exists():
+            restore_rng_state(rng_state_path)
             print(f"  {seq}: skip (already done)", flush=True)
             continue
 
-        pred_c2w, pred_depth_norm = run_one(model, batch, args.sample_steps)
+        component_path.unlink(missing_ok=True)
+        rng_state_path.unlink(missing_ok=True)
 
         seq_dir.mkdir(parents=True, exist_ok=True)
+        cameras, pred_depth_norm, confidence, base_depth = run_one(
+            model,
+            batch,
+            args.sample_steps,
+            shared_camera_intrinsics=args.shared_camera_intrinsics,
+            bundle_adjust=args.bundle_adjust,
+        )
+        pred_c2w = cameras.c2w
+        ba_summary = None
+        if args.bundle_adjust:
+            np.save(seq_dir / "pred_c2w_pre_ba.npy", pred_c2w)
+            pred_c2w, ba_summary = run_verified_sparse_bundle_adjustment(
+                rgb_tchw=batch["videos"].squeeze(0).cpu().numpy(),
+                depth_norm=pred_depth_norm,
+                intrinsics=cameras.intrinsics,
+                c2w=pred_c2w,
+                output_dir=seq_dir,
+                repo_root=REPO,
+            )
+
         np.save(seq_dir / "pred_c2w.npy", pred_c2w)
+        np.save(seq_dir / "pred_intrinsics.npy", cameras.intrinsics)
         np.save(seq_dir / "pred_depth_norm.npy", pred_depth_norm)
+        if args.shared_camera_intrinsics or args.bundle_adjust:
+            np.save(seq_dir / "pred_c2w_legacy.npy", cameras.legacy_c2w)
+        if confidence is not None:
+            np.save(seq_dir / "pred_depth_confidence.npy", confidence)
+        if base_depth is not None:
+            np.save(seq_dir / "pred_depth_base_same_latent.npy", base_depth)
         with open(seq_dir / "frames.json", "w") as f:
             json.dump({
                 "seq": seq,
@@ -218,7 +315,29 @@ def main():
                 "n_src": n_src,
                 "n_used": len(frame_indices),
             }, f, indent=2)
-        print(f"  {seq}: saved pred_c2w {pred_c2w.shape}, depth {pred_depth_norm.shape}", flush=True)
+        save_rng_state(rng_state_path)
+        component_tmp = component_path.with_name(f".{component_path.name}.tmp")
+        with open(component_tmp, "w") as f:
+            json.dump(
+                {
+                    "depth_vae": getattr(model, "depth_vae_metadata", None),
+                    "confidence_saved": confidence is not None,
+                    "base_depth_same_latent_saved": base_depth is not None,
+                    "confidence_used_for_metrics": False,
+                    "confidence_used_for_ba": False,
+                    "camera_recovery": cameras.summary,
+                    "bundle_adjustment": ba_summary,
+                },
+                f,
+                indent=2,
+                allow_nan=True,
+            )
+        os.replace(component_tmp, component_path)
+        print(
+            f"  {seq}: saved pred_c2w {pred_c2w.shape}, depth {pred_depth_norm.shape}, "
+            f"confidence={confidence is not None}, BA={args.bundle_adjust}",
+            flush=True,
+        )
 
     print(f"INFO: done -> {out_root}")
 

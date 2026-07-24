@@ -1,7 +1,8 @@
 # MANIFEST — source → copy map
 
-Copied 2026-07-18. Every copy is verbatim except the path shims in tools/apply_patches.py
-(run it to re-apply; idempotent). md5s below are of the SOURCE files at copy time.
+Copied 2026-07-18. Most copies are verbatim except the path shims in
+tools/apply_patches.py and the optional OURS component integration noted below.
+MD5s are of the source files at copy time.
 
 | copy | source | source md5 |
 |---|---|---|
@@ -22,5 +23,13 @@ Copied 2026-07-18. Every copy is verbatim except the path shims in tools/apply_p
 
 Notes:
 - evaluation/pi3_metrics files are UNPATCHED (md5-identical to source): the π³ metric code is untouched.
-- inference/ours/run_eval_scannetpp.py imports eval_pi3.run_ours_pi3 from VWM_REPO (identical module) for the model loader.
+- `inference/ours/run_ours_pi3.py` and `run_eval_scannetpp.py` now extend the
+  copied bridges with opt-in depth-VAE-v2, shared-intrinsics, confidence-output,
+  and verified-BA support. Their no-flag path retains the copied behavior.
+- `inference/ours/benchmark_components.py` is new integration code, not a
+  campaign copy. It uses the parent checkout's tracked
+  `scripts/shared_intrinsics_camera.py` and checksum-pinned CPython 3.10 BA
+  core (`07d4c86a…4606c`).
+- `evaluation/eval_ours_pi3.py` only changes its scorer scratch filename to be
+  process-specific for concurrent array jobs; scoring logic is unchanged.
 - align_ablation.py is score_depth_hf's sibling dependency (numpy-only, unpatched).

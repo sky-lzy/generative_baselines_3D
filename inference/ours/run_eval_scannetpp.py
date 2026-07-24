@@ -28,15 +28,21 @@ from pathlib import Path
 import numpy as np
 import torch
 from omegaconf import OmegaConf
-from hydra import compose, initialize, initialize_config_dir  # [standardized_eval PATCH]
+from hydra import compose, initialize_config_dir  # [standardized_eval PATCH]
 from tqdm import tqdm
 
 REPO = Path(os.environ.get("VWM_REPO", "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new"))  # [standardized_eval PATCH] repo root via env
-sys.path.append(str(REPO))
+sys.path.insert(0, str(REPO))
 
 from datasets.scannetpp import ScanNetppDataset
 # Reuse the VALIDATED model loader + sampler + per-seq reconfigure from the bridge runner.
-from eval_pi3.run_ours_pi3 import load_model, set_model_frames, _ALGO_CLASSES, raymap_to_camera
+from run_ours_pi3 import load_model, set_model_frames, _ALGO_CLASSES
+from benchmark_components import (
+    recover_predicted_cameras,
+    restore_rng_state,
+    run_verified_sparse_bundle_adjustment,
+    save_rng_state,
+)
 
 # VALIDATED [-1,1]->metric-depth decode (same percentile-clip conversion as eval_ours_pi3).
 sys.path.insert(0, os.environ.get("GEN3D_ROOT", "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/generative_baselines_3D"))  # [standardized_eval PATCH]
@@ -101,7 +107,14 @@ def build_cfg(args):
 
 @torch.no_grad()
 @torch.autocast(DEVICE, dtype=torch.bfloat16)
-def predict_depth_norm(model, batch, sample_steps):
+def predict_depth_norm(
+    model,
+    batch,
+    sample_steps,
+    *,
+    shared_camera_intrinsics=False,
+    bundle_adjust=False,
+):
     m = batch["videos"].shape[1]
     lat_t = set_model_frames(model, m)
     T_lat = lat_t // 4
@@ -115,10 +128,24 @@ def predict_depth_norm(model, batch, sample_steps):
     pred_ray_d = video[T:2 * T]
     pred_ray_m = video[2 * T:3 * T]
     pred_raymaps = torch.cat([pred_ray_d, pred_ray_m], dim=1).float()        # (T, 6, rh, rw)
-    _, pred_ext = raymap_to_camera(pred_raymaps)                              # c2w (T, 4, 4)
+    cameras = recover_predicted_cameras(
+        pred_raymaps,
+        shared_intrinsics=shared_camera_intrinsics,
+        model_native_units=bundle_adjust,
+    )
     pred_depth = video[3 * T:]
-    return (pred_depth.float().mean(dim=1).cpu().numpy().astype(np.float32),  # (T,H,W) [-1,1]
-            pred_ext.cpu().numpy().astype(np.float64))                        # (T,4,4) c2w
+    confidence = getattr(model, "last_depth_confidence", None)
+    if confidence is not None:
+        confidence = confidence.float().mean(dim=1).squeeze(0).cpu().numpy()
+    base_depth = getattr(model, "last_old_depth", None)
+    if base_depth is not None:
+        base_depth = base_depth.float().mean(dim=1).squeeze(0).cpu().numpy()
+    return (
+        pred_depth.float().mean(dim=1).cpu().numpy().astype(np.float32),
+        cameras,
+        None if confidence is None else confidence.astype(np.float32),
+        None if base_depth is None else base_depth.astype(np.float32),
+    )
 
 
 def main():
@@ -137,12 +164,37 @@ def main():
                          "serves all baselines (sampling is deterministic w/ no_augmentations)")
     ap.add_argument("--scale_mode", default=None)
     ap.add_argument("--global_metric_scale", type=float, default=None)
+    ap.add_argument(
+        "--depth_vae_ckpt",
+        default=None,
+        help="optional fine-tuned Wan2.2/5B depth VAE v2 checkpoint",
+    )
+    ap.add_argument(
+        "--shared_camera_intrinsics",
+        action="store_true",
+        help="fit one prediction-only intrinsic matrix per scene",
+    )
+    ap.add_argument(
+        "--bundle_adjust",
+        action="store_true",
+        help=(
+            "run the frozen verified sparse BA (camera poses + sparse points; "
+            "dense depth and intrinsics fixed)"
+        ),
+    )
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out_dir", default=str(REPO / "eval_pi3" / "results_ours"))
     ap.add_argument("--preds_dir", default=str(REPO / "eval_pi3" / "preds"))
     ap.add_argument("--shard_idx", type=int, default=0, help="this shard's index (round-robin over scenes)")
     ap.add_argument("--n_shards", type=int, default=1, help="total shards; disjoint shards fill the per-scene cache, then run once with n_shards=1 (all cached) for the full CSV")
     args = ap.parse_args()
+
+    if args.depth_vae_ckpt and args.algorithm != "wan_t2v_ray_depth_mot_concat_5b":
+        ap.error("--depth_vae_ckpt is supported here only for the 5B/Wan2.2 model")
+    if args.bundle_adjust and not args.depth_vae_ckpt:
+        ap.error("--bundle_adjust requires --depth_vae_ckpt (verified BA input)")
+    if args.bundle_adjust and not args.shared_camera_intrinsics:
+        ap.error("--bundle_adjust requires --shared_camera_intrinsics (verified pipeline)")
 
     max_depth = None if str(args.max_depth).lower() == "none" else float(args.max_depth)
 
@@ -152,7 +204,11 @@ def main():
 
     cfg = build_cfg(args)
     print(f"INFO: loading {args.algorithm} from {args.ckpt_path}", flush=True)
-    model = load_model(cfg.algorithm, _ALGO_CLASSES[args.algorithm])
+    model = load_model(
+        cfg.algorithm,
+        _ALGO_CLASSES[args.algorithm],
+        depth_vae_ckpt=args.depth_vae_ckpt,
+    )
     model.hist_guidance = 1.0
     model.lang_guidance = 0.0
     model.sample_steps = args.sample_steps
@@ -179,12 +235,16 @@ def main():
         scene = batch.get("scene_id", [f"scene_{i}"])
         scene = scene[0] if isinstance(scene, (list, tuple)) else str(scene)
         metric_path = preds_root / f"{scene}_metric.json"
+        component_path = preds_root / f"{scene}_component_summary.json"
+        rng_state_path = preds_root / f"{scene}_rng_state_after.pt"
 
         # Resume: if this scene was already scored in a prior (possibly killed) run, reuse it.
         # Pose artifacts are required too (older runs saved depth only -> must rerun).
-        if metric_path.exists() and (preds_root / f"{scene}_pred_c2w.npy").exists():
+        if metric_path.exists() and (preds_root / f"{scene}_pred_c2w.npy").exists() \
+                and component_path.exists() and rng_state_path.exists():
             try:
                 m = json.load(open(metric_path))
+                restore_rng_state(rng_state_path)
                 rows.append((scene, m["abs_rel"], m["delta1"], m["valid_pixels"]))
                 print(f"{scene:24s}  (cached) AbsRel {m['abs_rel']:7.4f}  d1 {m['delta1']:7.4f}",
                       flush=True)
@@ -193,14 +253,42 @@ def main():
             except (ValueError, KeyError):
                 pass
 
+        component_path.unlink(missing_ok=True)
+        rng_state_path.unlink(missing_ok=True)
+
         try:
-            pred_norm, pred_c2w = predict_depth_norm(model, batch, args.sample_steps)
+            pred_norm, cameras, confidence, base_depth = predict_depth_norm(
+                model,
+                batch,
+                args.sample_steps,
+                shared_camera_intrinsics=args.shared_camera_intrinsics,
+                bundle_adjust=args.bundle_adjust,
+            )
+            pred_c2w = cameras.c2w
+            ba_summary = None
+            if args.bundle_adjust:
+                np.save(preds_root / f"{scene}_pred_c2w_pre_ba.npy", pred_c2w)
+                pred_c2w, ba_summary = run_verified_sparse_bundle_adjustment(
+                    rgb_tchw=batch["videos"].squeeze(0).cpu().numpy(),
+                    depth_norm=pred_norm,
+                    intrinsics=cameras.intrinsics,
+                    c2w=pred_c2w,
+                    output_dir=preds_root / f"{scene}_ba",
+                    repo_root=REPO,
+                )
             pred_metric = decode_pred_depth(pred_norm)                          # (T,H,W)
 
             # Pose artifacts: raw-decoded pred c2w + ViPE GT c2w (first-frame-relative, metric)
             # from the SAME batch, so frame correspondence is exact. Scored separately by
             # eval_pi3/hf/eval_scannetpp_pose.py (evo Sim(3), same as the other pose datasets).
             np.save(preds_root / f"{scene}_pred_c2w.npy", pred_c2w)
+            np.save(preds_root / f"{scene}_pred_intrinsics.npy", cameras.intrinsics)
+            if args.shared_camera_intrinsics or args.bundle_adjust:
+                np.save(preds_root / f"{scene}_pred_c2w_legacy.npy", cameras.legacy_c2w)
+            if confidence is not None:
+                np.save(preds_root / f"{scene}_pred_depth_confidence.npy", confidence)
+            if base_depth is not None:
+                np.save(preds_root / f"{scene}_pred_depth_base_same_latent.npy", base_depth)
             np.save(preds_root / f"{scene}_gt_c2w.npy",
                     batch["extrinsics_gt"].squeeze(0).cpu().numpy().astype(np.float64))
             if args.save_rgb:
@@ -221,6 +309,24 @@ def main():
             rows.append((scene, ar, d1, vp))
             np.save(preds_root / f"{scene}_pred_depth_norm.npy", pred_norm)
             json.dump({"abs_rel": ar, "delta1": d1, "valid_pixels": vp}, open(metric_path, "w"))
+            save_rng_state(rng_state_path)
+            component_tmp = component_path.with_name(f".{component_path.name}.tmp")
+            with open(component_tmp, "w") as handle:
+                json.dump(
+                    {
+                        "depth_vae": getattr(model, "depth_vae_metadata", None),
+                        "confidence_saved": confidence is not None,
+                        "base_depth_same_latent_saved": base_depth is not None,
+                        "confidence_used_for_metrics": False,
+                        "confidence_used_for_ba": False,
+                        "camera_recovery": cameras.summary,
+                        "bundle_adjustment": ba_summary,
+                    },
+                    handle,
+                    indent=2,
+                    allow_nan=True,
+                )
+            os.replace(component_tmp, component_path)
             print(f"{scene:24s}  AbsRel {ar:7.4f}  d1 {d1:7.4f}  vpix {vp}", flush=True)
         except Exception as e:
             print(f"{scene:24s}  SKIPPED ({type(e).__name__}: {e})", flush=True)
