@@ -32,6 +32,7 @@ standardized_eval/
 │   ├── eval_re10k_dist50.py, eval_scannetpp_pose.py, align_ablation.py
 ├── tools/apply_patches.py  # archival path-shim helper, auditable + idempotent
 ├── preds/  results/  logs/ # outputs (roots configurable in paths.yaml)
+├── nvs/                    # ADDITIVE: home-field NVS (two-view first+last) eval — see nvs/README.md
 └── MANIFEST.md             # source → copy map with md5s
 ```
 
@@ -63,6 +64,20 @@ values** (empty/header-only CSVs never count)
 pose = sintel, tum, scannetv2, re10k50, scannetpp. 
 
 depth = sintel, bonn, kitti, scannetpp.  
+
+## NVS (novel-view synthesis) evaluation — `nvs/`
+
+A self-contained, additive module reproducing the home-field **NVS** evaluation (two-view
+first+last conditioning, PSNR on the generated interior frames) on **dl3dv / spatialvid /
+mip (Mip-NeRF360) / re10k_c50** — center-50 consecutive frames per scene. Own runner + configs,
+same conventions as this benchmark (OmegaConf matrix, count-aware skips, marker CSVs, logs/,
+PASS/FAIL summary); nothing above is imported or modified. Evaluation-stage reproduction is
+verified to float64 exactness against the July campaign. See `nvs/README.md`.
+
+```bash
+mamba run -n test2 python3 nvs/run_nvs.py run.dry_run=true   # the exact commands
+mamba run -n test2 python3 nvs/run_nvs.py                    # run the enabled NVS matrix
+```
 
 ## Optional S5bF components
 

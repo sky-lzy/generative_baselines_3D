@@ -1,0 +1,34 @@
+# NVS method registry.
+#
+# Entries mirror vwm_repo/eval_svc/hf_homefield.sbatch (source of truth for the July home-field
+# center-50 NVS campaign). To add a NEW checkpoint: copy the s5bF_20000 block, change tag + ckpt,
+# then enable it in nvs_config.yaml (or run.only_method=<tag>).
+#
+# dataset_overrides carries the model's TRAINING raymap-scale convention into decode (test-time
+# conditioning must match training scale or the input is out-of-distribution). One space-separated
+# string of key=value pairs, forwarded as repeated `--dataset_override` flags:
+#   per-clip max|moment| (default)      -> omit the key                       (F, E, A, rebuttal 1.3B)
+#   global-metric /10 (D-style)         -> "scale_mode=global_metric global_metric_scale=10.0"
+#   parallax companded-origin (C-style) -> see s5bC_12500 below
+#   per-dataset P90 constant (B-style)  -> "mutual_scale=<P90 const>"
+#
+# kind: ours_5b | ours_1p3b (algorithm/resolution presets in kind_defaults below).
+# NOTE: paper_1p3b (algorithm wan_t2v_ray_depth_mot, 240x320, per-clip) was part of the campaign
+# but its checkpoint (/n/netscratch/.../nvs_june1/ckpts/paper_model.ckpt) has since been purged
+# from netscratch — its campaign predictions still re-score (see nvs/README.md verification).
+_vwm: /net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new
+
+methods:
+  # 5B F-best (A-resume per-clip, effective step 20000) — the campaign flagship. Real file (29.6GB).
+  s5bF_20000: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bF_20000.ckpt"}
+  # 5B C (scheme-C parallax + companded-origin ray encoding, eff 12500) — demonstrates
+  # dataset_overrides for a non-default raymap scale scheme (must match its training flags).
+  s5bC_12500: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bC_12500.ckpt",
+               dataset_overrides: "scale_mode=parallax parallax_ray_encoding=companded_origin parallax_kappa=4.0 parallax_depth_map=log parallax_log_alpha=0.30 parallax_mu=255.0"}
+
+# presets applied by kind (any per-method key above overrides these).
+# bf16 -> INFER_DIT_BF16=1, matching hf_homefield.sbatch which set it for EVERY model
+# (5B fp32 does not fit an 80GB GPU; the 1.3B rebuttal family also ran bf16).
+kind_defaults:
+  ours_5b:   {algorithm: wan_t2v_ray_depth_mot_concat_5b, height: 288, width: 384, bf16: true}
+  ours_1p3b: {algorithm: wan_t2v_ray_depth_mot, height: 240, width: 320, bf16: true}

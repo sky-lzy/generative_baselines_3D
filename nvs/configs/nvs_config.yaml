@@ -1,0 +1,39 @@
+# Main NVS run config. Enable/disable what gets evaluated; run_nvs.py expands the enabled
+# (method x dataset x conditioning) matrix into ordered inference->evaluation commands.
+#
+# CLI overrides use OmegaConf dotlist, e.g.:
+#   python3 nvs/run_nvs.py run.dry_run=true                    # print the exact commands
+#   python3 nvs/run_nvs.py select.methods.s5bC_12500=true run.gpu=2
+#   python3 nvs/run_nvs.py run.stages=[evaluation]             # score existing preds only
+#   python3 nvs/run_nvs.py run.only_method=s5bF_20000 run.only_dataset=dl3dv
+run:
+  gpu: 0                 # CUDA_VISIBLE_DEVICES for every job (single-GPU sequential runner)
+  dry_run: false         # print the exact commands instead of executing
+  skip_existing: true    # skip a step if its result CSV already exists with real values
+  stages: [inference, evaluation]   # subset to run only one part
+  stop_on_error: false   # false = continue matrix, report failures at the end
+  sample_steps: 40       # diffusion sampling steps (the campaign value)
+  seed: 42               # sampling seed (the campaign value)
+  # conditioning protocol: 2 = TWO-VIEW (condition on first+last frame, score the 48 generated
+  # interior frames) — the shared protocol. Add 1 for the single-view extension (condition on
+  # frame 0 only; the campaign ran both).
+  ncf: [2]
+  resume: false          # pass --resume to inference (skip scenes whose pred_rgb.mp4 exists;
+                         # final_stats.json then only covers fresh scenes, but scoring reads the
+                         # per-scene rgb_metrics.json so the CSV stays complete + exact)
+  only_method: null      # exact one-method selector; overrides its select.methods switch
+  only_dataset: null     # exact one-dataset selector; overrides its select.datasets switch
+
+select:
+  # ---- methods (tags defined in configs/nvs_methods.yaml) ----
+  methods:
+    s5bF_20000: true
+    s5bC_12500: false
+
+  # ---- datasets (scene-set dirnames under paths.scenes_root; center-50 consecutive frames) ----
+  # dl3dv (DL3DV-Evaluation, 20 scenes) / spatialvid (10) / mip (Mip-NeRF360, 7) / re10k_c50 (10)
+  datasets:
+    dl3dv: true
+    spatialvid: true
+    mip: true
+    re10k_c50: true
