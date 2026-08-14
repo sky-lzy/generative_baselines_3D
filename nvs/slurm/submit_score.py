@@ -30,7 +30,11 @@ import run_nvs_fair as R  # noqa: E402
 from submit_fair import ACCOUNT_FOR  # noqa: E402
 
 SCORER = NVS / "evaluation" / "score_nvs_fair.py"
-CELL = re.compile(r"^(?P<method>.+?)__(?P<ds>re10k128_\w+?)__ncf(?P<ncf>\d)__s(?P<scale>[\d.]+)$")
+# The trailing (?P<suffix>...) group is REQUIRED for re-run passes: a cell named
+# F_5b__re10k128_4dim__ncf1__s0.5__hg0.5 does not match a pattern anchored at the scale, so an
+# entire A/B pass would generate thousands of scenes and then score exactly nothing.
+CELL = re.compile(r"^(?P<method>.+?)__(?P<ds>re10k128_\w+?)__ncf(?P<ncf>\d)"
+                  r"__s(?P<scale>[\d.]+)(?P<suffix>__[A-Za-z0-9_.]+)?$")
 
 SCRIPT = """#!/bin/bash
 #SBATCH --job-name=fscore_{name}
@@ -112,10 +116,21 @@ def main():
     if q.returncode == 0:
         inflight = {ln[len("fscore_"):] for ln in q.stdout.split() if ln.startswith("fscore_")}
 
+    # Honour the method selection and the cell suffix. submit_score discovers cells from DISK, so
+    # with results.fair redirected to a re-run tree it happily re-scored the MAIN pass's SEVA cells
+    # into that tree -- 12 wasted GPU jobs and a progress counter that no longer meant anything.
+    om = cfg.run.get("only_method")
+    want = ([str(om)] if om else [t for t, on in cfg.select.methods.items() if on])
+    suffix = str(cfg.run.get("cell_suffix") or "")
+
     parts = [x.strip() for x in a.partition.split(",") if x.strip()]
     todo, skipped = [], []
     for cell in sorted(cells):
         g = CELL.match(cell).groupdict()
+        if g["method"] not in want:
+            skipped.append((cell, f"method {g['method']} not selected")); continue
+        if suffix and not cell.endswith(suffix):
+            skipped.append((cell, f"cell suffix != {suffix}")); continue
         method = "seva" if g["method"] == "seva" else "ours"
         scenes_root = Path(cfg.paths.scenes_fair) / g["ds"]
         total = len([d for d in os.listdir(scenes_root)

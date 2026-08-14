@@ -67,6 +67,10 @@ def main():
                          "Used for subset scale searches, where the grid runs on a subset and only "
                          "the winning scale is then run on all 128. Composes with --shard: the shard "
                          "is taken within the subset, so shards stay balanced.")
+    ap.add_argument("--scene_indices", default=None,
+                    help="comma-separated GLOBAL scene indices to run (the sorted-scene-dir order "
+                         "the scorer uses). For targeted re-runs on a chosen subset; --limit_scenes "
+                         "only takes a prefix and --shard only takes a stride.")
     ap.add_argument("--shard", default=None, metavar="i/N",
                     help="SLURM fan-out: run only scenes with (index %% N) == i, by handing the "
                          "engine --skip_samples for every other index. Sample indices stay GLOBAL, "
@@ -86,6 +90,11 @@ def main():
 
     # --- scene subset + shard resolution ----------------------------------------------------
     pool = list(range(exp))
+    if args.scene_indices:
+        pool = [int(x) for x in str(args.scene_indices).split(",") if x.strip() != ""]
+        bad = [i for i in pool if i >= exp]
+        if bad:
+            sys.exit(f"ERROR: --scene_indices {bad} outside 0..{exp - 1}")
     if args.limit_scenes:
         pool = pool[:int(args.limit_scenes)]
     # A caller may also cap the run with a passthrough --max_samples=N (the tuning stage does).
@@ -137,7 +146,7 @@ def main():
             "--no_augmentations", "--show_metrics"]
     if args.resume:
         cmd.append("--resume")
-    if args.shard or args.limit_scenes:
+    if args.shard or args.limit_scenes or args.scene_indices:
         # the engine iterates ALL scenes and skips by index, so the shard is expressed as the
         # complement. --max_samples must cover the full range or the tail shard is truncated
         # (its default is 50, which silently dropped 78 of 128 scenes once already).

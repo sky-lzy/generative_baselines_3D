@@ -26,7 +26,11 @@ from pathlib import Path
 
 NVS = Path(__file__).resolve().parent.parent
 
-CELL = re.compile(r"^(?P<method>.+?)__(?P<ds>re10k128_\w+?)__ncf(?P<ncf>\d)__s(?P<scale>[\d.]+)$")
+# The trailing (?P<suffix>...) group is REQUIRED for re-run passes: a cell named
+# F_5b__re10k128_4dim__ncf1__s0.5__hg0.5 does not match a pattern anchored at the scale, so an
+# entire A/B pass would generate thousands of scenes and then score exactly nothing.
+CELL = re.compile(r"^(?P<method>.+?)__(?P<ds>re10k128_\w+?)__ncf(?P<ncf>\d)"
+                  r"__s(?P<scale>[\d.]+)(?P<suffix>__[A-Za-z0-9_.]+)?$")
 
 BENCH = [
     ("re10k128_50f", 2, "50-frame clip · 2 input views",
