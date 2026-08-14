@@ -196,3 +196,35 @@ withholding rule (refuse a pick from unequal-count cells) caught the incomplete 
 it could not catch a complete-yet-underpowered grid. A tuning stage needs enough scenes to resolve the
 effect it is choosing on, not merely equal counts. The main 128-scene results were run at hg1.0 and
 therefore need no rework.
+
+## Deep single-view scale search (10 scenes chosen BECAUSE we win on them)
+
+20 scales per side on the canonical grids, 24 unconstrained. SEVA's grid is its documented
+single-view RealEstate10K sweep verbatim (camera_scale 0.1–2.0 step 0.1, `--cfg 6.0`).
+
+| benchmark | SEVA config | ours | SEVA | Δ |
+|---|---|---|---|---|
+| 4DiM 1-view | paper, cfg 6.0 | 17.196 | 14.756 (s0.1, edge) | **+2.440**, 8/10, **p=0.027** |
+| | default, cfg 2.0 | 17.196 | 15.435 (s0.1, edge) | +1.760, 7/10, p=0.084 |
+| | unconstrained | 17.196 | 15.760 (s0.06) | +1.436, 6/10, p=0.193 |
+| 50-frame 1-view | paper, cfg 6.0 | 19.791 | 17.883 (s0.1, edge) | +1.908, 5/10, p=0.232 |
+| | default, cfg 2.0 | 19.791 | 19.472 (s0.1, edge) | +0.319, 5/10, p=0.625 |
+| | unconstrained | 19.791 | 19.644 (s0.08) | **+0.147**, 5/10, p=0.77 |
+
+**The rank does not hold.** One of six rows is significant, and only under SEVA's *documented*
+cfg 6.0; its *code default* cfg 2.0 on the same grid gives p=0.084. On 50-frame the +3.664 dB
+baseline margin collapses to +0.147 dB at p=0.77 — a coin flip (5/10) on scenes selected precisely
+because we beat SEVA there. Every increment of search given to SEVA shrank the margin monotonically.
+
+Two residual asymmetries, both favouring us and both stated rather than hidden: SEVA's best sits at
+its grid edge (s0.1) in four of six rows, and our 20 points were placed using our own measured
+128-scene curve while its were uniform per its paper. Going *below* SEVA's paper floor (0.02–0.08)
+was tried and does help it — its optimum moves to s0.06/s0.08 — so the paper protocol itself leaves
+the baseline boundary-limited on these scenes.
+
+### Method note that generalises
+
+`best-of-N` over noisy per-scene means is optimistically biased for whichever side searches more.
+Adjacent scales differ by ~0.3 dB at n=10, so a sub-dB margin from a 20-point max is inside the
+method's own noise. This is why the report fixes ONE primary configuration and labels everything
+else sensitivity, and why config counts are printed on every row.
