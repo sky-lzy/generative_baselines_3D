@@ -25,7 +25,13 @@ from pathlib import Path
 
 NVS = Path(__file__).resolve().parent.parent
 CELL = re.compile(r"^(?P<method>.+?)__(?P<ds>re10k128_\w+?)__ncf(?P<ncf>\d)"
-                  r"__s(?P<scale>[\d.]+)__ss10$")
+                  r"__s(?P<scale>[\d.]+)__(?P<pair>ss10b?)$")
+# Both sides were run at TWO configurations, so "best" is taken over the union of both:
+#   ss10  ours hist_guidance 0.5 | SEVA --cfg 6.0 (its paper's RE10K value)
+#   ss10b ours hist_guidance 1.0 | SEVA --cfg 2.0 (the value our own grid preferred)
+# Equal config-search depth on both sides is the point; giving ourselves two and SEVA one would be
+# the asymmetry this whole benchmark exists to avoid.
+PAIRS = {"ss10": "hg0.5/cfg6", "ss10b": "hg1.0/cfg2"}
 BENCH = [("re10k128_4dim", 1, "4DiM split · 1 input view"),
          ("re10k128_50f", 1, "50-frame clip · 1 input view")]
 
@@ -47,7 +53,7 @@ def main():
     man = json.load(open(man_p)) if man_p.exists() else {}
 
     data = {}
-    for f in sorted(Path(a.results).glob("*__ss10.csv")):
+    for f in sorted(Path(a.results).glob("*__ss10*.csv")):
         m = CELL.match(f.stem)
         if not m:
             continue
@@ -56,8 +62,8 @@ def main():
         if not avg or not rows:
             continue
         data.setdefault((g["ds"], int(g["ncf"]), g["method"]), []).append(
-            dict(scale=float(g["scale"]), psnr=float(avg["psnr"]), ssim=float(avg["ssim"]),
-                 lpips=float(avg["lpips"]), n=len(rows), rows=rows))
+            dict(scale=float(g["scale"]), pair=g["pair"], psnr=float(avg["psnr"]),
+                 ssim=float(avg["ssim"]), lpips=float(avg["lpips"]), n=len(rows), rows=rows))
 
     print("=" * 100)
     print("DEEP SCALE SEARCH — 10 single-view scenes where we win at baseline")
@@ -76,17 +82,25 @@ def main():
                       f"(range {min(bl):+.3f} … {max(bl):+.3f})")
         picks = {}
         for meth in ("F_5b", "seva"):
-            ent = sorted(data.get((ds, ncf, meth), []), key=lambda e: e["scale"])
-            if not ent:
+            allent = data.get((ds, ncf, meth), [])
+            if not allent:
                 print(f"  {meth}: no results yet"); continue
-            b = max(ent, key=lambda e: e["psnr"])
+            for pr in sorted(PAIRS):
+                ent = sorted([e for e in allent if e["pair"] == pr], key=lambda e: e["scale"])
+                if not ent:
+                    continue
+                b = max(ent, key=lambda e: e["psnr"])
+                lo, hi = ent[0]["scale"], ent[-1]["scale"]
+                edge = ("  !! BEST AT GRID EDGE -> LOWER BOUND"
+                        if b["scale"] in (lo, hi) else "")
+                print(f"  {meth} [{PAIRS[pr]}]: {len(ent)} scales | best s{b['scale']:g} "
+                      f"PSNR {b['psnr']:.3f} LPIPS {b['lpips']:.4f}{edge}")
+                print("     " + "  ".join(f"{e['scale']:g}:{e['psnr']:.2f}" for e in ent))
+            b = max(allent, key=lambda e: e["psnr"])
             picks[meth] = b
-            lo, hi = ent[0]["scale"], ent[-1]["scale"]
-            edge = ("  !! BEST AT GRID EDGE — still truncated, this is a LOWER BOUND"
-                    if b["scale"] in (lo, hi) else "")
-            print(f"  {meth}: {len(ent)}/20 scales scored | best s{b['scale']:g} "
-                  f"PSNR {b['psnr']:.3f} SSIM {b['ssim']:.4f} LPIPS {b['lpips']:.4f}{edge}")
-            print("     " + "  ".join(f"{e['scale']:g}:{e['psnr']:.2f}" for e in ent))
+            print(f"  {meth} BEST OVER BOTH CONFIGS: s{b['scale']:g} [{PAIRS[b['pair']]}] "
+                  f"PSNR {b['psnr']:.3f} SSIM {b['ssim']:.4f} LPIPS {b['lpips']:.4f} "
+                  f"({len(allent)} configs searched)")
         if len(picks) == 2:
             o, s = picks["F_5b"], picks["seva"]
             common = sorted(set(o["rows"]) & set(s["rows"]))
@@ -101,10 +115,9 @@ def main():
                 pass
             print(f"  => ours - SEVA: PSNR {st.mean(do):+.3f} dB  ({wins}/{len(common)} scenes, "
                   f"p_w={p:.3g}) | LPIPS {st.mean(dl):+.4f}")
-            eq = len(data.get((ds, ncf, 'F_5b'), [])) == len(data.get((ds, ncf, 'seva'), []))
-            print(f"  => sweep depth ours {len(data.get((ds,ncf,'F_5b'),[]))} vs SEVA "
-                  f"{len(data.get((ds,ncf,'seva'),[]))}"
-                  + ("" if eq else "  !! UNEQUAL — not like-for-like yet"))
+            no, ns = len(data.get((ds, ncf, 'F_5b'), [])), len(data.get((ds, ncf, 'seva'), []))
+            print(f"  => configs searched: ours {no} vs SEVA {ns}"
+                  + ("" if no == ns else "  !! UNEQUAL — not like-for-like yet"))
     print()
 
 

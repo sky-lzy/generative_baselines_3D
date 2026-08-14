@@ -88,6 +88,13 @@ def main():
     ap.add_argument("--dry_run", action="store_true")
     ap.add_argument("--ours_hg", type=float, default=OURS_HG)
     ap.add_argument("--seva_cfg", type=float, default=SEVA_CFG)
+    ap.add_argument("--seva_scales", default=None,
+                    help="comma list overriding SEVA's sweep. Used to extend BELOW its paper's 0.1 "
+                         "floor: on these scenes its curve is still rising at 0.1, so the paper "
+                         "protocol leaves it pinned at the grid edge and its number is a lower "
+                         "bound. Going past the paper in the BASELINE's favour is the only way a win "
+                         "here means anything.")
+    ap.add_argument("--ours_scales", default=None, help="comma list overriding our sweep")
     ap.add_argument("--suffix", default="__ss10",
                     help="cell suffix. A second (guidance, cfg) pair goes in its OWN suffix so both "
                          "sides end up searched over the SAME number of configurations -- 20 scales "
@@ -122,7 +129,8 @@ def main():
 
         # ---- ours: 20 scales at hg0.5 -----------------------------------------------------
         spec = R.method_spec(cfg, "F_5b")
-        for sc in OURS_SCALES[(ds, ncf)]:
+        for sc in ([float(x) for x in a.ours_scales.split(",")] if a.ours_scales
+                   else OURS_SCALES[(ds, ncf)]):
             cell = f"F_5b__{ds}__ncf{ncf}__s{sc:g}{a.suffix}"
             cmd = [sys.executable, str(NVS / "inference/run_nvs_infer.py"),
                    "--ckpt_path", spec["ckpt"], "--algorithm", spec["algorithm"],
@@ -142,7 +150,8 @@ def main():
 
         # ---- SEVA: its paper's 20-point sweep, cfg 6.0 -------------------------------------
         sspec = R.method_spec(cfg, "seva")
-        for sc in SEVA_SCALES:
+        for sc in ([float(x) for x in a.seva_scales.split(",")] if a.seva_scales
+                   else SEVA_SCALES):
             cell = f"seva__{ds}__ncf{ncf}__s{sc:g}{a.suffix}"
             cmd = [sys.executable, str(NVS / "inference/run_seva_infer.py"),
                    "--data_root", f"{cfg.paths.scenes_fair}/{ds}",
