@@ -18,8 +18,10 @@ short and idle. Resubmission is safe and cheap because both engines skip complet
     python3 nvs/slurm/topup_fair.py
 """
 import argparse
+import json
 import os
 import shlex
+import time
 import subprocess
 import sys
 from pathlib import Path
@@ -30,15 +32,56 @@ import run_nvs_fair as R  # noqa: E402
 import submit_fair as SF  # noqa: E402
 
 
-def live_cells():
-    """cell names that currently have an inference job queued or running"""
+def live_shards():
+    """FULL shard job names currently queued or running, e.g. cell__sh03."""
     q = subprocess.run(["squeue", "-u", os.environ.get("USER", ""), "-h", "-o", "%j"],
                        capture_output=True, text=True)
-    out = set()
-    for ln in q.stdout.split():
-        if ln.startswith("fnvs_"):
-            out.add(ln[len("fnvs_"):].rsplit("__sh", 1)[0])
-    return out
+    return {ln[len("fnvs_"):] for ln in q.stdout.split() if ln.startswith("fnvs_")}
+
+
+# Anti-thrash: a shard that is short and not live is resubmitted at most this often. Without it, a
+# cell that is merely EARLY would have its idle shards resubmitted on every 4-minute driver tick,
+# and each resubmission costs 5-11 minutes of weight loading.
+COOLDOWN_S = 1500
+STATE = NVS / "slurm" / "topup_state.json"
+
+
+def load_state():
+    try:
+        return json.load(open(STATE))
+    except Exception:
+        return {}
+
+
+def save_state(st):
+    STATE.write_text(json.dumps(st, indent=0))
+
+
+def shard_missing(cfg, cell, method, ds, ncf, k, n, total_scenes, scene_names):
+    """How many of THIS shard's own scenes are still missing.
+
+    Resubmitting a shard that already finished its slice is pure waste -- ~5-11 minutes of weight
+    loading for a no-op -- and with a 25-minute cooldown that repeats. So the decision is made per
+    shard on its OWN assigned scenes, using the same interleaved rule the submitter used
+    (position n in the pool, n % N == k), not on the cell's overall count.
+    """
+    mine = [i for pos, i in enumerate(range(total_scenes)) if pos % n == k]
+    if method == "seva":
+        d = Path(cfg.preds.fair) / cell
+        if not d.exists():
+            d = Path(cfg.paths.seva_repo) / "work_dirs/demo/img2img" / f"fair_{cell}"
+        sroot = Path(cfg.paths.scenes_fair) / ds
+        miss = 0
+        for i in mine:
+            sc = scene_names[i]
+            need = len(json.load(open(sroot / sc / f"train_test_split_{ncf}.json"))["test_ids"])
+            got = len(list((d / sc / "samples-rgb").glob("*.png"))) if d.exists() else 0
+            if got < need:
+                miss += 1
+        return miss
+    d = Path(cfg.preds.fair) / cell
+    return sum(1 for i in mine
+               if not (d / f"sample_{i:05d}" / "rgb_metrics.json").exists())
 
 
 def main():
@@ -50,7 +93,9 @@ def main():
 
     sys.argv = [sys.argv[0]]
     cfg = R.load_cfg()
-    live = live_cells()
+    live = live_shards()
+    state = load_state()
+    now = time.time()
     parts = [x.strip() for x in a.partition.split(",") if x.strip()]
     cmds = NVS / "slurm" / "cmds"; cmds.mkdir(parents=True, exist_ok=True)
     logs = NVS / "slurm" / "logs"; logs.mkdir(parents=True, exist_ok=True)
@@ -65,7 +110,8 @@ def main():
         ds = cell.split("__")[1]
         method = "seva" if cell.startswith("seva__") else "ours"
         sroot = Path(cfg.paths.scenes_fair) / ds
-        total = len([d for d in os.listdir(sroot) if (sroot / d).is_dir()])
+        scene_names = sorted(d for d in os.listdir(sroot) if (sroot / d).is_dir())
+        total = len(scene_names)
         if method == "seva":
             d = Path(cfg.preds.fair) / cell
             if not d.exists():
@@ -76,12 +122,21 @@ def main():
             done = len(list(d.glob("sample_*/rgb_metrics.json"))) if d.exists() else 0
         if done >= total:
             continue
-        short.append((cell, done, total, cell in live))
-        if cell in live:
-            continue                      # already being worked on; leave it alone
+        n_live = sum(1 for j in js if j["name"] in live)
+        short.append((cell, done, total, n_live))
+        # SHARD-level, not cell-level. A single TIMEOUT used to hide behind nine healthy shards
+        # until the whole cell went idle, which on a deadline is an hour lost for nothing.
         for j in js:
             if n_sub >= a.max_jobs:
                 break
+            if j["name"] in live:
+                continue
+            if now - float(state.get(j["name"], 0)) < COOLDOWN_S:
+                continue
+            ncf_ = int(cell.split("__ncf")[1][0])
+            if shard_missing(cfg, cell, method, ds, ncf_, j["shard"], j["nshards"],
+                             total, scene_names) == 0:
+                continue                  # this shard finished its own slice; nothing to redo
             res = SF.RES[j["kind"]]
             part = parts[n_sub % len(parts)]
             sh = cmds / f"{j['name']}.sbatch"
@@ -96,10 +151,13 @@ def main():
             r = subprocess.run(["sbatch", "--parsable", str(sh)], capture_output=True, text=True)
             if r.returncode == 0:
                 n_sub += 1
+                state[j["name"]] = now
 
+    if not a.dry_run:
+        save_state(state)
     print(f"topup: {len(by_cell)} cells expected, {len(short)} short")
-    for cell, done, total, is_live in short:
-        print(f"  {cell:<50} {done:>3}/{total}" + ("  (jobs live)" if is_live else "  -> RESUBMIT"))
+    for cell, done, total, n_live in short:
+        print(f"  {cell:<50} {done:>3}/{total}  {n_live} shard(s) live")
     print(f"topup: {n_sub} shard job(s) {'would be ' if a.dry_run else ''}resubmitted")
 
 
