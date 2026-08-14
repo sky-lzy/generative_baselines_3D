@@ -198,8 +198,64 @@ def main():
              "to SEVA. It is measured (T3 in <code>test_score_fair.py</code>), not assumed away.</li>"
              "</ul></div>")
 
+    # ---------------------------------------------------------------- sampler tuning
+    tune = []
+    TP = re.compile(r"^TUNE__(?P<method>.+?)__(?P<ds>re10k128_\w+?)__ncf(?P<ncf>\d)__(?P<set>.+)$")
+    for f in sorted(Path(a.results).glob("TUNE__*.csv")):
+        m = TP.match(f.stem)
+        if not m:
+            continue
+        avg, rws = read_csv(f)
+        if avg:
+            tune.append(dict(**m.groupdict(), n=len(rws), psnr=float(avg["psnr"]),
+                             ssim=float(avg["ssim"]), lpips=float(avg["lpips"])))
+    if tune:
+        P.append("<h2>3 · Sampler tuning (10 held-out scenes)</h2>")
+        P.append("<p class=sub>Both sides' guidance was chosen here before any 128-scene run. Ours "
+                 "is <code>hist_guidance</code>, which enters as an effective CFG scale of "
+                 "<b>(1+hist)</b> on the conditioning axis; SEVA's is <code>--cfg</code>. Cells with "
+                 "unequal scene counts are shown but were <b>not</b> allowed to decide anything — "
+                 "between-scene variance swamps between-setting variance.</p>")
+        P.append("<div class=scroll><table><thead><tr><th>Method</th><th>Regime</th>"
+                 "<th>setting</th><th>n</th><th>PSNR</th><th>SSIM</th><th>LPIPS</th>"
+                 "</tr></thead><tbody>")
+        for t in sorted(tune, key=lambda r: (r["method"], r["ds"], r["ncf"], r["set"])):
+            P.append(f"<tr><td>{h(PRETTY.get(t['method'], t['method']))}</td>"
+                     f"<td>{h(t['ds'])} ncf{t['ncf']}</td><td>{h(t['set'])}</td>"
+                     f"<td>{t['n']}</td><td>{t['psnr']:.3f}</td><td>{t['ssim']:.4f}</td>"
+                     f"<td>{t['lpips']:.4f}</td></tr>")
+        P.append("</tbody></table></div>")
+        P.append("<p class=cap>Note: <code>lang_guidance &gt; 0</code> is <b>not runnable</b> in this "
+                 "inference path (the text encoder is not instantiated — TypeError), so text guidance "
+                 "is reported as untested rather than as tested-and-inert. The scenes carry empty "
+                 "captions, so it could not have carried scene information anyway.</p>")
+
+    # ---------------------------------------------------------------- travel-scale diagnostic
+    tj = Path(a.results).parent / "report" / "travel_scale.json"
+    if tj.exists():
+        tr = json.load(open(tj))
+        P.append("<h2>4 · Is each method placed at the right camera?</h2>")
+        P.append("<p class=sub>For every predicted frame, the whole GT clip is searched for the frame "
+                 "it actually best matches. <code>travel_ratio</code> = 1.0 means frame <i>k</i> "
+                 "lands at camera <i>k</i>; below 1 the method under-travels, above 1 it "
+                 "over-travels. This is what caught both 4DiM scale grids being mis-centred — and it "
+                 "separates a scale error from genuine model quality, which PSNR alone cannot.</p>")
+        P.append("<div class=scroll><table><thead><tr><th>Cell</th><th>scale</th>"
+                 "<th>travel ratio</th><th>frames landing exactly</th><th>verdict</th>"
+                 "</tr></thead><tbody>")
+        for r in sorted(tr, key=lambda r: (r["ds"], r["ncf"], r["method"], r["scale"])):
+            v = r["travel_ratio"]
+            good = 0.9 <= v <= 1.1
+            verd = ("correctly placed" if good else
+                    f"{'under' if v < 1 else 'over'}-travels {abs(1 - v) * 100:.0f}%")
+            P.append(f"<tr><td>{h(PRETTY.get(r['method'], r['method']))} · {h(r['ds'])} "
+                     f"ncf{r['ncf']}</td><td>{r['scale']:g}</td>"
+                     f"<td class={'win' if good else 'lose'}>{v:.3f}</td>"
+                     f"<td>{r['exact']}/{r['total']}</td><td>{h(verd)}</td></tr>")
+        P.append("</tbody></table></div>")
+
     # ---------------------------------------------------------------- qualitative panels
-    P.append("<h2>3 · Qualitative — best / median / worst</h2>")
+    P.append("<h2>5 · Qualitative — best / median / worst</h2>")
     P.append("<p class=sub>Scenes ranked by OUR PSNR, so the worst row is our genuine worst case. "
              "Every panel is cropped and resized exactly as the scorer does.</p>")
     for ds, ncf, title, desc in BENCH:
@@ -218,7 +274,7 @@ def main():
                      f"playsinline preload=metadata></video><p class=cap>{h(cap)}</p></div>")
 
     # ---------------------------------------------------------------- scale searches
-    P.append("<h2>4 · Scale searches</h2>")
+    P.append("<h2>6 · Scale searches</h2>")
     P.append("<p class=sub>Every scale that was run, for both sides, with the pick marked.</p>")
     for ds, ncf, title, _ in BENCH:
         ent = {m: sorted(data.get((ds, ncf, m), []), key=lambda e: e["scale"]) for m in methods}

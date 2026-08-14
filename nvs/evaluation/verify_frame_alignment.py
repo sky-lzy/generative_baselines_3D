@@ -51,6 +51,42 @@ def load_seva(cell, scene, n):
     return None
 
 
+def analyse_json(cell, scenes_fair, metric_size=256, n_scenes=3):
+    """Same measurement as analyse(), returned as data so the report can table it."""
+    g = CELL.match(cell)
+    if not g:
+        return None
+    g = g.groupdict(); ds, ncf = g["ds"], int(g["ncf"])
+    sroot = Path(scenes_fair) / ds
+    nfr = json.load(open(sroot / "_clip.json"))["n_frames"]
+    scenes = sorted(d for d in os.listdir(sroot) if (sroot / d).is_dir())
+    ratios, exacts, tot = [], 0, 0
+    done = 0
+    for scene in scenes:
+        if done >= n_scenes:
+            break
+        ids = sorted(json.load(open(sroot / scene / f"train_test_split_{ncf}.json"))["test_ids"])
+        if g["method"] == "seva":
+            pred = load_seva(cell, scene, len(ids))
+        else:
+            pred, _ = read_ours(str(Path(NVS / "preds_fair") / cell /
+                                    f"sample_{scenes.index(scene):05d}"), ids)
+        if pred is None:
+            continue
+        done += 1
+        gt_all = to_metric_domain(read_gt(str(sroot / scene), list(range(nfr))), metric_size)
+        p = to_metric_domain(pred, metric_size)
+        best = [int(torch.argmin(((gt_all - p[k:k + 1]) ** 2).mean(dim=(1, 2, 3))))
+                for k in range(len(ids))]
+        a_ = np.array(ids, float); b_ = np.array(best, float)
+        ratios.append(float((a_ @ b_) / (a_ @ a_)))
+        exacts += sum(1 for k, b in enumerate(best) if b == ids[k]); tot += len(ids)
+    if not ratios:
+        return None
+    return dict(cell=cell, method=g["method"], ds=ds, ncf=ncf, scale=float(g["scale"]),
+                travel_ratio=float(np.mean(ratios)), exact=exacts, total=tot, scenes=done)
+
+
 def analyse(cell, scenes_fair, metric_size=256, n_scenes=3):
     g = CELL.match(cell)
     if not g:
@@ -107,7 +143,15 @@ def main():
     ap.add_argument("--scenes_fair",
                     default="/n/netscratch/ydu_lab/Lab/akiruga/vwm_eval_data/svc_bench/scenes_fair")
     ap.add_argument("--n_scenes", type=int, default=3)
+    ap.add_argument("--json_out", default=None,
+                    help="also write the measurements as JSON for the report")
     a = ap.parse_args()
+    if a.json_out:
+        rows = [r for r in (analyse_json(c, a.scenes_fair, n_scenes=a.n_scenes) for c in a.cells)
+                if r]
+        Path(a.json_out).write_text(json.dumps(rows, indent=2))
+        print(f"wrote {a.json_out} ({len(rows)} cells)")
+        return
     print("FRAME-ALIGNMENT / TRAVEL-SCALE DIAGNOSTIC")
     print("travel_ratio ~1.0 = frame k lands at camera k;  <1 under-travels;  >1 over-travels")
     for c in a.cells:
