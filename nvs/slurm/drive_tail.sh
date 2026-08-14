@@ -15,12 +15,19 @@ while [ "$(date +%s)" -lt "$END" ]; do
   NCSV=$(ls nvs/results_fair/*.csv 2>/dev/null | grep -vc TUNE || true)
   INF=$(squeue -u "$USER" -h -o "%j" | grep -c "^fnvs_" || true)
   SCO=$(squeue -u "$USER" -h -o "%j" | grep -c "^fscore_" || true)
-  echo "[$(date '+%T')] scored=$NCSV/36  inference_jobs=$INF  scoring_jobs=$SCO"
+  echo "[$(date '+%T')] scored=$NCSV  inference_jobs=$INF  scoring_jobs=$SCO"
 
-  timeout 900 "$PY" nvs/slurm/submit_score.py 2>&1 | grep -E "^score:|^  [0-9]+  score|FAIL" | head -20
+  # self-heal first: a cell short of scenes with NO live jobs would otherwise never get a CSV,
+  # because --require_complete blocks it forever and nothing else notices.
+  timeout 900 "$PY" nvs/slurm/topup_fair.py 2>&1 | grep -E "RESUBMIT|resubmitted" | tail -8
 
-  # done when every cell has a CSV and nothing is left in the queue
-  if [ "$NCSV" -ge 36 ] && [ "$INF" -eq 0 ] && [ "$SCO" -eq 0 ]; then
+  OUT=$(timeout 900 "$PY" nvs/slurm/submit_score.py 2>&1)
+  echo "$OUT" | grep -E "^score:|^  [0-9]+  score|FAIL" | head -20
+  READY=$(echo "$OUT" | sed -n 's/^score: \([0-9]*\) cell.*/\1/p')
+
+  # Done when the cluster is idle AND submit_score found nothing further to do. Keyed on the QUEUE
+  # rather than a hardcoded cell count, which went stale the moment the scale grids were widened.
+  if [ "$INF" -eq 0 ] && [ "$SCO" -eq 0 ] && [ "${READY:-1}" -eq 0 ]; then
     echo "[$(date '+%T')] ALL CELLS SCORED — building report"
     timeout 3000 "$PY" nvs/report/render_all.py --per_bench 20 2>&1 | tail -25
     timeout 600 "$PY" nvs/report/build_report.py 2>&1 | tail -3
