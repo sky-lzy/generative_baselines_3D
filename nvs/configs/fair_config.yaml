@@ -51,9 +51,17 @@ scales:
   re10k128_50f:
     ncf2: {ours: [1.0], seva: [2.0]}
     ncf1: {ours: [0.5, 0.75, 1.0, 1.5, 2.0], seva: [0.5, 1.0, 1.5, 2.0, 3.0]}
+  # 4DiM grids WIDENED after evaluation/verify_frame_alignment.py measured, per cell, where each
+  # method's frame k actually lands on the trajectory (travel_ratio; 1.0 = correct):
+  #     SEVA  s0.5 -> 0.237   s1.0 -> 0.757   s2.0 -> 1.233     optimum between 1 and 2
+  #     ours  s0.5 -> 0.323                                     optimum WELL ABOVE 0.7
+  # The original [0.4,0.5,0.7] / [0.5,1.0,2.0] bracketed SEVA's optimum without containing it and
+  # missed ours entirely -- it did not even include our own default of 1.0. Both sides were being
+  # under-searched, which is exactly how a "fair" benchmark quietly favours whoever was tuned.
+  # Depth stays EQUAL at 5 points per side.
   re10k128_4dim:
-    ncf2: {ours: [0.4, 0.5, 0.7], seva: [0.5, 1.0, 2.0]}
-    ncf1: {ours: [0.4, 0.5, 0.7], seva: [0.5, 1.0, 2.0]}
+    ncf2: {ours: [0.4, 0.5, 0.7, 1.0, 1.5], seva: [0.5, 1.0, 1.5, 2.0, 3.0]}
+    ncf1: {ours: [0.4, 0.5, 0.7, 1.0, 1.5], seva: [0.5, 1.0, 1.5, 2.0, 3.0]}
 
 # SEVA classifier-free guidance, per conditioning density. From SEVA's docs/CLI_USAGE.md:
 #   "In single-view regime for the RealEstate10K dataset, we find increasing `cfg` is helpful:
