@@ -24,8 +24,8 @@ for d in "$PRED"/*/; do
   [ -d "$d" ] || continue
   n=$(basename "$d")
   case "$n" in
-    *seva*|TUNE__seva*) c=$(find "$d" -name "*.png" -path "*samples-rgb*" 2>/dev/null | \
-                            awk -F/ '{print $(NF-2)}' | sort -u | wc -l) ;;
+    *seva*|TUNE__seva*) c=$(find "$d" -mindepth 3 -name "*.png" -path "*/samples-rgb/*" \
+                            2>/dev/null | awk -F/ '{print $(NF-2)}' | sort -u | wc -l) ;;
     *)                  c=$(find "$d" -name rgb_metrics.json 2>/dev/null | wc -l) ;;
   esac
   printf "        %-58s %4s scenes\n" "$n" "$c"

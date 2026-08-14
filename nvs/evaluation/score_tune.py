@@ -115,10 +115,16 @@ def main():
                   f"{r['lpips']:>9.4f}{flag}")
             if best is None or better(r[a.metric], best[a.metric]):
                 best = r
-        # a grid where cells scored different scene counts is not comparable
+        # A grid whose cells scored different scene counts is NOT comparable: PSNR varies far
+        # more between scenes than between guidance settings, so "best" over an 8-scene cell vs a
+        # 10-scene cell mostly reports which scenes happened to finish. Such a group is reported
+        # but deliberately NOT written to fair_tuned.yaml -- committing a pick from it would let a
+        # scheduling accident choose the sampler for a 128-scene run.
         ns = {r["scenes"] for r in rs}
         if len(ns) > 1:
-            print(f"  !! UNEQUAL SCENE COUNTS {sorted(ns)} — this grid is NOT comparable yet")
+            print(f"  !! UNEQUAL SCENE COUNTS {sorted(ns)} — NOT comparable, pick WITHHELD "
+                  f"(provisional best would be {best['set']})")
+            continue
         print(f"  -> pick: {best['set']}  ({a.metric} {best[a.metric]:.4f})")
         picks[key] = best
 

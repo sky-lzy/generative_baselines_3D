@@ -1,0 +1,9 @@
+# Generated artefacts, not source. preds_fair alone is hundreds of GB of raw arrays and PNGs.
+preds_fair/
+results_fair/
+logs/
+slurm/logs/
+slurm/cmds/
+slurm/*.jsonl
+report/videos/
+report/*.html

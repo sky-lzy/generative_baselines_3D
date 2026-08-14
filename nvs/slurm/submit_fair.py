@@ -76,9 +76,24 @@ def scene_list(data_root):
     return sorted(d for d in os.listdir(data_root) if os.path.isdir(os.path.join(data_root, d)))
 
 
+# Measured throughput, which is what shard counts should follow rather than a round number:
+#   ours F (5B)   ~35-60 s/scene       -> a whole 128-scene cell is under 2h on one GPU
+#   ours MoT 1.3B faster still
+#   SEVA          ~3 min/scene at 48 targets, ~30 s at 6 -> a 48-target cell is ~6.5 GPU-h
+# Job startup is also expensive (9.5-17 GB of weights off netscratch, ~5-11 min), so over-sharding
+# spends more on loading than it saves in parallelism. SEVA gets many shards, ours few.
+SHARDS = {"ours_5b": 4, "ours_1p3b": 3, "seva": 10}
+
+
 def build_jobs(cfg, phases, shards, limit_scenes=None):
     """-> list of dicts: one runnable shard each, with its fully-formed inference command."""
-    tags = [t for t, on in cfg.select.methods.items() if on]
+    # run.only_method must be honoured here too, not just in run_nvs_fair.py -- silently ignoring
+    # it submitted all three methods when only SEVA was asked for.
+    om = cfg.run.get("only_method")
+    tags = [str(om)] if om else [t for t, on in cfg.select.methods.items() if on]
+    for t in tags:
+        if t not in cfg.methods:
+            sys.exit(f"ERROR: unknown method '{t}'")
     jobs = []
     for pi, (ph, ds, ncf) in enumerate(PHASES):
         if ph not in phases:
@@ -92,7 +107,7 @@ def build_jobs(cfg, phases, shards, limit_scenes=None):
             for sc in R.scales_for(cfg, ds, ncf, spec["kind"]):
                 cell = f"{tag}__{ds}__ncf{ncf}__s{sc:g}"
                 infer = R.steps_for(cfg, spec, ds, ncf, sc)[0].cmd
-                n = min(shards, len(scenes))
+                n = min(shards if shards else SHARDS[spec["kind"]], len(scenes))
                 for k in range(n):
                     cmd = list(infer)
                     if spec["kind"] == "seva":
@@ -102,9 +117,13 @@ def build_jobs(cfg, phases, shards, limit_scenes=None):
                         cmd += ["--scenes", ",".join(scenes[k::n])]
                     else:
                         cmd += ["--shard", f"{k}/{n}"]
-                    jobs.append(dict(phase=ph, nice=pi * 1000, cell=cell, shard=k, nshards=n,
-                                     kind=spec["kind"], bf16=bool(spec.get("bf16")), cmd=cmd,
-                                     name=f"{cell}__sh{k:02d}"))
+                        if limit_scenes:
+                            cmd += ["--limit_scenes", str(int(limit_scenes))]
+                    sfx = f"__n{int(limit_scenes)}" if limit_scenes else ""
+                    jobs.append(dict(phase=ph, nice=pi * 1000, cell=cell + sfx, shard=k,
+                                     nshards=n, kind=spec["kind"],
+                                     bf16=bool(spec.get("bf16")), cmd=cmd,
+                                     name=f"{cell}{sfx}__sh{k:02d}"))
     return jobs
 
 
@@ -132,6 +151,9 @@ export HF_HOME={hf_home}
 export VWM_REPO={vwm_repo}
 export SEVA_REPO={seva_repo}
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+# The inference engine still initialises wandb. At fleet scale that is a few hundred
+# network round-trips that buy nothing and can stall a job outright.
+export WANDB_MODE=disabled WANDB_SILENT=true
 export INFER_DIT_BF16={bf16}
 cd {vwm_repo}
 {cmd}
@@ -149,7 +171,9 @@ def quote(c):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--phases", default="p1", help="comma list of p1,p2,p3,p4 (or 'all')")
-    ap.add_argument("--shards", type=int, default=8, help="scene-shards per cell")
+    ap.add_argument("--shards", type=int, default=None,
+                    help="scene-shards per cell; default is per-kind (see SHARDS), sized from "
+                         "measured throughput")
     ap.add_argument("--partition", default="kempner_requeue,gpu_requeue",
                     help="comma list; assigned ROUND-ROBIN, not as a union — SLURM rejects\n                         multipartition submissions that include kempner_requeue")
     ap.add_argument("--limit_scenes", type=int, default=None)

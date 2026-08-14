@@ -62,6 +62,11 @@ def main():
                          "so scoring never goes through H.264) and --max_samples for smoke tests.")
     ap.add_argument("--resume", action="store_true",
                     help="skip scenes whose pred_rgb.mp4 exists (indices stay scene-aligned)")
+    ap.add_argument("--limit_scenes", type=int, default=None,
+                    help="restrict to the FIRST N scenes (by the same sorted order the scorer uses). "
+                         "Used for subset scale searches, where the grid runs on a subset and only "
+                         "the winning scale is then run on all 128. Composes with --shard: the shard "
+                         "is taken within the subset, so shards stay balanced.")
     ap.add_argument("--shard", default=None, metavar="i/N",
                     help="SLURM fan-out: run only scenes with (index %% N) == i, by handing the "
                          "engine --skip_samples for every other index. Sample indices stay GLOBAL, "
@@ -79,8 +84,11 @@ def main():
     if exp == 0:
         sys.exit(f"ERROR: no scenes found under {args.data_root}")
 
-    # --- shard resolution -------------------------------------------------------------------
-    mine = list(range(exp))
+    # --- scene subset + shard resolution ----------------------------------------------------
+    pool = list(range(exp))
+    if args.limit_scenes:
+        pool = pool[:int(args.limit_scenes)]
+    mine = list(pool)
     if args.shard:
         try:
             si, sn = (int(x) for x in str(args.shard).split("/"))
@@ -88,9 +96,9 @@ def main():
             sys.exit(f"ERROR: --shard must look like i/N, got {args.shard!r}")
         if not (sn >= 1 and 0 <= si < sn):
             sys.exit(f"ERROR: bad shard {args.shard} (need 0 <= i < N, N >= 1)")
-        mine = [i for i in range(exp) if i % sn == si]
+        mine = [i for n, i in enumerate(pool) if n % sn == si]
         if not mine:
-            print(f"[nvs-infer] shard {args.shard}: no scenes of {exp} — nothing to do")
+            print(f"[nvs-infer] shard {args.shard}: no scenes of {len(pool)} — nothing to do")
             return
 
     # count-aware SKIP: complete iff final_stats count == expected scene count.
@@ -119,7 +127,7 @@ def main():
             "--no_augmentations", "--show_metrics"]
     if args.resume:
         cmd.append("--resume")
-    if args.shard:
+    if args.shard or args.limit_scenes:
         # the engine iterates ALL scenes and skips by index, so the shard is expressed as the
         # complement. --max_samples must cover the full range or the tail shard is truncated
         # (its default is 50, which silently dropped 78 of 128 scenes once already).
