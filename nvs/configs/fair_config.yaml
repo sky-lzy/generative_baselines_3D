@@ -30,7 +30,8 @@ run:
 select:
   methods:
     F_5b: true            # 5B F (s5bF_2500) — the campaign flagship
-    ov1_1p3b: true        # 1.3B MoT overfit, raw-camera encoding
+    mot13b_full: true     # 1.3B MoT trained on full re10k, raw-camera encoding
+    ov1_1p3b: false       # 1.3B MoT 64-record OVERFIT probe — not a competitive model, off by default
     seva: true            # baseline
   datasets:
     re10k128_50f: true

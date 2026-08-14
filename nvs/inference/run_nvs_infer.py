@@ -62,6 +62,13 @@ def main():
                          "so scoring never goes through H.264) and --max_samples for smoke tests.")
     ap.add_argument("--resume", action="store_true",
                     help="skip scenes whose pred_rgb.mp4 exists (indices stay scene-aligned)")
+    ap.add_argument("--shard", default=None, metavar="i/N",
+                    help="SLURM fan-out: run only scenes with (index %% N) == i, by handing the "
+                         "engine --skip_samples for every other index. Sample indices stay GLOBAL, "
+                         "so shards of one cell write disjoint sample_XXXXX dirs into the SAME "
+                         "output_dir and the scene<->index mapping is identical to an unsharded "
+                         "run. Interleaved (not contiguous) so every shard sees the same mix of "
+                         "easy/hard scenes and they finish at roughly the same time.")
     args = ap.parse_args()
 
     vwm = os.environ.get("VWM_REPO")
@@ -72,9 +79,25 @@ def main():
     if exp == 0:
         sys.exit(f"ERROR: no scenes found under {args.data_root}")
 
-    # count-aware SKIP: complete iff final_stats count == expected scene count
+    # --- shard resolution -------------------------------------------------------------------
+    mine = list(range(exp))
+    if args.shard:
+        try:
+            si, sn = (int(x) for x in str(args.shard).split("/"))
+        except Exception:
+            sys.exit(f"ERROR: --shard must look like i/N, got {args.shard!r}")
+        if not (sn >= 1 and 0 <= si < sn):
+            sys.exit(f"ERROR: bad shard {args.shard} (need 0 <= i < N, N >= 1)")
+        mine = [i for i in range(exp) if i % sn == si]
+        if not mine:
+            print(f"[nvs-infer] shard {args.shard}: no scenes of {exp} — nothing to do")
+            return
+
+    # count-aware SKIP: complete iff final_stats count == expected scene count.
+    # Under --shard final_stats.json is written per-shard and is meaningless as a cell-level
+    # marker, so the shard relies on --resume for per-scene skipping instead.
     fs = Path(args.output_dir) / "final_stats.json"
-    if fs.exists():
+    if fs.exists() and not args.shard:
         try:
             c = json.load(open(fs)).get("count", 0)
         except Exception:
@@ -96,22 +119,29 @@ def main():
             "--no_augmentations", "--show_metrics"]
     if args.resume:
         cmd.append("--resume")
+    if args.shard:
+        # the engine iterates ALL scenes and skips by index, so the shard is expressed as the
+        # complement. --max_samples must cover the full range or the tail shard is truncated
+        # (its default is 50, which silently dropped 78 of 128 scenes once already).
+        skip = ",".join(str(i) for i in range(exp) if i not in set(mine))
+        cmd += ["--skip_samples", skip, "--max_samples", str(exp)]
     cmd += list(args.extra)
 
-    print(f"[nvs-infer] {exp} scenes | cwd={vwm}\n  " + " ".join(cmd), flush=True)
+    print(f"[nvs-infer] {exp} scenes"
+          + (f" | shard {args.shard} -> {len(mine)} scenes" if args.shard else "")
+          + f" | cwd={vwm}\n  " + " ".join(cmd), flush=True)
     rc = subprocess.run(cmd, cwd=vwm).returncode
     if rc != 0:
         sys.exit(rc)
-    # post-check: the engine must have produced a complete cell (unless --resume topped one up)
-    try:
-        c = json.load(open(fs)).get("count", 0)
-    except Exception:
-        c = 0
-    done = len(list(Path(args.output_dir).glob("sample_*/rgb_metrics.json")))
-    if not (c == exp or done >= exp):
-        sys.exit(f"ERROR: cell incomplete after run ({c} in final_stats, "
-                 f"{done}/{exp} rgb_metrics.json)")
-    print(f"[nvs-infer] DONE {args.output_dir} ({max(c, done)}/{exp} scenes)")
+    # post-check: every scene THIS invocation owns must have produced metrics
+    done = {int(p.parent.name.split("_")[1])
+            for p in Path(args.output_dir).glob("sample_*/rgb_metrics.json")}
+    missing = [i for i in mine if i not in done]
+    if missing:
+        sys.exit(f"ERROR: incomplete after run — {len(missing)}/{len(mine)} owned scenes have no "
+                 f"rgb_metrics.json (first few: {missing[:8]})")
+    print(f"[nvs-infer] DONE {args.output_dir} ({len(mine)} owned scenes, "
+          f"{len(done)}/{exp} in cell)")
 
 
 if __name__ == "__main__":

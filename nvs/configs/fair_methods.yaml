@@ -29,6 +29,15 @@ methods:
     ckpt: "${_tr}/ov1_13b_re10k_rawcam_37531845/checkpoints/epoch=0-step=6500.ckpt"
     dataset_overrides: "raymap_normalize=none"
 
+  # 1.3B MoT trained on the FULL re10k train set (not the 64-record overfit probe). Same RAW-CAMERA
+  # encoding as ov1: dataset.raymap_normalize=none, scale_preserving=false, 240x320 (raymap 30x40),
+  # n_frames=50 — confirmed from the run's .hydra/overrides.yaml, not assumed. Feeding this model
+  # the default max-abs normalization would be a pure train/test encoding mismatch.
+  mot13b_full:
+    kind: ours_1p3b
+    ckpt: "${_tr}/mot13b_re10k_full_38755539/checkpoints/last.ckpt"
+    dataset_overrides: "raymap_normalize=none"
+
   # SEVA / Stable Virtual Camera baseline.
   seva:
     kind: seva

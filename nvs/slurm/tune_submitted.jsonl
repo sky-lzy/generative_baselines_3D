@@ -1,0 +1,50 @@
+{"jobid": "39124259", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg0.5_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 0.5, "lang_guidance": 0.0}
+{"jobid": "39124260", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg2_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 2.0, "lang_guidance": 0.0}
+{"jobid": "39124261", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg1_lg2", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 1.0, "lang_guidance": 2.0}
+{"jobid": "39124270", "name": "TUNE__seva__re10k128_50f__ncf2__cfg2", "method": "seva", "ds": "re10k128_50f", "ncf": 2, "scale": 2.0, "cfg": 2.0}
+{"jobid": "39124275", "name": "TUNE__seva__re10k128_50f__ncf2__cfg4", "method": "seva", "ds": "re10k128_50f", "ncf": 2, "scale": 2.0, "cfg": 4.0}
+{"jobid": "39124289", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg0.5_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 0.5, "lang_guidance": 0.0}
+{"jobid": "39124291", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg2_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 2.0, "lang_guidance": 0.0}
+{"jobid": "39124293", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg1_lg2", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 1.0, "lang_guidance": 2.0}
+{"jobid": "39124296", "name": "TUNE__seva__re10k128_4dim__ncf1__cfg4", "method": "seva", "ds": "re10k128_4dim", "ncf": 1, "scale": 1.0, "cfg": 4.0}
+{"jobid": "39124297", "name": "TUNE__seva__re10k128_4dim__ncf1__cfg8", "method": "seva", "ds": "re10k128_4dim", "ncf": 1, "scale": 1.0, "cfg": 8.0}
+{"jobid": "39124323", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg0_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 0.0, "lang_guidance": 0.0}
+{"jobid": "39124326", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg0.5_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 0.5, "lang_guidance": 0.0}
+{"jobid": "39124328", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg1_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 1.0, "lang_guidance": 0.0}
+{"jobid": "39124329", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg2_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 2.0, "lang_guidance": 0.0}
+{"jobid": "39124331", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg3_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 3.0, "lang_guidance": 0.0}
+{"jobid": "39124333", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg1_lg2", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 1.0, "lang_guidance": 2.0}
+{"jobid": "39124335", "name": "TUNE__seva__re10k128_50f__ncf2__cfg1.5", "method": "seva", "ds": "re10k128_50f", "ncf": 2, "scale": 2.0, "cfg": 1.5}
+{"jobid": "39124339", "name": "TUNE__seva__re10k128_50f__ncf2__cfg2", "method": "seva", "ds": "re10k128_50f", "ncf": 2, "scale": 2.0, "cfg": 2.0}
+{"jobid": "39124341", "name": "TUNE__seva__re10k128_50f__ncf2__cfg3", "method": "seva", "ds": "re10k128_50f", "ncf": 2, "scale": 2.0, "cfg": 3.0}
+{"jobid": "39124342", "name": "TUNE__seva__re10k128_50f__ncf2__cfg4", "method": "seva", "ds": "re10k128_50f", "ncf": 2, "scale": 2.0, "cfg": 4.0}
+{"jobid": "39124344", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg0_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 0.0, "lang_guidance": 0.0}
+{"jobid": "39124345", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg0.5_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 0.5, "lang_guidance": 0.0}
+{"jobid": "39124346", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg1_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 1.0, "lang_guidance": 0.0}
+{"jobid": "39124347", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg2_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 2.0, "lang_guidance": 0.0}
+{"jobid": "39124348", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg3_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 3.0, "lang_guidance": 0.0}
+{"jobid": "39124349", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg1_lg2", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 1.0, "lang_guidance": 2.0}
+{"jobid": "39124350", "name": "TUNE__seva__re10k128_4dim__ncf1__cfg2", "method": "seva", "ds": "re10k128_4dim", "ncf": 1, "scale": 1.0, "cfg": 2.0}
+{"jobid": "39124352", "name": "TUNE__seva__re10k128_4dim__ncf1__cfg4", "method": "seva", "ds": "re10k128_4dim", "ncf": 1, "scale": 1.0, "cfg": 4.0}
+{"jobid": "39124354", "name": "TUNE__seva__re10k128_4dim__ncf1__cfg6", "method": "seva", "ds": "re10k128_4dim", "ncf": 1, "scale": 1.0, "cfg": 6.0}
+{"jobid": "39124355", "name": "TUNE__seva__re10k128_4dim__ncf1__cfg8", "method": "seva", "ds": "re10k128_4dim", "ncf": 1, "scale": 1.0, "cfg": 8.0}
+{"jobid": "39124550", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg0_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 0.0, "lang_guidance": 0.0}
+{"jobid": "39124551", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg0.5_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 0.5, "lang_guidance": 0.0}
+{"jobid": "39124552", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg1_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 1.0, "lang_guidance": 0.0}
+{"jobid": "39124554", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg2_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 2.0, "lang_guidance": 0.0}
+{"jobid": "39124555", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg3_lg0", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 3.0, "lang_guidance": 0.0}
+{"jobid": "39124556", "name": "TUNE__F_5b__re10k128_50f__ncf2__hg1_lg2", "method": "F_5b", "ds": "re10k128_50f", "ncf": 2, "scale": 1.0, "hist_guidance": 1.0, "lang_guidance": 2.0}
+{"jobid": "39124557", "name": "TUNE__seva__re10k128_50f__ncf2__cfg1.5", "method": "seva", "ds": "re10k128_50f", "ncf": 2, "scale": 2.0, "cfg": 1.5}
+{"jobid": "39124558", "name": "TUNE__seva__re10k128_50f__ncf2__cfg2", "method": "seva", "ds": "re10k128_50f", "ncf": 2, "scale": 2.0, "cfg": 2.0}
+{"jobid": "39124560", "name": "TUNE__seva__re10k128_50f__ncf2__cfg3", "method": "seva", "ds": "re10k128_50f", "ncf": 2, "scale": 2.0, "cfg": 3.0}
+{"jobid": "39124562", "name": "TUNE__seva__re10k128_50f__ncf2__cfg4", "method": "seva", "ds": "re10k128_50f", "ncf": 2, "scale": 2.0, "cfg": 4.0}
+{"jobid": "39124564", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg0_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 0.0, "lang_guidance": 0.0}
+{"jobid": "39124565", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg0.5_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 0.5, "lang_guidance": 0.0}
+{"jobid": "39124566", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg1_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 1.0, "lang_guidance": 0.0}
+{"jobid": "39124569", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg2_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 2.0, "lang_guidance": 0.0}
+{"jobid": "39124570", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg3_lg0", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 3.0, "lang_guidance": 0.0}
+{"jobid": "39124572", "name": "TUNE__F_5b__re10k128_4dim__ncf1__hg1_lg2", "method": "F_5b", "ds": "re10k128_4dim", "ncf": 1, "scale": 0.6, "hist_guidance": 1.0, "lang_guidance": 2.0}
+{"jobid": "39124574", "name": "TUNE__seva__re10k128_4dim__ncf1__cfg2", "method": "seva", "ds": "re10k128_4dim", "ncf": 1, "scale": 1.0, "cfg": 2.0}
+{"jobid": "39124576", "name": "TUNE__seva__re10k128_4dim__ncf1__cfg4", "method": "seva", "ds": "re10k128_4dim", "ncf": 1, "scale": 1.0, "cfg": 4.0}
+{"jobid": "39124577", "name": "TUNE__seva__re10k128_4dim__ncf1__cfg6", "method": "seva", "ds": "re10k128_4dim", "ncf": 1, "scale": 1.0, "cfg": 6.0}
+{"jobid": "39124579", "name": "TUNE__seva__re10k128_4dim__ncf1__cfg8", "method": "seva", "ds": "re10k128_4dim", "ncf": 1, "scale": 1.0, "cfg": 8.0}
