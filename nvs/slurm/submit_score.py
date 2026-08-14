@@ -86,6 +86,14 @@ def main():
     ap.add_argument("--metric_size", type=int, default=256)
     ap.add_argument("--local", action="store_true", help="run scorers inline (no sbatch)")
     ap.add_argument("--force", action="store_true", help="rescore cells that already have a CSV")
+    ap.add_argument("--expect_scenes", type=int, default=None,
+                    help="scenes a cell should contain, when it is a deliberate SUBSET pass. "
+                         "Completeness is otherwise measured against the whole 128-scene set, so a "
+                         "10-scene subset cell would be skipped forever as 'still generating'.")
+    ap.add_argument("--allow_partial", action="store_true",
+                    help="drop --require_complete. Required for subset passes, where the scorer "
+                         "legitimately sees only the chosen scenes and must not treat the rest as "
+                         "missing data.")
     ap.add_argument("--dry_run", action="store_true")
     ap.add_argument("--overrides", nargs="*", default=[],
                     help="run_nvs_fair cfg overrides, e.g. preds.fair=<dir> "
@@ -133,8 +141,8 @@ def main():
             skipped.append((cell, f"cell suffix != {suffix}")); continue
         method = "seva" if g["method"] == "seva" else "ours"
         scenes_root = Path(cfg.paths.scenes_fair) / g["ds"]
-        total = len([d for d in os.listdir(scenes_root)
-                     if (scenes_root / d).is_dir()])
+        total = (a.expect_scenes if a.expect_scenes
+                 else len([d for d in os.listdir(scenes_root) if (scenes_root / d).is_dir()]))
         n, run_dir = done_count(cfg, cell, method)
         csv_p = res / f"{cell}.csv"
         if csv_p.exists() and not a.force:
@@ -145,8 +153,9 @@ def main():
             skipped.append((cell, f"{n}/{total} generated")); continue
         cmd = [sys.executable, str(SCORER), "--run_dir", str(run_dir), "--method", method,
                "--scenes_root", str(scenes_root), "--split", g["ncf"],
-               "--metric_size", str(a.metric_size), "--out_csv", str(csv_p),
-               "--require_complete"]
+               "--metric_size", str(a.metric_size), "--out_csv", str(csv_p)]
+        if not a.allow_partial:
+            cmd.append("--require_complete")
         if method == "ours":
             cmd.append("--selftest")
         todo.append((cell, cmd))
