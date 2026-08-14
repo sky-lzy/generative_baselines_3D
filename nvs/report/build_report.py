@@ -299,7 +299,7 @@ def main():
     P.append("</div>")
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     Path(a.out).write_text("\n".join(P))
-    print(f"wrote {a.out}  ({len(data)} scored cells, {len(list(vdir.glob('*.mp4')))} videos)")
+    print(f"wrote {a.out}  ({sum(len(v) for v in data.values())} scored cells, {len(list(vdir.glob('*.mp4')))} videos)")
 
 
 if __name__ == "__main__":

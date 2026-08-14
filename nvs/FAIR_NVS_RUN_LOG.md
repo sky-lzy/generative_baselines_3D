@@ -119,3 +119,50 @@ any partition that spans 0..127 completes the cell, and the 4-way partition does
 *geometry* is not comparable between the early and later jobs of the same cell, which is why the 80
 already-queued no-op shards were left to run rather than cancelled on a geometry test — a wrong
 `scancel` would have cost far more than ~10 GPU-h of redundant startup.
+
+## Results (128 scenes, each method at its own PSNR-best scale)
+
+| benchmark | Ours F (5B) | Ours MoT (1.3B) | SEVA | F vs SEVA |
+|---|---|---|---|---|
+| 50-frame, 2 view | 23.068 / .7744 / .0821 | 17.790 / .5782 / .2872 | **25.250 / .8378 / .0813** | −2.182 dB, p=4.6e-15 |
+| 4DiM, 2 view | 20.562 / .6883 / .1117 | 15.136 / .5125 / .5269 | **24.295 / .8255 / .0819** | −3.733 dB, p=1.6e-40 |
+| 4DiM, 1 view | **15.957 / .5184 / .2640** | 12.338 / .4707 / .9176 | 15.729 / .4971 / .2764 | +0.228 dB, p=0.30 (tie) |
+| 50-frame, 1 view | 17.220 / .5561 / **.2176** | 13.352 / .4906 / .8114 | 17.218 / **.5645** / .2365 | +0.002 dB, p=0.99 (tie) |
+
+**The pattern is structural, not noise.** With two input views SEVA wins decisively (−2.2 and −3.7 dB,
+p < 1e-14, we take 14/128 and 4/128 scenes). With one input view the two are statistically
+indistinguishable (+0.23 dB p=0.30 with 69/128 scenes; +0.002 dB p=0.99 with 64/128 — a literal
+coin flip), and our LPIPS is slightly better in both single-view cells.
+
+That is what SEVA's re-anchoring predicts. `chunk_strategy="nearest-gt"` re-injects the GT input
+frames into every chunk, so with 2 inputs it evaluates at ~9.5% conditioning density against our 4%;
+with 1 input that advantage largely evaporates. The gap is a conditioning-density difference, not a
+resolution or scoring artefact — the geometry and scorer parity checks above rule those out.
+
+### PSNR rewards under-travel in the single-view regime
+
+`travel_ratio` at each method's PSNR-best scale (1.0 = frame k lands at camera k):
+
+| cell | ours F | SEVA |
+|---|---|---|
+| 50-frame 2 view | 0.996 (19/144 exact) | 1.008 (**96/144**) |
+| 4DiM 2 view | 0.974 (3/18) | 1.006 (13/18) |
+| 4DiM 1 view | 0.668 | **0.381** |
+| 50-frame 1 view | 0.551 | 0.832 |
+
+Two readings, both worth keeping:
+
+1. **Two-view: both are geometrically correct, but SEVA is far more precise per frame** — 96 of 144
+   frames land exactly against our 19. That, not any setup asymmetry, is the −2.2 dB.
+2. **Single-view: BOTH methods' PSNR-optimal scale under-travels badly.** Staying near the input
+   frame is a good L2 hedge when the target is 60 frames away, so the PSNR-best scale is *not* the
+   geometrically faithful one. On 4DiM ours is closer to correct (0.668 vs 0.381) while scoring
+   marginally higher; on 50-frame it is the other way round (0.551 vs 0.832). Any single-view claim
+   from PSNR alone should be read with this in mind.
+
+### Caveat: SEVA's sweep is not complete on two cells
+
+Sweep depth achieved per side — 4DiM 1-view 5 vs 3, 50-frame 1-view 5 vs 1. Both of our single-view
+"ties" therefore compare our best-of-5 against SEVA's best-of-3 and best-of-1. **SEVA's numbers in
+those two cells are lower bounds**, and the ties could move against us when its remaining scales
+finish. The two-view cells are like-for-like (1 vs 1 and 5 vs 5) and are final.
