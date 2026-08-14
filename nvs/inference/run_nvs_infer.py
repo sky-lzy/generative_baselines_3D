@@ -88,6 +88,16 @@ def main():
     pool = list(range(exp))
     if args.limit_scenes:
         pool = pool[:int(args.limit_scenes)]
+    # A caller may also cap the run with a passthrough --max_samples=N (the tuning stage does).
+    # Honour it here, or the completeness post-check below demands all 128 scenes and fails a job
+    # that did exactly what it was told -- which is worse than not checking, because it makes every
+    # genuine "incomplete" report untrustworthy.
+    for e in args.extra:
+        if e.startswith("--max_samples="):
+            try:
+                pool = pool[:int(e.split("=", 1)[1])]
+            except ValueError:
+                pass
     mine = list(pool)
     if args.shard:
         try:
