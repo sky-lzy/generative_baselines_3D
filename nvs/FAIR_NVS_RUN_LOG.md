@@ -94,3 +94,28 @@ this benchmark exists to avoid.
   jobs as ~92% wasted (167 CPU-hours). Every job here is `--cpus-per-task=2` with BLAS pinned.
 * Startup is I/O-dominated: 9.5 GB (SEVA) / 17 GB (5B) read from netscratch per job, ~5 min. Shard
   sizes are chosen so that load is amortised over ~50 min of sampling.
+
+## Reliability log (the requeue partitions are hostile by design)
+
+| event | count | handling |
+|---|---|---|
+| PREEMPTION | 87+ | `--requeue` + per-scene `--resume`; automatic, no loss |
+| TIMEOUT | 5+ | **not** auto-requeued — needed `topup_fair.py`; wall clock raised 1.5h → 2h |
+| CUDA device busy | 2 | transient node contention; top-up resubmits |
+| `lang_guidance > 0` | 2 | **not runnable** in this inference path (text encoder not instantiated) |
+
+Two top-up bugs worth remembering, both found by watching what it actually did:
+
+1. **Cell-level gating was too coarse.** A dead shard hid behind nine healthy ones until the whole
+   cell went idle. On a deadline that is an hour lost for nothing. Now judged per shard.
+2. **Naive shard-level gating resubmitted finished shards.** Cell counts cannot distinguish "this
+   shard died" from "this shard is done and the cell is merely early", so the first shard-level pass
+   queued 84 jobs, most of them no-ops at 5–11 min of weight loading each — and the 25-minute
+   cooldown would have repeated it. `shard_missing()` now recomputes the shard's own assigned scenes.
+
+**Shard count changed mid-run** (8 → per-kind 4/3/10) when shards were sized from measured
+throughput. This is safe for coverage because sample indices are GLOBAL and `--resume` is per-scene:
+any partition that spans 0..127 completes the cell, and the 4-way partition does. It does mean shard
+*geometry* is not comparable between the early and later jobs of the same cell, which is why the 80
+already-queued no-op shards were left to run rather than cancelled on a geometry test — a wrong
+`scancel` would have cost far more than ~10 GPU-h of redundant startup.
