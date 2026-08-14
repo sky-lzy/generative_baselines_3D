@@ -65,6 +65,13 @@ def clip_frames(cfg, ds):
     return int(json.load(open(p))["n_frames"])
 
 
+def seva_cfg(cfg, ncf):
+    """SEVA's guidance scale. Its docs prescribe --cfg 6.0 for single-view RealEstate10K and leave
+    the 2.0 default elsewhere; every dataset in this benchmark is RE10K, so ncf1 -> 6.0."""
+    node = OmegaConf.select(cfg, f"seva_cfg_by_ncf.ncf{ncf}")
+    return float(node) if node is not None else 2.0
+
+
 def scales_for(cfg, ds, ncf, kind):
     side = "seva" if kind == "seva" else "ours"
     node = OmegaConf.select(cfg, f"scales.{ds}.ncf{ncf}.{side}")
@@ -91,7 +98,7 @@ def steps_for(cfg, spec, ds, ncf, scale):
         infer = [py, str(NVS / "inference/run_seva_infer.py"),
                  "--data_root", data_root, "--output_dir", out,
                  "--num_cond_frames", ncf, "--camera_scale", scale,
-                 "--H", spec["H"], "--W", spec["W"],
+                 "--H", spec["H"], "--W", spec["W"], "--cfg", seva_cfg(cfg, ncf),
                  "--seva_repo", cfg.paths.seva_repo, "--save_subdir", f"fair_{cell}"]
         if limit:
             scenes = sorted(d for d in os.listdir(data_root)

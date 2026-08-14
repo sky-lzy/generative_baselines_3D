@@ -55,6 +55,12 @@ def main():
     ap.add_argument("--camera_scale", type=float, default=2.0,
                     help="SEVA's unit-length dial (its default is 2.0); the analogue of our "
                          "moment_scale_mult, swept identically on both sides")
+    ap.add_argument("--cfg", type=float, default=2.0,
+                    help="SEVA classifier-free guidance. Its docs/CLI_USAGE.md specifies --cfg 6.0 "
+                         "for the SINGLE-VIEW RealEstate10K regime (default 2.0): 'In single-view "
+                         "regime for the RealEstate10K dataset, we find increasing cfg is helpful'. "
+                         "Leaving it at 2.0 there would handicap the baseline on exactly the dataset "
+                         "its authors call out.")
     ap.add_argument("--H", type=int, default=576)
     ap.add_argument("--W", type=int, default=768)
     ap.add_argument("--seva_repo", default=os.environ.get("SEVA_REPO", SEVA_REPO_DEFAULT))
@@ -80,7 +86,8 @@ def main():
     env.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
     print(f"[seva] {len(scenes)} scenes | {a.H}x{a.W} | num_inputs={a.num_cond_frames} "
-          f"| camera_scale={a.camera_scale} | expect {n_expected} pngs/scene", flush=True)
+          f"| camera_scale={a.camera_scale} | cfg={a.cfg} | expect {n_expected} pngs/scene",
+          flush=True)
 
     failures = []
     for i, sc in enumerate(scenes):
@@ -92,6 +99,7 @@ def main():
                f"--data_path={a.data_root}", f"--data_items=['{sc}']",
                "--task=img2img", f"--num_inputs={a.num_cond_frames}",
                f"--H={a.H}", f"--W={a.W}", f"--camera_scale={a.camera_scale}",
+               f"--cfg={a.cfg}",
                f"--save_subdir={a.save_subdir}"]
         if a.dry_run:
             print("  " + " ".join(cmd)); continue
