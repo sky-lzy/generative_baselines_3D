@@ -29,7 +29,13 @@ while [ "$(date +%s)" -lt "$END" ]; do
   # rather than a hardcoded cell count, which went stale the moment the scale grids were widened.
   if [ "$INF" -eq 0 ] && [ "$SCO" -eq 0 ] && [ "${READY:-1}" -eq 0 ]; then
     echo "[$(date '+%T')] ALL CELLS SCORED — building report"
-    timeout 3000 "$PY" nvs/report/render_all.py --per_bench 20 2>&1 | tail -25
+    # four benchmarks rendered concurrently -- ~80 videos at ~30s each is 40 minutes serially
+    for B in re10k128_50f:2 re10k128_4dim:1 re10k128_4dim:2 re10k128_50f:1; do
+      timeout 3000 "$PY" nvs/report/render_all.py --per_bench 20 --only_bench "$B" \
+        > "nvs/report/render_${B/:/_}.log" 2>&1 &
+    done
+    wait
+    grep -hcE "^  ok " nvs/report/render_*.log | paste -sd+ | bc | sed 's/^/videos rendered: /' 
     timeout 600 "$PY" nvs/report/build_report.py 2>&1 | tail -3
     echo "[$(date '+%T')] REPORT BUILT"
     exit 0

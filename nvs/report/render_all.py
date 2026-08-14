@@ -61,13 +61,23 @@ def main():
     ap.add_argument("--per_bench", type=int, default=20)
     ap.add_argument("--scale_strips", type=int, default=1, help="scenes per swept cell")
     ap.add_argument("--primary", default="F_5b", help="the 'ours' model that drives ranking")
+    ap.add_argument("--only_bench", default=None,
+                    help="'<dataset>:<ncf>' — render just this benchmark, so the four can be "
+                         "rendered as four concurrent processes instead of one serial pass "
+                         "(~80 videos at ~30s each is 40 minutes serially)")
     a = ap.parse_args()
 
     data = collect(a.results)
     vdir = Path(a.videos); vdir.mkdir(parents=True, exist_ok=True)
     methods = [m for m in ["F_5b", "mot13b_full", "seva"] if any(k[2] == m for k in data)]
 
-    for ds, ncf, title, _ in BENCH:
+    bench = BENCH
+    if a.only_bench:
+        want_ds, want_ncf = a.only_bench.split(":")
+        bench = [b for b in BENCH if b[0] == want_ds and b[1] == int(want_ncf)]
+        if not bench:
+            sys.exit(f"ERROR: no benchmark matches {a.only_bench}")
+    for ds, ncf, title, _ in bench:
         prim = best(data.get((ds, ncf, a.primary), []))
         if not prim:
             print(f"[skip] {title}: no {a.primary} results"); continue
