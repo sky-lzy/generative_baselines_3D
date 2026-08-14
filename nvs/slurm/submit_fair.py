@@ -56,13 +56,15 @@ PHASES = [
 # the difference between finishing and not — it is listed FIRST for every kind for that reason.
 # TIME LIMIT is deliberately short. These are backfill jobs on preemptible requeue partitions, and
 # backfill scheduling favours short jobs heavily: a 3h request sat behind everything, while the same
-# work at 1.5h starts almost immediately. Sized so one 16-scene shard (~50 min) fits with margin.
+# work at 1.5h starts almost immediately. Raised 1.5h -> 2h after four shards hit the wall
+# clock: TIMEOUT is NOT auto-requeued the way preemption is, so it silently leaves a cell
+# short until topup_fair.py notices. Backfill was still starting jobs freely at 2h.
 # The alternatives were measured and are worse -- kempner_h100 projected a 11:52 start, seas_gpu
 # 10:14, and kempner_h200_priority rejects our group outright.
 RES = {
-    "ours_5b":   dict(constraint="rtx6000pro|h100|h200", mem="96G", time="01:30:00"),
-    "ours_1p3b": dict(constraint="rtx6000pro|h100|h200|a100", mem="64G", time="01:30:00"),
-    "seva":      dict(constraint="rtx6000pro|h100|h200|a100", mem="64G", time="01:30:00"),
+    "ours_5b":   dict(constraint="rtx6000pro|h100|h200", mem="96G", time="02:00:00"),
+    "ours_1p3b": dict(constraint="rtx6000pro|h100|h200|a100", mem="64G", time="02:00:00"),
+    "seva":      dict(constraint="rtx6000pro|h100|h200|a100", mem="64G", time="02:00:00"),
 }
 
 
