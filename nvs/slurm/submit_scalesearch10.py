@@ -86,7 +86,15 @@ def main():
     ap.add_argument("--n_scenes", type=int, default=10)
     ap.add_argument("--results", default=str(NVS / "results_fair"))
     ap.add_argument("--dry_run", action="store_true")
+    ap.add_argument("--ours_hg", type=float, default=OURS_HG)
+    ap.add_argument("--seva_cfg", type=float, default=SEVA_CFG)
+    ap.add_argument("--suffix", default="__ss10",
+                    help="cell suffix. A second (guidance, cfg) pair goes in its OWN suffix so both "
+                         "sides end up searched over the SAME number of configurations -- 20 scales "
+                         "x 2 guidance values each. Searching two guidance values for us while "
+                         "pinning SEVA to one would be a depth asymmetry in our favour.")
     a = ap.parse_args()
+    ours_hg, seva_cfg = a.ours_hg, a.seva_cfg
 
     sys.argv = [sys.argv[0]]
     cfg = R.load_cfg()
@@ -115,7 +123,7 @@ def main():
         # ---- ours: 20 scales at hg0.5 -----------------------------------------------------
         spec = R.method_spec(cfg, "F_5b")
         for sc in OURS_SCALES[(ds, ncf)]:
-            cell = f"F_5b__{ds}__ncf{ncf}__s{sc:g}__ss10"
+            cell = f"F_5b__{ds}__ncf{ncf}__s{sc:g}{a.suffix}"
             cmd = [sys.executable, str(NVS / "inference/run_nvs_infer.py"),
                    "--ckpt_path", spec["ckpt"], "--algorithm", spec["algorithm"],
                    "--data_root", f"{cfg.paths.scenes_fair}/{ds}",
@@ -128,24 +136,28 @@ def main():
             if sc != 1.0:
                 cmd += ["--dataset_override", f"moment_scale_mult={sc:g}"]
             cmd += ["--resume", "--scene_indices", ",".join(map(str, idxs)),
-                    "--extra=--save_raw", f"--extra=--hist_guidance={OURS_HG:g}",
+                    "--extra=--save_raw", f"--extra=--hist_guidance={ours_hg:g}",
                     "--extra=--lang_guidance=0"]
             jobs.append(dict(name=cell, kind=spec["kind"], bf16=True, cmd=cmd))
 
         # ---- SEVA: its paper's 20-point sweep, cfg 6.0 -------------------------------------
         sspec = R.method_spec(cfg, "seva")
         for sc in SEVA_SCALES:
-            cell = f"seva__{ds}__ncf{ncf}__s{sc:g}__ss10"
+            cell = f"seva__{ds}__ncf{ncf}__s{sc:g}{a.suffix}"
             cmd = [sys.executable, str(NVS / "inference/run_seva_infer.py"),
                    "--data_root", f"{cfg.paths.scenes_fair}/{ds}",
                    "--output_dir", f"{preds}/{cell}",
                    "--num_cond_frames", str(ncf), "--camera_scale", f"{sc:g}",
-                   "--H", str(sspec["H"]), "--W", str(sspec["W"]), "--cfg", f"{SEVA_CFG:g}",
+                   "--H", str(sspec["H"]), "--W", str(sspec["W"]), "--cfg", f"{seva_cfg:g}",
                    "--seva_repo", cfg.paths.seva_repo, "--save_subdir", f"fair_{cell}",
                    "--scenes", ",".join(scenes)]
             jobs.append(dict(name=cell, kind="seva", bf16=False, cmd=cmd))
 
-    (NVS / "results_ss10" / "_manifest.json").write_text(json.dumps(manifest, indent=2))
+    mp = NVS / "results_ss10" / f"_manifest{a.suffix}.json"
+    mp.write_text(json.dumps(manifest, indent=2))
+    if a.suffix == "__ss10":
+        (NVS / "results_ss10" / "_manifest.json").write_text(json.dumps(manifest, indent=2))
+    print(f"\n  ours hist_guidance={ours_hg:g} | SEVA --cfg={seva_cfg:g} | suffix {a.suffix}")
     print(f"\n{len(jobs)} cells ({len(SEVA_SCALES)} SEVA scales vs "
           f"{len(OURS_SCALES[CELLS[0]])} ours scales, per benchmark) x {a.n_scenes} scenes")
 
