@@ -111,8 +111,11 @@ def main():
             b = best(ent)
             mids = [p[0] for p in picks if p[1] == "MEDIAN"][:a.scale_strips] or [picks[0][0]]
             for scene in mids:
-                cols = ",".join(f"s={e['scale']:g}{' PICK' if e['cell']==b['cell'] else ''}={e['cell']}"
-                                for e in ent)
+                # NOTE: no '=' inside the label -- make_videos splits 'label=cell' on the FIRST
+                # '=', so a label like "s=0.5 PICK" silently became label "s" and cell
+                # "0.5 PICK=<cell>", which then failed to load.
+                cols = ",".join(f"s{e['scale']:g}{' PICK' if e['cell'] == b['cell'] else ''}"
+                                f"={e['cell']}" for e in ent)
                 name = f"scales__{ds}__ncf{ncf}__{m}__{scene}"
                 ok = run([sys.executable, str(MAKE), "--dataset", ds, "--ncf", str(ncf),
                           "--scene", scene, "--cells", cols, "--name", name,
