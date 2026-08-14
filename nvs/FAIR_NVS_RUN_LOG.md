@@ -168,3 +168,31 @@ explanations, so the two-view gap is a real algorithmic difference.
    frame is a good L2 hedge when the target is 60 frames out, so the PSNR-best scale is *not* the
    geometrically faithful one. On 4DiM ours is closer to correct (0.668 vs 0.381) while scoring
    marginally higher; on 50-frame it is reversed. No single-view claim should rest on PSNR alone.
+
+## Guidance settled: hist_guidance = 1.0 (the 10-scene grid was wrong)
+
+The 10-scene tuning grid preferred hg0.5 at 4DiM single-view by +0.717 dB. It does not replicate.
+Full 128-scene A/B, paired per scene, identical scale and scenes, only guidance changed:
+
+| | hg0.5 − hg1.0 |
+|---|---|
+| mean ΔPSNR over 25 complete cells | **−0.255 dB** |
+| cells improved on PSNR | 6 / 25 |
+| cells improved on LPIPS | **0 / 25** |
+
+LPIPS is worse in every cell without exception. PSNR rises only at the smallest scales (s0.4/s0.5,
+~+0.09 dB) and falls elsewhere, to −0.68. Where PSNR nudges up LPIPS still drops — the signature of
+lower guidance producing blurrier, more-averaged frames that game PSNR slightly while looking worse.
+On the best-of-grid number that actually matters, hg1.0 still wins: 4DiM 1-view 15.957 (hg1.0, s0.7)
+vs 15.867 (hg0.5, s0.5).
+
+Three independent checks agree, against the tuning grid:
+1. controlled same-scene same-scale comparison on the ss10 scenes: −1.749 dB (4DiM), −0.479 (50f)
+2. ss10 config union: hg1.0 supplies our best config on BOTH single-view benchmarks
+3. this 128-scene paired A/B
+
+**Lesson:** n=10 cannot resolve a sub-dB sampler effect here — between-scene variance dwarfs it. The
+withholding rule (refuse a pick from unequal-count cells) caught the incomplete version of this, but
+it could not catch a complete-yet-underpowered grid. A tuning stage needs enough scenes to resolve the
+effect it is choosing on, not merely equal counts. The main 128-scene results were run at hg1.0 and
+therefore need no rework.
