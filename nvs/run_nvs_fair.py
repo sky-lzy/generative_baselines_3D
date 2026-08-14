@@ -37,12 +37,16 @@ DATASETS = ["re10k128_50f", "re10k128_4dim"]
 
 def load_cfg():
     cli = OmegaConf.from_cli()
-    cfg = OmegaConf.merge(
-        OmegaConf.load(NVS / "configs" / "fair_paths.yaml"),
-        OmegaConf.load(NVS / "configs" / "fair_methods.yaml"),
-        OmegaConf.load(NVS / "configs" / "fair_config.yaml"),
-        cli,
-    )
+    parts = [OmegaConf.load(NVS / "configs" / "fair_paths.yaml"),
+             OmegaConf.load(NVS / "configs" / "fair_methods.yaml"),
+             OmegaConf.load(NVS / "configs" / "fair_config.yaml")]
+    # Sampler settings chosen on 10 held-out scenes by evaluation/score_tune.py. Merged AFTER the
+    # static config so a completed tuning stage overrides the defaults automatically, and merged
+    # BEFORE the CLI so an explicit override still wins. Absent = fall back to engine defaults.
+    tuned = NVS / "configs" / "fair_tuned.yaml"
+    if tuned.exists():
+        parts.append(OmegaConf.load(tuned))
+    cfg = OmegaConf.merge(*parts, cli)
     if OmegaConf.select(cli, "paths.standardized_eval") is None:
         cfg.paths.standardized_eval = os.environ.get("BENCHMARK_ROOT", str(NVS.parent))
     OmegaConf.resolve(cfg)
@@ -65,11 +69,26 @@ def clip_frames(cfg, ds):
     return int(json.load(open(p))["n_frames"])
 
 
-def seva_cfg(cfg, ncf):
-    """SEVA's guidance scale. Its docs prescribe --cfg 6.0 for single-view RealEstate10K and leave
-    the 2.0 default elsewhere; every dataset in this benchmark is RE10K, so ncf1 -> 6.0."""
-    node = OmegaConf.select(cfg, f"seva_cfg_by_ncf.ncf{ncf}")
+def seva_cfg(cfg, ds, ncf):
+    """SEVA's guidance scale, in priority order:
+         1. tuned.<ds>.ncf<k>.seva.cfg   — measured on the 10-scene tuning grid
+         2. seva_cfg_by_ncf.ncf<k>       — its docs' prescription (6.0 for single-view RE10K)
+         3. 2.0                          — demo.py's default
+    Ours' guidance is tuned on the same 10 scenes, so tuning SEVA's is what keeps the two sides
+    symmetric; falling back to its authors' own recommendation is the next-fairest thing."""
+    node = OmegaConf.select(cfg, f"tuned.{ds}.ncf{ncf}.seva.cfg")
+    if node is None:
+        node = OmegaConf.select(cfg, f"seva_cfg_by_ncf.ncf{ncf}")
     return float(node) if node is not None else 2.0
+
+
+def ours_guidance(cfg, tag, ds, ncf):
+    """(hist_guidance, lang_guidance) for one of our models, or None to leave engine defaults.
+    hist enters as an effective CFG scale of (1 + hist) on the conditioning axis."""
+    node = OmegaConf.select(cfg, f"tuned.{ds}.ncf{ncf}.{tag}")
+    if node is None:
+        return None
+    return float(node.get("hist_guidance", 1.0)), float(node.get("lang_guidance", 0.0))
 
 
 def scales_for(cfg, ds, ncf, kind):
@@ -98,7 +117,7 @@ def steps_for(cfg, spec, ds, ncf, scale):
         infer = [py, str(NVS / "inference/run_seva_infer.py"),
                  "--data_root", data_root, "--output_dir", out,
                  "--num_cond_frames", ncf, "--camera_scale", scale,
-                 "--H", spec["H"], "--W", spec["W"], "--cfg", seva_cfg(cfg, ncf),
+                 "--H", spec["H"], "--W", spec["W"], "--cfg", seva_cfg(cfg, ds, ncf),
                  "--seva_repo", cfg.paths.seva_repo, "--save_subdir", f"fair_{cell}"]
         if limit:
             scenes = sorted(d for d in os.listdir(data_root)
@@ -118,9 +137,14 @@ def steps_for(cfg, spec, ds, ncf, scale):
             infer += ["--dataset_override", f"moment_scale_mult={scale:g}"]
         if cfg.run.resume:
             infer.append("--resume")
-        infer += ["--extra", "--save_raw"]        # LOSSLESS preds; see run_nvs_infer --extra
+        # NOTE the "=" form: argparse treats `--extra --save_raw` as --extra with a
+        # missing value, since the payload itself starts with "-".
+        infer += ["--extra=--save_raw"]           # LOSSLESS preds; see run_nvs_infer --extra
+        g = ours_guidance(cfg, spec["tag"], ds, ncf)
+        if g is not None:
+            infer += [f"--extra=--hist_guidance={g[0]:g}", f"--extra=--lang_guidance={g[1]:g}"]
         if limit:
-            infer += ["--extra", f"--max_samples={int(limit)}"]
+            infer += [f"--extra=--max_samples={int(limit)}"]
         method_flag = "ours"
 
     ev = [py, str(NVS / "evaluation/score_nvs_fair.py"),

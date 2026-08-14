@@ -96,9 +96,11 @@ def main():
                 cmd = list(R.steps_for(cfg, spec, ds, ncf, sc)[0].cmd)
                 # redirect output to the tuning cell dir
                 cmd[cmd.index("--output_dir") + 1] = f"{cfg.preds.fair}/{name}"
-                cmd += ["--extra", f"--max_samples={a.n_scenes}",
-                        "--extra", "--hist_guidance", "--extra", f"{hg:g}",
-                        "--extra", "--lang_guidance", "--extra", f"{lg:g}"]
+                # single-token "=" form throughout: argparse cannot take a value that
+                # begins with "-" as a separate argv entry.
+                cmd += [f"--extra=--max_samples={a.n_scenes}",
+                        f"--extra=--hist_guidance={hg:g}",
+                        f"--extra=--lang_guidance={lg:g}"]
                 jobs.append(dict(name=name, kind=spec["kind"], bf16=bool(spec.get("bf16")),
                                  cmd=cmd, meta=dict(method=m, ds=ds, ncf=ncf, scale=float(sc),
                                                     hist_guidance=hg, lang_guidance=lg)))
