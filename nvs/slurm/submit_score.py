@@ -101,6 +101,14 @@ def main():
         cells |= {d.name[5:] for d in sw.iterdir()
                   if d.is_dir() and d.name.startswith("fair_") and CELL.match(d.name[5:])}
 
+    # A scoring job takes longer than the driver's poll interval, so "no CSV yet" is NOT the same
+    # as "not submitted". Without this the driver piles up duplicate scorers writing the same CSV.
+    inflight = set()
+    q = subprocess.run(["squeue", "-u", os.environ.get("USER", ""), "-h", "-o", "%j"],
+                       capture_output=True, text=True)
+    if q.returncode == 0:
+        inflight = {ln[len("fscore_"):] for ln in q.stdout.split() if ln.startswith("fscore_")}
+
     parts = [x.strip() for x in a.partition.split(",") if x.strip()]
     todo, skipped = [], []
     for cell in sorted(cells):
@@ -113,6 +121,8 @@ def main():
         csv_p = res / f"{cell}.csv"
         if csv_p.exists() and not a.force:
             skipped.append((cell, "csv exists")); continue
+        if cell in inflight and not a.force:
+            skipped.append((cell, "scoring job already queued/running")); continue
         if n < a.min_frac * total:
             skipped.append((cell, f"{n}/{total} generated")); continue
         cmd = [sys.executable, str(SCORER), "--run_dir", str(run_dir), "--method", method,
