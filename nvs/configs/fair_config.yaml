@@ -44,12 +44,16 @@ select:
 # Ranges follow what the official-4DiM sweep actually used: ours peaked interior at ~0.5 there and
 # at ~0.75-1.0 on 50-frame clips; SEVA's default 2.0 is a poor single-input operating point.
 scales:
+  # Depth is EQUAL on both sides of every cell — a best-of-N against a best-of-1 is not a result.
+  # Sized to the 6h wall clock: the two-view 50-frame cell is the easiest and its optimum is flat,
+  # so both sides sit at their own default there (depth 1 vs 1, still symmetric). The single-view
+  # 50-frame cell gets the deepest search because that is where the camera-scale dial actually bites.
   re10k128_50f:
     ncf2: {ours: [1.0], seva: [2.0]}
     ncf1: {ours: [0.5, 0.75, 1.0, 1.5, 2.0], seva: [0.5, 1.0, 1.5, 2.0, 3.0]}
   re10k128_4dim:
-    ncf2: {ours: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8], seva: [0.2, 0.5, 0.7, 1.0, 1.2, 1.5]}
-    ncf1: {ours: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8], seva: [0.2, 0.5, 0.7, 1.0, 1.2, 1.5]}
+    ncf2: {ours: [0.4, 0.5, 0.7], seva: [0.5, 1.0, 2.0]}
+    ncf1: {ours: [0.4, 0.5, 0.7], seva: [0.5, 1.0, 2.0]}
 
 # SEVA classifier-free guidance, per conditioning density. From SEVA's docs/CLI_USAGE.md:
 #   "In single-view regime for the RealEstate10K dataset, we find increasing `cfg` is helpful:

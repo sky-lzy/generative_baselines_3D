@@ -1,0 +1,30 @@
+#!/bin/bash
+#SBATCH --job-name=fnvs_TUNE__F_5b__re10k128_50f__ncf2__hg0.5_lg0
+#SBATCH --partition=kempner_h200_priority
+#SBATCH --account=kempner_ydu_lab
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --gres=gpu:1
+#SBATCH --constraint="h200"
+#SBATCH --mem=96G
+#SBATCH --time=01:30:00
+#SBATCH --nice=0
+#SBATCH --requeue
+#SBATCH --open-mode=append
+#SBATCH --output=/n/lab_storage/ydu_lab/Lab/akiruga/world_model_4d/standardized_eval_new/nvs/slurm/logs/TUNE__F_5b__re10k128_50f__ncf2__hg0.5_lg0.%j.out
+set -uo pipefail
+echo "=== $(date '+%F %T') host=$(hostname) job=$SLURM_JOB_ID part=$SLURM_JOB_PARTITION"
+nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
+# one-core job (see submit_fair.py CPU POLICY): do not let BLAS spawn a thread per core
+export OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2
+export HF_HOME=/n/netscratch/ydu_lab/Lab/akiruga
+export VWM_REPO=/n/lab_storage/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new
+export SEVA_REPO=/n/lab_storage/ydu_lab/Lab/akiruga/stable-virtual-camera
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export INFER_DIT_BF16=1
+cd /n/lab_storage/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new
+/n/lab_storage/ydu_lab/akiruga/.conda/envs/test2/bin/python /n/lab_storage/ydu_lab/Lab/akiruga/world_model_4d/standardized_eval_new/nvs/inference/run_nvs_infer.py --ckpt_path /n/lab_storage/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new/outputs/s5b_de_jul15/s5bF_2500.ckpt --algorithm wan_t2v_ray_depth_mot_concat_5b --data_root /n/netscratch/ydu_lab/Lab/akiruga/vwm_eval_data/svc_bench/scenes_fair/re10k128_50f --output_dir /n/lab_storage/ydu_lab/Lab/akiruga/world_model_4d/standardized_eval_new/nvs/preds_fair/TUNE__F_5b__re10k128_50f__ncf2__hg0.5_lg0 --height 288 --width 384 --n_frames 50 --num_cond_frames 2 --sample_steps 40 --seed 42 --resume --extra=--save_raw --extra=--max_samples=10 --extra=--hist_guidance=0.5 --extra=--lang_guidance=0
+rc=$?
+echo "=== $(date '+%F %T') EXIT $rc"
+exit $rc
