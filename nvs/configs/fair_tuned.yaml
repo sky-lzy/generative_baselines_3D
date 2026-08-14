@@ -1,4 +1,24 @@
 {
   "_note": "written by score_tune.py; selection metric=psnr; grid ran on 10 scenes",
-  "tuned": {}
+  "tuned": {
+    "re10k128_4dim": {
+      "ncf1": {
+        "F_5b": {
+          "hist_guidance": 0.5,
+          "lang_guidance": 0.0
+        },
+        "seva": {
+          "cfg": 2.0
+        }
+      }
+    },
+    "re10k128_50f": {
+      "ncf2": {
+        "F_5b": {
+          "hist_guidance": 1.0,
+          "lang_guidance": 0.0
+        }
+      }
+    }
+  }
 }

@@ -88,10 +88,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--partition", default="kempner_requeue,gpu_requeue")
     ap.add_argument("--dry_run", action="store_true")
+    ap.add_argument("--overrides", nargs="*", default=[],
+                    help="run_nvs_fair cfg overrides, e.g. preds.fair=<dir> "
+                         "results.fair=<dir> run.cell_suffix=__hg0.5")
     ap.add_argument("--max_jobs", type=int, default=200, help="cap on shards resubmitted per pass")
     a = ap.parse_args()
 
-    sys.argv = [sys.argv[0]]
+    sys.argv = [sys.argv[0]] + list(a.overrides)
     cfg = R.load_cfg()
     live = live_shards()
     state = load_state()

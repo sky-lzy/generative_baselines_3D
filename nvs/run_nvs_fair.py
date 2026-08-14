@@ -84,11 +84,25 @@ def seva_cfg(cfg, ds, ncf):
 
 def ours_guidance(cfg, tag, ds, ncf):
     """(hist_guidance, lang_guidance) for one of our models, or None to leave engine defaults.
-    hist enters as an effective CFG scale of (1 + hist) on the conditioning axis."""
+    hist enters as an effective CFG scale of (1 + hist) on the conditioning axis.
+
+    run.hist_guidance overrides everything when set. That exists so a whole benchmark pass can be
+    re-run at one guidance value WITHOUT editing the tuned config, which is what makes an A/B like
+    hg1.0-vs-hg0.5 a controlled comparison rather than a config edit nobody can reconstruct later."""
+    forced = cfg.run.get("hist_guidance")
+    if forced is not None:
+        return float(forced), float(cfg.run.get("lang_guidance") or 0.0)
     node = OmegaConf.select(cfg, f"tuned.{ds}.ncf{ncf}.{tag}")
     if node is None:
         return None
     return float(node.get("hist_guidance", 1.0)), float(node.get("lang_guidance", 0.0))
+
+
+def cell_suffix(cfg):
+    """Appended to every cell name. With separate preds/results roots this keeps a re-run pass
+    completely disjoint from an earlier one -- distinct preds dirs, CSVs, sbatch files and logs --
+    so no previous result, video or raw array can be overwritten."""
+    return str(cfg.run.get("cell_suffix") or "")
 
 
 def scales_for(cfg, ds, ncf, kind):
@@ -106,7 +120,7 @@ def steps_for(cfg, spec, ds, ncf, scale):
     py = sys.executable
     kind = spec["kind"]
     stag = f"__s{scale:g}"
-    cell = f"{spec['tag']}__{ds}__ncf{ncf}{stag}"
+    cell = f"{spec['tag']}__{ds}__ncf{ncf}{stag}{cell_suffix(cfg)}"
     data_root = f"{cfg.paths.scenes_fair}/{ds}"
     out = f"{cfg.preds.fair}/{cell}"
     csv = f"{cfg.results.fair}/{cell}.csv"

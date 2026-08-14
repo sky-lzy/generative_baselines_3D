@@ -83,9 +83,12 @@ def main():
     ap.add_argument("--local", action="store_true", help="run scorers inline (no sbatch)")
     ap.add_argument("--force", action="store_true", help="rescore cells that already have a CSV")
     ap.add_argument("--dry_run", action="store_true")
+    ap.add_argument("--overrides", nargs="*", default=[],
+                    help="run_nvs_fair cfg overrides, e.g. preds.fair=<dir> "
+                         "results.fair=<dir> run.cell_suffix=__hg0.5")
     a = ap.parse_args()
 
-    sys.argv = [sys.argv[0]]
+    sys.argv = [sys.argv[0]] + list(a.overrides)
     cfg = R.load_cfg()
     logs = NVS / "slurm" / "logs"; logs.mkdir(parents=True, exist_ok=True)
     cmds = NVS / "slurm" / "cmds"; cmds.mkdir(parents=True, exist_ok=True)

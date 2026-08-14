@@ -107,7 +107,7 @@ def build_jobs(cfg, phases, shards, limit_scenes=None):
         for tag in tags:
             spec = R.method_spec(cfg, tag)
             for sc in R.scales_for(cfg, ds, ncf, spec["kind"]):
-                cell = f"{tag}__{ds}__ncf{ncf}__s{sc:g}"
+                cell = f"{tag}__{ds}__ncf{ncf}__s{sc:g}{R.cell_suffix(cfg)}"
                 infer = R.steps_for(cfg, spec, ds, ncf, sc)[0].cmd
                 n = min(shards if shards else SHARDS[spec["kind"]], len(scenes))
                 for k in range(n):
