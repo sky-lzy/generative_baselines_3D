@@ -56,6 +56,10 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--dataset_override", action="append", default=[],
                     help="extra svc_scenes overrides (repeatable), e.g. scale_mode=global_metric")
+    ap.add_argument("--extra", action="append", default=[],
+                    help="verbatim extra flag forwarded to the engine (repeatable). Used by the "
+                         "fair benchmark to pass --save_raw (lossless raw_arrays.npz predictions, "
+                         "so scoring never goes through H.264) and --max_samples for smoke tests.")
     ap.add_argument("--resume", action="store_true",
                     help="skip scenes whose pred_rgb.mp4 exists (indices stay scene-aligned)")
     args = ap.parse_args()
@@ -92,6 +96,7 @@ def main():
             "--no_augmentations", "--show_metrics"]
     if args.resume:
         cmd.append("--resume")
+    cmd += list(args.extra)
 
     print(f"[nvs-infer] {exp} scenes | cwd={vwm}\n  " + " ".join(cmd), flush=True)
     rc = subprocess.run(cmd, cwd=vwm).returncode

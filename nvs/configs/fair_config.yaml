@@ -1,0 +1,51 @@
+# FAIR NVS BENCHMARK — ours vs SEVA on identical input pixels.
+#
+#   python3 nvs/run_nvs_fair.py run.dry_run=true          # print every command, run nothing
+#   python3 nvs/run_nvs_fair.py run.only_method=seva
+#   python3 nvs/run_nvs_fair.py run.stages=[evaluation]   # re-score existing preds
+#   python3 nvs/run_nvs_fair.py run.limit_scenes=4        # smoke test on 4 scenes
+#
+# The four cells (128 RE10K scenes each, from the official 4DiM split test set):
+#   re10k128_50f  ncf2   50-frame clip, condition on frames 0+49, score 1..48
+#   re10k128_50f  ncf1   50-frame clip, condition on frame 0,     score 1..49   [scale search]
+#   re10k128_4dim ncf2   70-frame clip, condition on frames 0+69, score 10..60  [scale search]
+#   re10k128_4dim ncf1   70-frame clip, condition on frame 0,     score 10..60  [scale search]
+
+run:
+  gpu: 0
+  dry_run: false
+  skip_existing: true
+  stages: [inference, evaluation]
+  stop_on_error: false
+  sample_steps: 40
+  seed: 42
+  resume: true            # skip scenes already generated (both engines are per-scene resumable)
+  metric_size: 256        # common metric domain after the centre square crop
+  selftest: true          # ours: verify the lossless raw-array path reproduces the engine's PSNR
+  limit_scenes: null      # smoke-test on the first N scenes
+  only_method: null
+  only_dataset: null
+  only_ncf: null
+
+select:
+  methods:
+    F_5b: true            # 5B F (s5bF_2500) — the campaign flagship
+    ov1_1p3b: true        # 1.3B MoT overfit, raw-camera encoding
+    seva: true            # baseline
+  datasets:
+    re10k128_50f: true
+    re10k128_4dim: true
+  ncf: [2, 1]
+
+# Scale grids. OUR moment_scale_mult and SEVA's camera_scale are the analogous unit-length dials;
+# both sides are searched to the SAME depth per cell, and best-fixed is taken per side. A single
+# value = no search (both then sit at their own default, which is symmetric and still fair).
+# Ranges follow what the official-4DiM sweep actually used: ours peaked interior at ~0.5 there and
+# at ~0.75-1.0 on 50-frame clips; SEVA's default 2.0 is a poor single-input operating point.
+scales:
+  re10k128_50f:
+    ncf2: {ours: [1.0], seva: [2.0]}
+    ncf1: {ours: [0.5, 0.75, 1.0, 1.5, 2.0], seva: [0.5, 1.0, 1.5, 2.0, 3.0]}
+  re10k128_4dim:
+    ncf2: {ours: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8], seva: [0.2, 0.5, 0.7, 1.0, 1.2, 1.5]}
+    ncf1: {ours: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8], seva: [0.2, 0.5, 0.7, 1.0, 1.2, 1.5]}

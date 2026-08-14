@@ -1,0 +1,42 @@
+# Method registry for the fair NVS benchmark.
+#
+# `kind` selects the inference bridge:
+#   ours_5b / ours_1p3b -> inference/run_nvs_infer.py  (our engine, --save_raw for lossless preds)
+#   seva                -> inference/run_seva_infer.py (SEVA's own demo.py)
+#
+# dataset_overrides carries a model's TRAINING raymap-scale convention into decode. Feeding a model
+# an encoding it was not trained on is a pure train/test mismatch that fakes a bad result, so this
+# is not cosmetic:
+#   per-clip max|moment| (default)  -> omit the key                (F)
+#   raw unnormalised moments        -> raymap_normalize=none       (ov1/ov3 raw-camera ablations)
+#   parallax companded origin       -> scale_mode=parallax ...     (scheme-C models)
+
+_vwm: /n/lab_storage/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new
+_tr: /n/netscratch/ydu_lab/Lab/akiruga/vwm_train_runs
+
+methods:
+  # 5B F — the campaign flagship. NOTE the checkpoint is a symlink that was dangling for part of
+  # Aug 7 (its netscratch target was purged); it now points into netscratch_quarantine_aug6.
+  F_5b:
+    kind: ours_5b
+    ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bF_2500.ckpt"
+
+  # 1.3B MoT overfit probe, RAW-CAMERA encoding (dataset.raymap_normalize=none at train time).
+  # Trained with max_records=64, so it is an overfit probe rather than a competitive model.
+  # Its native resolution is 240x320, NOT F's 288x384 — the kind default handles that.
+  ov1_1p3b:
+    kind: ours_1p3b
+    ckpt: "${_tr}/ov1_13b_re10k_rawcam_37531845/checkpoints/epoch=0-step=6500.ckpt"
+    dataset_overrides: "raymap_normalize=none"
+
+  # SEVA / Stable Virtual Camera baseline.
+  seva:
+    kind: seva
+
+kind_defaults:
+  # bf16 DiT: 5B fp32 does not fit an 80GB GPU; the 1.3B family also ran bf16 in the campaign.
+  ours_5b:   {algorithm: wan_t2v_ray_depth_mot_concat_5b, height: 288, width: 384, bf16: true}
+  ours_1p3b: {algorithm: wan_t2v_ray_depth_mot_concat_rebuttal, height: 240, width: 320, bf16: true}
+  # 576x768 is 4:3 (matching the scene set) AND divisible by 64, which SEVA's UNet+VAE require.
+  # It is exactly 2x the 384x288 images, so SEVA runs at its trained scale on OUR pixels.
+  seva:      {H: 576, W: 768}

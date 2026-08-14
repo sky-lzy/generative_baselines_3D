@@ -1,0 +1,16 @@
+# Roots for the fair NVS benchmark. Scene sets are DATA (read-only); preds/results are outputs.
+paths:
+  # source repo: model code + the inference engine (scripts/inference_single_gpu_ray_to_rgb_depth_eval.py)
+  vwm_repo: /n/lab_storage/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new
+  # SEVA checkout. MUST be the writable copy: demo.py writes cwd-relative work_dirs/, and the
+  # /net/holy-isilon mirror is a read-only mount (that already caused one silent total failure).
+  seva_repo: /n/lab_storage/ydu_lab/Lab/akiruga/stable-virtual-camera
+  # fair scene sets built by nvs/data/build_fair_scenes.py (384x288 4:3, intrinsics rebased)
+  scenes_fair: /n/netscratch/ydu_lab/Lab/akiruga/vwm_eval_data/svc_bench/scenes_fair
+  hf_home: /n/netscratch/ydu_lab/Lab/akiruga
+  standardized_eval: /n/lab_storage/ydu_lab/Lab/akiruga/world_model_4d/standardized_eval_new
+
+preds:
+  fair: ${paths.standardized_eval}/nvs/preds_fair    # <tag>__<ds>__ncf<k>__s<scale>/
+results:
+  fair: ${paths.standardized_eval}/nvs/results_fair  # <tag>__<ds>__ncf<k>__s<scale>.csv
