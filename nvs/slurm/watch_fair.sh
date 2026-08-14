@@ -31,6 +31,18 @@ for d in "$PRED"/*/; do
   printf "        %-58s %4s scenes\n" "$n" "$c"
 done
 
+# SEVA writes into its own work_dirs and only symlinks into preds_fair when a shard EXITS, so a
+# preds_fair-only view reports 0 for every SEVA cell that is still generating.
+SW=/n/lab_storage/ydu_lab/Lab/akiruga/stable-virtual-camera/work_dirs/demo/img2img
+for d in "$SW"/fair_*/; do
+  [ -d "$d" ] || continue
+  n=$(basename "$d"); n=${n#fair_}
+  [ -e "$PRED/$n" ] && continue        # already counted above via the symlink
+  c=$(find "$d" -mindepth 2 -path "*/samples-rgb/*" -name "*.png" 2>/dev/null | \
+      awk -F/ '{print $(NF-2)}' | sort -u | wc -l)
+  printf "        %-58s %4s scenes (seva work_dirs)\n" "$n" "$c"
+done
+
 # ---- failures ----------------------------------------------------------------------------
 echo "errors:"
 bad=0

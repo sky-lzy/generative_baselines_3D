@@ -35,6 +35,20 @@ from score_nvs_fair import read_ours, read_seva, read_gt, to_metric_domain  # no
 LABEL_H = 22
 
 
+def ffmpeg_exe():
+    """ffmpeg is NOT on PATH on these login/compute nodes. Prefer the conda env's binary, fall back
+    to the one imageio-ffmpeg ships, and only then to PATH — so video building never silently
+    depends on a module being loaded."""
+    cand = Path(sys.executable).parent / "ffmpeg"
+    if cand.exists():
+        return str(cand)
+    try:
+        import imageio_ffmpeg
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception:
+        return "ffmpeg"
+
+
 def label(img_np, text):
     """Stamp a caption bar above a HxWx3 uint8 frame."""
     h, w = img_np.shape[:2]
@@ -54,7 +68,7 @@ def write_mp4(frames, path, fps=10):
     h, w = frames[0].shape[:2]
     w -= w % 2; h -= h % 2
     path.parent.mkdir(parents=True, exist_ok=True)
-    cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
+    cmd = [ffmpeg_exe(), "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
            "-s", f"{frames[0].shape[1]}x{frames[0].shape[0]}", "-r", str(fps), "-i", "-",
            "-vf", f"crop={w}:{h}:0:0", "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
            "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(path)]
@@ -65,9 +79,17 @@ def write_mp4(frames, path, fps=10):
     return p.wait() == 0
 
 
+SEVA_WORK = Path("/n/lab_storage/ydu_lab/Lab/akiruga/stable-virtual-camera"
+                 "/work_dirs/demo/img2img")
+
+
 def load_pred(preds, cell, method, scenes_root, scene, idx, ids, size):
     d = Path(preds) / cell
     if method == "seva":
+        # SEVA's preds_fair entry is a symlink created only when a shard job EXITS, so fall back to
+        # its real output root -- otherwise a cell that is finished but un-symlinked renders nothing.
+        if not (d / scene).exists() and (SEVA_WORK / f"fair_{cell}" / scene).exists():
+            d = SEVA_WORK / f"fair_{cell}"
         x, err = read_seva(str(d / scene), ids)
     else:
         x, err = read_ours(str(d / f"sample_{idx:05d}"), ids)
