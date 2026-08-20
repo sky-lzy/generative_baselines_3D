@@ -127,6 +127,29 @@ validated before use.
 `bonn`/`kitti` pose CSVs carry the π³ scale-aligned depth columns (that's how the harness scores
 them); the headline depth numbers are the LADS rows in `results/depth_ablation/`.
 
+## Evaluating the normalization arms G and G2
+
+G and G2 change the depth representation (log map instead of signed disparity) and the ray
+channels (Plücker moments / s). The scorers dispatch on a per-scene `norm_meta.json` that
+inference stamps into every preds dir, so the right inverse is applied automatically — the
+legacy path is byte-for-byte unchanged when no meta is present.
+
+```bash
+# inference + scoring, one arm x one dataset (methods norm_G_ext / norm_G2_ext):
+python runner.py run.only_method=norm_G_ext run.only_dataset=sintel run.stop_on_error=true
+```
+
+Scoring is self-contained: `vendor/` carries byte-identical copies of the three external
+modules the decode needs (`eval_common_v3`, `geo4d_eval`, `datasets/_geometry_builder` +
+`_crop_utils`), used only as a fallback when no VWM checkout / GEN3D_ROOT is present.
+Verified: re-scoring the campaign's saved predictions with this branch reproduces the
+published CSVs byte-identically (G sintel pose+depth, G2 bonn 3-alignment, and F as the
+legacy-path regression check). Inference still requires the VWM repo (model code).
+
+For NVS, `nvs/configs/nvs_methods.yaml` has config-ready entries `norm_G_24k` / `norm_G2_24k`
+(same parallax pattern as `s5bC_12500`, `ray_encoding=moment`); no NVS reference numbers exist
+for these arms yet.
+
 ## Where results land
 
 

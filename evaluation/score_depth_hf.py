@@ -17,6 +17,7 @@ import cv2, numpy as np
 
 HERE = Path(__file__).resolve().parent
 REPO = Path(os.environ.get("VWM_REPO", "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new"))  # [standardized_eval PATCH]
+sys.path.append(str(Path(__file__).resolve().parents[1] / "vendor"))  # self-contained fallback: datasets._geometry_builder resolves here when no VWM checkout is present
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "eval_pi3"))
 sys.path.insert(0, os.environ.get("GEN3D_ROOT", "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/generative_baselines_3D"))  # [standardized_eval PATCH]
@@ -38,8 +39,53 @@ DEPTH = {
   "kitti":  {"dir": f"{PI3_ROOT}/data/kitti/depth_selection/val_selection_cropped/groundtruth_depth_gathered/{{seq}}", "ext":"png", "read":depth_read_kitti, "max_depth":None},
 }
 
-def decode_ours(pred_norm):
-    return disparity_norm_to_metric_depth(pred_norm, scale=1.0, percentile_clip=2.0)
+def _norm_meta(seq_dir):
+    """Per-scene TRAINING normalization, written by run_ours_pi3.py. Absent => legacy disparity."""
+    p = Path(seq_dir) / "norm_meta.json"
+    if not p.exists():
+        return {}
+    try:
+        return {k: v for k, v in json.load(open(p)).items() if v is not None}
+    except Exception:
+        return {}
+
+
+def decode_ours(pred_norm, seq_dir=None):
+    """[-1,1] depth channel -> metric-proportional depth, using the map the model was TRAINED
+    with.
+
+    The alignment-based metrics below (scale / affine-LSQ / LADS) absorb a global SCALE, which is
+    why per-clip models historically needed no decode flags. They do NOT absorb the NONLINEARITY:
+    signed disparity `2/(1+u)-1` and the log map `1-2*clip(a*ln(1+u),0,1)` are different
+    functions, so scoring a log-map arm through the disparity inverse is silently wrong -- it
+    produces finite, plausible numbers and no error. Hence the dispatch on norm_meta.json.
+    """
+    meta = _norm_meta(seq_dir) if seq_dir is not None else {}
+    mode = meta.get("scale_mode")
+    if not mode or mode == "global_metric":
+        # Legacy / F / strategy-D: the historical path, byte-for-byte unchanged.
+        return disparity_norm_to_metric_depth(pred_norm, scale=1.0, percentile_clip=2.0)
+    import torch as _t
+    from datasets._geometry_builder import invert_depth_channel
+
+    class _Cfg(dict):
+        def get(self, k, d=None):
+            return dict.get(self, k, d)
+
+    # scale=1.0: the per-clip scalar is unknown at scoring time and is absorbed by the aligners.
+    # Only the shape of the map matters here, which is exactly what we are correcting for.
+    d, unrec = invert_depth_channel(_t.from_numpy(np.asarray(pred_norm, dtype=np.float64)),
+                                    1.0, _Cfg(meta))
+    d = d.numpy()
+    # Leave clipped pixels at their BOUNDARY value rather than NaN. The pi3 depth metric masks
+    # only on ground_truth>0 (pi3_metrics/utils/depth.py:247) and does NOT mask NaN in the
+    # prediction, so NaN propagates through the mean and turns the whole sequence into nan --
+    # observed on real Sintel: sequences with any clipped pixel scored AbsRel=nan while
+    # clip-free ones scored normally. The clipped value is the best available estimate and the
+    # unrecoverable fraction is <0.5% (measured), so this is both finite and faithful; it also
+    # matches how the legacy disparity path behaves (percentile_clip bounds, never NaNs).
+    _ = unrec
+    return d
 
 def gt_on_grid(spec, seq, fi):
     gt_files = sorted(glob.glob(os.path.join(spec["dir"].format(seq=seq), f"*.{spec['ext']}")))
@@ -49,8 +95,8 @@ def gt_on_grid(spec, seq, fi):
     gtr = np.stack([cv2.resize(gtc[i], (EVAL_W, EVAL_H), interpolation=cv2.INTER_NEAREST) for i in range(len(gtc))])
     return gtr, box
 
-def pred_on_grid_ours(pred_norm):
-    d = decode_ours(pred_norm)                                                          # (M,Hp,Wp)
+def pred_on_grid_ours(pred_norm, seq_dir=None):
+    d = decode_ours(pred_norm, seq_dir)                                                          # (M,Hp,Wp)
     return np.stack([cv2.resize(d[i], (EVAL_W, EVAL_H), interpolation=cv2.INTER_CUBIC) for i in range(len(d))])
 
 def pred_on_grid_baseline(pred_metric, box, gtHW):
@@ -77,7 +123,7 @@ def main():
             gtr, box = gt_on_grid(spec, sd.name, fi)
             gtHW = None
             if args.kind == "ours":
-                pn = np.load(sd/"pred_depth_norm.npy"); pr = pred_on_grid_ours(pn)
+                pn = np.load(sd/"pred_depth_norm.npy"); pr = pred_on_grid_ours(pn, sd)
             else:
                 pm = np.load(sd/"pred_depth_metric.npy")
                 gt_files = sorted(glob.glob(os.path.join(spec["dir"].format(seq=sd.name), f"*.{spec['ext']}")))

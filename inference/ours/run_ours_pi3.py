@@ -36,6 +36,7 @@ from datasets.pi3seq import Pi3SeqDataset
 from algorithms.wan.wan_t2v_ray_depth_mot import WanTextToVideoRayDepthMoT
 from algorithms.wan.wan_t2v_ray_depth_mot_concat import WanTextToVideoRayDepthMoTConcat
 from algorithms.wan.wan_t2v_ray_depth_mot_concat_5b import WanTextToVideoRayDepthMoTConcat5B
+from algorithms.wan.wan_t2v_ray_depth_mot_concat_rebuttal import WanTextToVideoRayDepthMoTConcatRebuttal
 from benchmark_components import (
     attach_finetuned_depth_vae_v2,
     recover_predicted_cameras,
@@ -45,11 +46,14 @@ from benchmark_components import (
 )
 
 DEVICE = "cuda"
+NORM_META: dict = {}
 
 _ALGO_CLASSES = {
     "wan_t2v_ray_depth_mot": WanTextToVideoRayDepthMoT,
     "wan_t2v_ray_depth_mot_concat": WanTextToVideoRayDepthMoTConcat,
     "wan_t2v_ray_depth_mot_concat_5b": WanTextToVideoRayDepthMoTConcat5B,
+    # the normalization-ablation arms were trained with the rebuttal class
+    "wan_t2v_ray_depth_mot_concat_rebuttal": WanTextToVideoRayDepthMoTConcatRebuttal,
 }
 
 
@@ -81,6 +85,11 @@ def build_cfg(args):
         overrides.append(f"++dataset.scale_mode={args.scale_mode}")
     if getattr(args, "global_metric_scale", None) is not None:
         overrides.append(f"++dataset.global_metric_scale={args.global_metric_scale}")
+    for _k in ("parallax_kappa", "parallax_depth_map", "parallax_log_alpha",
+               "parallax_ray_encoding", "parallax_mu", "geom_range_alpha"):
+        _v = getattr(args, _k, None)
+        if _v is not None:
+            overrides.append(f"++dataset.{_k}={_v}")
     if getattr(args, "seqs", None):
         # Shard support: restrict Pi3SeqDataset to this seq subset. Multiple instances with
         # disjoint --seqs write to the SAME preds dir; score once after all shards finish.
@@ -151,6 +160,7 @@ def run_one(
     *,
     shared_camera_intrinsics=False,
     bundle_adjust=False,
+    norm_meta=None,
 ):
     m = batch["videos"].shape[1]
     lat_t = set_model_frames(model, m)
@@ -169,6 +179,7 @@ def run_one(
         pred_raymaps,
         shared_intrinsics=shared_camera_intrinsics,
         model_native_units=bundle_adjust,
+        norm_meta=norm_meta,
     )
     pred_depth_norm = pred_depth.float().mean(dim=1).cpu().numpy()           # (T, H, W) in [-1,1]
     confidence = getattr(model, "last_depth_confidence", None)
@@ -198,7 +209,7 @@ def main():
     ap.add_argument("--hist_guidance", type=float, default=1.0)
     ap.add_argument("--lang_guidance", type=float, default=0.0)
     ap.add_argument("--frame_cap", type=int, default=50)
-    ap.add_argument("--frame_mode", default="uniform", choices=["uniform", "contig_first"],
+    ap.add_argument("--frame_mode", default="uniform", choices=["uniform", "contig_first", "contig_middle", "contig_last"],
                     help="uniform=Protocol A (default, UNCHANGED); contig_first=Protocol B")
     ap.add_argument("--height", type=int, default=240)
     ap.add_argument("--width", type=int, default=320)
@@ -206,6 +217,15 @@ def main():
     ap.add_argument("--seqs", default=None, help="comma-separated seq subset (sharding); disjoint shards write same preds dir, score once")
     ap.add_argument("--scale_mode", default=None, help="e.g. global_metric (D); leave unset for per-clip (E)")
     ap.add_argument("--global_metric_scale", type=float, default=None, help="metres divisor for scale_mode=global_metric (D: 10.0)")
+    # Normalization-ablation arms. scale_mode also accepts vggt|vggt_omega|pi3|da3|genception
+    # (datasets/_geometry_builder.py); parallax_* carry scheme C's settings. These are forwarded
+    # to the dataset config AND stamped into norm_meta.json so scoring inverts the right map.
+    ap.add_argument("--parallax_kappa", type=float, default=None)
+    ap.add_argument("--parallax_depth_map", default=None)
+    ap.add_argument("--parallax_log_alpha", type=float, default=None)
+    ap.add_argument("--parallax_ray_encoding", default=None)
+    ap.add_argument("--parallax_mu", type=float, default=None)
+    ap.add_argument("--geom_range_alpha", type=float, default=None)
     ap.add_argument(
         "--depth_vae_ckpt",
         default=None,
@@ -226,6 +246,14 @@ def main():
     )
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
+    # SINGLE SOURCE OF TRUTH for the training normalization. Used for (a) arm-aware camera
+    # recovery at inference and (b) the norm_meta.json stamped into every preds dir for the
+    # scorer. Sharing one dict is what guarantees the decode at inference and the decode at
+    # scoring cannot drift apart.
+    global NORM_META
+    NORM_META = {k: getattr(args, k, None) for k in (
+        "scale_mode", "global_metric_scale", "parallax_kappa", "parallax_depth_map",
+        "parallax_log_alpha", "parallax_ray_encoding", "parallax_mu", "geom_range_alpha")}
 
     if args.depth_vae_ckpt and args.algorithm != "wan_t2v_ray_depth_mot_concat_5b":
         ap.error("--depth_vae_ckpt is supported here only for the 5B/Wan2.2 model")
@@ -285,6 +313,7 @@ def main():
             args.sample_steps,
             shared_camera_intrinsics=args.shared_camera_intrinsics,
             bundle_adjust=args.bundle_adjust,
+            norm_meta=NORM_META,
         )
         pred_c2w = cameras.c2w
         ba_summary = None
@@ -315,6 +344,14 @@ def main():
                 "n_src": n_src,
                 "n_used": len(frame_indices),
             }, f, indent=2)
+        # Stamp the TRAINING normalization into the preds dir. `pred_depth_norm.npy` is the raw
+        # [-1,1] channel, and inverting it needs the map the model was TRAINED with. The stock
+        # scorers assume signed disparity, which is right only for F / global_metric; a log-map
+        # arm scored through that inverse yields plausible-but-meaningless numbers with no error.
+        # Writing it here (rather than passing a flag to the scorer) makes the preds
+        # self-describing, so a scorer can never be run with the wrong inverse by accident.
+        with open(seq_dir / "norm_meta.json", "w") as f:
+            json.dump(NORM_META, f, indent=2)
         save_rng_state(rng_state_path)
         component_tmp = component_path.with_name(f".{component_path.name}.tmp")
         with open(component_tmp, "w") as f:

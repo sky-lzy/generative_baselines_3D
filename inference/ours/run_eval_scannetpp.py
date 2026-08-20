@@ -32,6 +32,7 @@ from hydra import compose, initialize_config_dir  # [standardized_eval PATCH]
 from tqdm import tqdm
 
 REPO = Path(os.environ.get("VWM_REPO", "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/world_model_4d/video_world_model_new"))  # [standardized_eval PATCH] repo root via env
+sys.path.append(str(Path(__file__).resolve().parents[2] / "vendor"))  # self-contained fallback: datasets._geometry_builder resolves here when no VWM checkout is present
 sys.path.insert(0, str(REPO))
 
 from datasets.scannetpp import ScanNetppDataset
@@ -58,15 +59,71 @@ _spec = _ilu.spec_from_file_location("pi3_utils_depth", _PI3_DEPTH)
 _pi3_depth = _ilu.module_from_spec(_spec); _spec.loader.exec_module(_pi3_depth)
 depth_evaluation = _pi3_depth.depth_evaluation
 
+# ScanNet++ used to score depth with pi3's depth_evaluation(align_with_scale=True) -- a SINGLE
+# L1 scale fit -- while sintel/bonn/kitti go through evaluation/align_ablation.score_all_alignments,
+# which reports scale / affine_lsq / lads. That made the ScanNet++ column incomparable with the
+# rest of the depth table: our models predict RELATIVE depth, so a scale-only fit charges them for
+# a missing SHIFT that the other datasets are allowed to fit. Unified onto the shared scorer here.
+# parents: [0]=inference/ours, [1]=inference, [2]=standardized_eval -> the evaluation/ package.
+# (parents[1] resolves to inference/ and fails with ModuleNotFoundError; line 56 uses [2] too.)
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "evaluation"))
+from align_ablation import score_all_alignments, ALIGNERS
 
-def decode_pred_depth(pred_norm: np.ndarray) -> np.ndarray:
-    """[-1,1] normalized disparity -> metric-proportional depth (VERBATIM as eval_ours_pi3)."""
-    return disparity_norm_to_metric_depth(
-        depth_norm=pred_norm.astype(np.float32), scale=1.0,
-    ).astype(np.float64)
+
+def decode_pred_depth(pred_norm: np.ndarray, args=None) -> np.ndarray:
+    """[-1,1] depth channel -> metric-proportional depth, using the map the arm was TRAINED with.
+
+    THIS USED TO HARDCODE THE SIGNED-DISPARITY INVERSE FOR EVERY ARM. score_depth_hf.py and
+    eval_ours_pi3.py were both given a norm_meta/scale_mode dispatch when the normalization
+    ablation landed; this entrypoint does its own inline decode and was missed, so every LOG-MAP
+    arm (C, G, vggt, vggt_omega, pi3, da3, genception -- i.e. 7 of 8) had its ScanNet++ depth
+    inverted with the WRONG function. F was the only arm whose training map matched the hardcode,
+    which is exactly why F appeared to "win" ScanNet++ depth.
+
+    The alignment in depth_evaluation(align_with_scale=True) absorbs a global SCALE. It cannot
+    absorb the NONLINEARITY: measured on G's own saved predictions, the two inverses disagree by
+    3-7% AbsRel on typical scenes and by 619% / 3085% on two scenes, because expm1() diverges as
+    the prediction approaches the far end of [-1,1] while the disparity inverse stays bounded.
+    That heavy tail is what dragged G's median d1 from 0.43 to 0.23.
+    """
+    mode = getattr(args, "scale_mode", None) if args is not None else None
+    if not mode or mode == "global_metric":
+        # Legacy / F / strategy-D -- the historical path, byte-for-byte unchanged.
+        return disparity_norm_to_metric_depth(
+            depth_norm=pred_norm.astype(np.float32), scale=1.0,
+        ).astype(np.float64)
+    import torch as _t
+    sys.path.insert(0, str(REPO))
+    from datasets._geometry_builder import invert_depth_channel
+
+    class _Cfg(dict):
+        def get(self, k, d=None):
+            return dict.get(self, k, d)
+    cfg_like = _Cfg({"scale_mode": mode})
+    for k in ("parallax_depth_map", "parallax_log_alpha", "parallax_kappa", "parallax_mu",
+              "geom_range_alpha"):
+        v = getattr(args, k, None)
+        if v is not None:
+            cfg_like[k] = v
+    # scale=1.0: the per-clip scalar is unknown at scoring time and is absorbed by
+    # depth_evaluation(align_with_scale=True). Only the SHAPE of the map matters here, which is
+    # exactly what this dispatch corrects.
+    d, _unrec = invert_depth_channel(
+        _t.from_numpy(np.asarray(pred_norm, dtype=np.float64)), 1.0, cfg_like)
+    # Clipped pixels stay at their BOUNDARY value, never NaN: pi3_metrics/utils/depth.py masks
+    # only on ground_truth>0 and does not mask NaN in the prediction, so a single NaN turns the
+    # whole sequence's AbsRel into nan. Same choice as the validated score_depth_hf.py caller.
+    return np.asarray(d, dtype=np.float64)
 
 
 DEVICE = "cuda"
+
+# SINGLE SOURCE OF TRUTH for the training normalization, mirroring run_ours_pi3.py. Used for
+# arm-aware CAMERA RECOVERY. It was absent here, so recover_predicted_cameras() ran with
+# norm_meta=None and every arm's ScanNet++ pose was decoded as if channels 3:6 were a Plucker
+# moment. That is correct only for F/G/VGGT; C (companded origins), VGGT-Omega/pi3/DA3
+# (broadcast origin) and GenCeption (Rothko) were all mis-decoded, silently.
+NORM_META = None
 
 
 def build_cfg(args):
@@ -99,6 +156,15 @@ def build_cfg(args):
         overrides.append(f"++dataset.scale_mode={args.scale_mode}")
     if getattr(args, "global_metric_scale", None) is not None:
         overrides.append(f"++dataset.global_metric_scale={args.global_metric_scale}")
+    # ScanNetPP has its OWN inference entrypoint, so the normalization-ablation flags added to
+    # run_ours_pi3.py were missing here. Only scheme C passes parallax_*, so ONLY norm_C failed
+    # -- argparse rejected the unknown args, the wrapper still returned rc=0, and the cell
+    # silently produced nothing. Keep this list in sync with run_ours_pi3.py.
+    for _k in ("parallax_kappa", "parallax_depth_map", "parallax_log_alpha",
+               "parallax_ray_encoding", "parallax_mu", "geom_range_alpha"):
+        _v = getattr(args, _k, None)
+        if _v is not None:
+            overrides.append(f"++dataset.{_k}={_v}")
     with initialize_config_dir(version_base=None, config_dir=str(REPO / "configurations")):  # [standardized_eval PATCH]
         cfg = compose(config_name="config", overrides=overrides)
         OmegaConf.resolve(cfg)
@@ -132,6 +198,7 @@ def predict_depth_norm(
         pred_raymaps,
         shared_intrinsics=shared_camera_intrinsics,
         model_native_units=bundle_adjust,
+        norm_meta=NORM_META,
     )
     pred_depth = video[3 * T:]
     confidence = getattr(model, "last_depth_confidence", None)
@@ -164,6 +231,12 @@ def main():
                          "serves all baselines (sampling is deterministic w/ no_augmentations)")
     ap.add_argument("--scale_mode", default=None)
     ap.add_argument("--global_metric_scale", type=float, default=None)
+    ap.add_argument("--parallax_kappa", type=float, default=None)
+    ap.add_argument("--parallax_depth_map", default=None)
+    ap.add_argument("--parallax_log_alpha", type=float, default=None)
+    ap.add_argument("--parallax_ray_encoding", default=None)
+    ap.add_argument("--parallax_mu", type=float, default=None)
+    ap.add_argument("--geom_range_alpha", type=float, default=None)
     ap.add_argument(
         "--depth_vae_ckpt",
         default=None,
@@ -188,6 +261,10 @@ def main():
     ap.add_argument("--shard_idx", type=int, default=0, help="this shard's index (round-robin over scenes)")
     ap.add_argument("--n_shards", type=int, default=1, help="total shards; disjoint shards fill the per-scene cache, then run once with n_shards=1 (all cached) for the full CSV")
     args = ap.parse_args()
+    global NORM_META
+    NORM_META = {k: getattr(args, k, None) for k in (
+        "scale_mode", "global_metric_scale", "parallax_kappa", "parallax_depth_map",
+        "parallax_log_alpha", "parallax_ray_encoding", "parallax_mu", "geom_range_alpha")}
 
     if args.depth_vae_ckpt and args.algorithm != "wan_t2v_ray_depth_mot_concat_5b":
         ap.error("--depth_vae_ckpt is supported here only for the 5B/Wan2.2 model")
@@ -244,13 +321,19 @@ def main():
                 and component_path.exists() and rng_state_path.exists():
             try:
                 m = json.load(open(metric_path))
+                # New schema: {alignment: {abs_rel, delta1, valid_pixels}} for scale/affine_lsq/lads.
+                # The OLD schema was flat {abs_rel, delta1, valid_pixels} from a single scale fit AND
+                # a wrong depth inverse, so a KeyError here is the desired outcome: it drops through
+                # to recompute instead of resurrecting a stale, incomparable number.
+                per_align = {a: (float(m[a]["abs_rel"]), float(m[a]["delta1"]),
+                                 int(m[a]["valid_pixels"])) for a in ALIGNERS}
                 restore_rng_state(rng_state_path)
-                rows.append((scene, m["abs_rel"], m["delta1"], m["valid_pixels"]))
-                print(f"{scene:24s}  (cached) AbsRel {m['abs_rel']:7.4f}  d1 {m['delta1']:7.4f}",
-                      flush=True)
+                ar, d1, vp = per_align["lads"]
+                rows.append((scene, ar, d1, vp, per_align))
+                print(f"{scene:24s}  (cached) lads AbsRel {ar:7.4f}  d1 {d1:7.4f}", flush=True)
                 del batch; gc.collect()
                 continue
-            except (ValueError, KeyError):
+            except (ValueError, KeyError, TypeError):
                 pass
 
         component_path.unlink(missing_ok=True)
@@ -276,7 +359,7 @@ def main():
                     output_dir=preds_root / f"{scene}_ba",
                     repo_root=REPO,
                 )
-            pred_metric = decode_pred_depth(pred_norm)                          # (T,H,W)
+            pred_metric = decode_pred_depth(pred_norm, args)                    # (T,H,W)
 
             # Pose artifacts: raw-decoded pred c2w + ViPE GT c2w (first-frame-relative, metric)
             # from the SAME batch, so frame correspondence is exact. Scored separately by
@@ -301,14 +384,16 @@ def main():
             gt = np.where(valid & (depths_raw > 0), depths_raw, 0.0).astype(np.float64)
 
             # pred and gt already same (T,H,W) at model res — no resize/crop needed.
-            results, *_ = depth_evaluation(
-                pred_metric, gt, align_with_scale=True, use_gpu=False, max_depth=max_depth,
-            )
-            ar = float(results["Abs Rel"]); d1 = float(results["δ < 1.25"])
-            vp = int(results["valid_pixels"])
-            rows.append((scene, ar, d1, vp))
+            # IDENTICAL scorer to sintel/bonn/kitti: scale / affine_lsq / lads over the sequence.
+            per_align = score_all_alignments(pred_metric, gt, max_depth=max_depth)
+            ar, d1, vp = per_align["lads"]          # headline row, matching the other datasets
+            rows.append((scene, ar, d1, vp, per_align))
             np.save(preds_root / f"{scene}_pred_depth_norm.npy", pred_norm)
-            json.dump({"abs_rel": ar, "delta1": d1, "valid_pixels": vp}, open(metric_path, "w"))
+            # Save GT depth + validity. It was NOT saved before, which is why correcting the decode
+            # bug required full re-inference instead of a CPU rescore. Never again.
+            np.save(preds_root / f"{scene}_gt_depth.npy", gt.astype(np.float32))
+            json.dump({a: {"abs_rel": v[0], "delta1": v[1], "valid_pixels": v[2]}
+                       for a, v in per_align.items()}, open(metric_path, "w"))
             save_rng_state(rng_state_path)
             component_tmp = component_path.with_name(f".{component_path.name}.tmp")
             with open(component_tmp, "w") as handle:
@@ -336,28 +421,51 @@ def main():
             pred_norm = pred_metric = depths_raw = valid = gt = results = batch = None
             gc.collect(); torch.cuda.empty_cache()
 
+    # Stamp the training normalization beside the predictions, as run_ours_pi3.py does. Its absence
+    # here is why the wrong-inverse bug could not be corrected after the fact.
+    try:
+        with open(Path(preds_root) / "norm_meta.json", "w") as _f:
+            json.dump({k: v for k, v in (NORM_META or {}).items() if v is not None}, _f, indent=2)
+    except Exception as _e:
+        print(f"[warn] could not write norm_meta.json: {_e}")
+
     if not rows:
         raise RuntimeError("no scannetpp scenes scored")
-    abs_arr = np.array([r[1] for r in rows], float)
-    d1_arr = np.array([r[2] for r in rows], float)
-    w = np.array([r[3] for r in rows], float)
-    abs_rel_mean = float(abs_arr.mean()); d1_mean = float(d1_arr.mean())
-    abs_rel_w = float(np.average(abs_arr, weights=w)); d1_w = float(np.average(d1_arr, weights=w))
-
     os.makedirs(args.out_dir, exist_ok=True)
+
+    # PRIMARY output: the SAME alignment-row schema results/depth_ablation uses for
+    # sintel/bonn/kitti, so the ScanNet++ column can be read with the identical code path and the
+    # `lads` row means the same thing everywhere.
     csv_path = os.path.join(args.out_dir, f"{args.model}_scannetpp.csv")
     with open(csv_path, "w") as f:
-        f.write("seq,ATE,RPE_trans,RPE_rot,AbsRel,delta_1.25,valid_pixels\n")
-        for scene, ar, d1, vp in rows:
-            f.write(f"{scene},,,,{ar:.6f},{d1:.6f},{vp}\n")
-        f.write(f"AVERAGE(meanseq),,,,{abs_rel_mean:.6f},{d1_mean:.6f},\n")
-        f.write(f"AVERAGE(vpixwt_depth),,,,{abs_rel_w:.6f},{d1_w:.6f},\n")
+        f.write("alignment,AbsRel_mean,d1_mean,AbsRel_vpixwt,d1_vpixwt,n_seq\n")
+        for a in ALIGNERS:
+            ar = np.array([r[4][a][0] for r in rows], float)
+            d1 = np.array([r[4][a][1] for r in rows], float)
+            w = np.array([r[4][a][2] for r in rows], float)
+            ok = np.isfinite(ar) & np.isfinite(d1) & (w > 0)
+            if not ok.any():
+                f.write(f"{a},nan,nan,nan,nan,0\n"); continue
+            f.write(f"{a},{ar[ok].mean():.6f},{d1[ok].mean():.6f},"
+                    f"{np.average(ar[ok], weights=w[ok]):.6f},"
+                    f"{np.average(d1[ok], weights=w[ok]):.6f},{int(ok.sum())}\n")
+
+    # SIDECAR: per-scene rows (all alignments), for distribution checks and outlier hunting.
+    per_path = os.path.join(args.out_dir, f"{args.model}_scannetpp_perscene.csv")
+    with open(per_path, "w") as f:
+        f.write("seq,alignment,AbsRel,delta_1.25,valid_pixels\n")
+        for scene, _ar, _d1, _vp, pa in rows:
+            for a, (x, y, n) in pa.items():
+                f.write(f"{scene},{a},{x:.6f},{y:.6f},{n}\n")
 
     print("\n==================== SUMMARY ====================")
     print(f"model={args.model} dataset=scannetpp ({len(rows)} scenes)")
-    print(f"DEPTH (mean over seqs): AbsRel {abs_rel_mean:.4f}  delta<1.25 {d1_mean:.4f}")
-    print(f"DEPTH (vpix-weighted) : AbsRel {abs_rel_w:.4f}  delta<1.25 {d1_w:.4f}")
-    print(f"CSV -> {csv_path}")
+    for a in ALIGNERS:
+        ar = np.array([r[4][a][0] for r in rows], float)
+        d1 = np.array([r[4][a][1] for r in rows], float)
+        ok = np.isfinite(ar) & np.isfinite(d1)
+        print(f"  {a:11s} AbsRel {ar[ok].mean():7.4f}   delta<1.25 {d1[ok].mean():7.4f}")
+    print(f"CSV -> {csv_path}\n     -> {per_path}")
 
 
 if __name__ == "__main__":

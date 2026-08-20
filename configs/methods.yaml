@@ -54,6 +54,23 @@ methods:
      depth_vae_ckpt: "${_depth_vae_v2}",
      shared_camera_intrinsics: true, bundle_adjust: true}
 
+  # ---- normalization-ablation arms G / G2 (TartanAir-only 1.3B, trained 6000->24000 abs) ----
+  # scale_flags carries each arm's TRAINING encoding into both the dataset config and
+  # norm_meta.json, so the scorer inverts the map the model actually learned. Getting this wrong
+  # is silent: a log-map arm scored through the disparity inverse yields plausible garbage.
+  # ckpts are the final abs-24000 weights (17 GB weights-only extracts).
+  _nabl: &nabl
+    kind: ours_1p3b
+    algorithm: wan_t2v_ray_depth_mot_concat_rebuttal
+  norm_G_ext:
+    <<: *nabl
+    ckpt: "/n/netscratch/ydu_lab/Lab/akiruga/vwm_train_runs/norm_final_abs24000/G_step18000rel.ckpt"
+    scale_flags: "--scale_mode parallax --parallax_kappa 4.0 --parallax_depth_map log --parallax_log_alpha 0.30 --parallax_ray_encoding moment --parallax_mu 255.0"
+  norm_G2_ext:
+    <<: *nabl
+    ckpt: "/n/netscratch/ydu_lab/Lab/akiruga/vwm_train_runs/norm_final_abs24000/G2_step18000rel.ckpt"
+    scale_flags: "--scale_mode parallax --parallax_kappa 2.0 --parallax_depth_map log --parallax_log_alpha 0.30 --parallax_ray_encoding moment --parallax_mu 255.0"
+
 # presets applied by kind (any per-method key above overrides these)
 kind_defaults:
   ours_5b:   {algorithm: wan_t2v_ray_depth_mot_concat_5b, height: 288, width: 384, bf16: true}

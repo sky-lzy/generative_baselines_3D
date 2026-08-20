@@ -26,6 +26,16 @@ methods:
   s5bC_12500: {kind: ours_5b, ckpt: "${_vwm}/outputs/s5b_de_jul15/s5bC_12500.ckpt",
                dataset_overrides: "scale_mode=parallax parallax_ray_encoding=companded_origin parallax_kappa=4.0 parallax_depth_map=log parallax_log_alpha=0.30 parallax_mu=255.0"}
 
+  # normalization arms G / G2 (1.3B, TartanAir-only, final abs-24000 weights). Same parallax
+  # pattern as s5bC_12500 with ray_encoding=moment (G) and additionally kappa=2 (G2).
+  # CONFIG-READY, NOT YET RENDERED: no NVS reference numbers exist for these arms.
+  norm_G_24k:  {kind: ours_1p3b, algorithm: wan_t2v_ray_depth_mot_concat_rebuttal,
+                ckpt: "/n/netscratch/ydu_lab/Lab/akiruga/vwm_train_runs/norm_final_abs24000/G_step18000rel.ckpt",
+                dataset_overrides: "scale_mode=parallax parallax_ray_encoding=moment parallax_kappa=4.0 parallax_depth_map=log parallax_log_alpha=0.30 parallax_mu=255.0"}
+  norm_G2_24k: {kind: ours_1p3b, algorithm: wan_t2v_ray_depth_mot_concat_rebuttal,
+                ckpt: "/n/netscratch/ydu_lab/Lab/akiruga/vwm_train_runs/norm_final_abs24000/G2_step18000rel.ckpt",
+                dataset_overrides: "scale_mode=parallax parallax_ray_encoding=moment parallax_kappa=2.0 parallax_depth_map=log parallax_log_alpha=0.30 parallax_mu=255.0"}
+
 # presets applied by kind (any per-method key above overrides these).
 # bf16 -> INFER_DIT_BF16=1, matching hf_homefield.sbatch which set it for EVERY model
 # (5B fp32 does not fit an 80GB GPU; the 1.3B rebuttal family also ran bf16).
