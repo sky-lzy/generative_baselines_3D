@@ -291,6 +291,16 @@ def build_matrix(cfg):
 
 def main():
     cfg = load_cfg()
+    if cfg.run.get("verify_data", True) and not cfg.run.dry_run:
+        # Preflight: prove the benchmark inputs are byte-identical to the manifest before any
+        # GPU time is spent. Frame selection is a pure function of each sequence's sorted file
+        # list, so a single added/removed file silently shifts the evaluated frames -- this
+        # turns that into a hard failure. run.verify_data=false skips (~1-2 min of hashing).
+        r = subprocess.run([sys.executable, str(SE / "evaluation" / "verify_eval_data.py")])
+        if r.returncode != 0:
+            sys.exit("ABORT: benchmark data does not match evaluation/eval_data_manifest.json "
+                     "(see mismatches above). Fix the data, or re-pin deliberately with "
+                     "verify_eval_data.py --write, or bypass with run.verify_data=false.")
     for d in list(cfg.preds.values()) + list(cfg.results.values()):
         Path(d).mkdir(parents=True, exist_ok=True)
     (SE / "logs").mkdir(exist_ok=True)
