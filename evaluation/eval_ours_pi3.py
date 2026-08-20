@@ -43,6 +43,7 @@ from utils.depth import (
 # its 2nd-percentile so the 1/disp inversion doesn't explode on near-zero-disparity (far/sky)
 # pixels — without it Sintel depth blows up (AbsRel ~1, d1 ~0.19). scale is absorbed by the
 # scale-only alignment downstream, so scale=1.0 is fine.
+sys.path.append(str(Path(__file__).resolve().parents[1] / "vendor"))  # self-contained fallback: eval_common_v3 / geo4d_eval / datasets.* resolve here when no VWM checkout is present
 sys.path.insert(0, os.environ.get("GEN3D_ROOT", "/net/holy-isilon/ifs/rc_labs/ydu_lab/Lab/akiruga/generative_baselines_3D"))  # [standardized_eval PATCH]
 from eval_common_v3 import disparity_norm_to_metric_depth
 
@@ -87,13 +88,53 @@ DATASET_SPEC = {
 }
 
 
-def decode_pred_depth(pred_norm: np.ndarray) -> np.ndarray:
-    """[-1,1] normalized disparity -> metric-proportional depth, VERBATIM via our validated
-    conversion (percentile_clip=2.0 bounds the 1/disp inversion on far/sky pixels). The
-    per-video percentile is computed across the whole (T,H,W) array, so pass the full seq."""
-    return disparity_norm_to_metric_depth(
-        depth_norm=pred_norm.astype(np.float32), scale=1.0,
-    ).astype(np.float64)
+def _norm_meta(seq_dir):
+    """TRAINING normalization stamped per scene by run_ours_pi3.py; absent => legacy disparity."""
+    p = Path(seq_dir) / "norm_meta.json"
+    if not p.exists():
+        return {}
+    try:
+        return {k: v for k, v in json.load(open(p)).items() if v is not None}
+    except Exception:
+        return {}
+
+
+def decode_pred_depth(pred_norm: np.ndarray, seq_dir=None) -> np.ndarray:
+    """[-1,1] depth channel -> metric-proportional depth, using the map the model was TRAINED
+    with.
+
+    Legacy behaviour (no norm_meta.json) is the validated disparity conversion, byte-for-byte:
+    percentile_clip=2.0 bounds the 1/disp inversion on far/sky pixels, computed across the whole
+    (T,H,W) array, so pass the full seq. For the normalization-ablation arms the map is a
+    different function (log, and for genception a flipped orientation); the scale-aligned metrics
+    absorb a global scale but NOT a different nonlinearity, so inverting through the wrong one is
+    silently wrong rather than an error.
+    """
+    meta = _norm_meta(seq_dir) if seq_dir is not None else {}
+    mode = meta.get("scale_mode")
+    if not mode or mode == "global_metric":
+        return disparity_norm_to_metric_depth(
+            depth_norm=pred_norm.astype(np.float32), scale=1.0,
+        ).astype(np.float64)
+    import torch as _t
+    from datasets._geometry_builder import invert_depth_channel
+
+    class _Cfg(dict):
+        def get(self, k, d=None):
+            return dict.get(self, k, d)
+
+    d, unrec = invert_depth_channel(
+        _t.from_numpy(pred_norm.astype(np.float64)), 1.0, _Cfg(meta))
+    d = d.numpy().astype(np.float64)
+    # Leave clipped pixels at their BOUNDARY value rather than NaN. The pi3 depth metric masks
+    # only on ground_truth>0 (pi3_metrics/utils/depth.py:247) and does NOT mask NaN in the
+    # prediction, so NaN propagates through the mean and turns the whole sequence into nan --
+    # observed on real Sintel: sequences with any clipped pixel scored AbsRel=nan while
+    # clip-free ones scored normally. The clipped value is the best available estimate and the
+    # unrecoverable fraction is <0.5% (measured), so this is both finite and faithful; it also
+    # matches how the legacy disparity path behaves (percentile_clip bounds, never NaNs).
+    _ = unrec
+    return d
 
 
 def eval_pose(pspec, seq, frame_indices, pred_c2w):
@@ -114,13 +155,13 @@ def eval_pose(pspec, seq, frame_indices, pred_c2w):
     return float(ate), float(rpe_t), float(rpe_r)
 
 
-def eval_depth(dspec, seq, frame_indices, pred_depth_norm):
+def eval_depth(dspec, seq, frame_indices, pred_depth_norm, seq_dir=None):
     gt_files = sorted(glob.glob(os.path.join(dspec["dir"].format(seq=seq), f"*.{dspec['ext']}")))
     fi = list(frame_indices)
     assert len(gt_files) >= max(fi) + 1, \
         f"{seq}: {len(gt_files)} GT depth files, need idx {max(fi)}"
     gt_depth = np.stack([dspec["read"](gt_files[i]) for i in fi], axis=0)        # (M, Hgt, Wgt)
-    pred_d = decode_pred_depth(pred_depth_norm)                                  # (M, Hp, Wp)
+    pred_d = decode_pred_depth(pred_depth_norm, seq_dir)                         # (M, Hp, Wp)
     Hp, Wp = pred_d.shape[1], pred_d.shape[2]
     # Crop GT to the SAME aspect-preserving center crop the model's input used, then resize
     # pred to that cropped-GT resolution (mirrors PI3 videodepth/eval.py resize-to-GT).
@@ -178,7 +219,7 @@ def main():
         if do_depth:
             try:
                 pred_depth_norm = np.load(sd / "pred_depth_norm.npy")
-                dres = eval_depth(spec["depth"], seq, frame_indices, pred_depth_norm)
+                dres = eval_depth(spec["depth"], seq, frame_indices, pred_depth_norm, sd)
                 abs_rel = dres["Abs Rel"]; delta1 = dres["δ < 1.25"]; vpix = dres["valid_pixels"]
                 depth_rows.append((seq, abs_rel, delta1, vpix))
             except Exception as e:

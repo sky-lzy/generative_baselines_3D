@@ -173,6 +173,7 @@ def recover_predicted_cameras(
     *,
     shared_intrinsics: bool,
     model_native_units: bool,
+    norm_meta: dict = None,
     shared_max_points_per_frame: int = 600,
     shared_max_nfev: int = 80,
 ) -> CameraRecovery:
@@ -187,6 +188,30 @@ def recover_predicted_cameras(
     raymaps = pred_raymaps.detach().float()
     legacy_k, legacy_c2w_t = raymap_to_camera(raymaps)
     legacy_c2w = legacy_c2w_t.detach().cpu().numpy().astype(np.float64)
+    # ARM-AWARE TRANSLATION. raymap_to_camera assumes channels 3:6 are Plucker moments. That is
+    # true for F / global_metric / vggt, but NOT for the other ablation arms: scheme C stores a
+    # mu-law companded camera origin, vggt_omega/pi3/da3 store the origin broadcast spatially,
+    # and genception stores it only inside the centred "Rothko" rectangle. Decoding any of those
+    # as a moment yields a WRONG trajectory with no error raised. K and R still come from the
+    # direction channels either way, so only the translation column is replaced here.
+    # NOTE pi3: its directions are per-frame LOCAL, so R is frame-invariant and that arm carries
+    # no rotation at all -- its rotation metrics are structurally degenerate, not merely poor.
+    _meta = dict(norm_meta or {})
+    if _meta.get("scale_mode"):
+        from datasets._geometry_builder import (
+            origins_from_normalized_raymap, ray_encoding_for, PLUCKER,
+        )
+
+        class _Cfg(dict):
+            def get(self, k, d=None):
+                return dict.get(self, k, d)
+
+        _cfg = _Cfg({k: v for k, v in _meta.items() if v is not None})
+        if ray_encoding_for(_cfg) != PLUCKER:
+            # scale=1.0: Sim(3) pose alignment absorbs the global scalar; the SEMANTICS of the
+            # channel are what must be right here.
+            t_arm = origins_from_normalized_raymap(raymaps, 1.0, _cfg)
+            legacy_c2w[:, :3, 3] = t_arm.detach().cpu().numpy().astype(np.float64)
     if not (shared_intrinsics or model_native_units):
         return CameraRecovery(
             intrinsics=legacy_k.detach().cpu().numpy().astype(np.float64),
