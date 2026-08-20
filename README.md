@@ -146,6 +146,12 @@ Verified: re-scoring the campaign's saved predictions with this branch reproduce
 published CSVs byte-identically (G sintel pose+depth, G2 bonn 3-alignment, and F as the
 legacy-path regression check). Inference still requires the VWM repo (model code).
 
+Data pinning: `evaluation/eval_data_manifest.json` records size+md5 of all 15,395 image/GT
+files the pi3 benchmark reads (the exact seq lists included). Run
+`python evaluation/verify_eval_data.py` before evaluating — frame selection is a pure function
+of each sequence's sorted file list, so byte-identical files guarantee identical frames, GT and
+numbers.
+
 For NVS, `nvs/configs/nvs_methods.yaml` has config-ready entries `norm_G_24k` / `norm_G2_24k`
 (same parallax pattern as `s5bC_12500`, `ray_encoding=moment`); no NVS reference numbers exist
 for these arms yet.
