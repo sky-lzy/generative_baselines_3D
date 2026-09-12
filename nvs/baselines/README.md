@@ -44,11 +44,21 @@ controls all caught: wrong reader (`no pred_rgb.npy` ×128), out-of-range ids un
 
 ## Why Gen3C scores low — read this before concluding the model is broken
 
-1. **Conditioning asymmetry (the big one).** Gen3C is seeded from **one** view, while ours
-   and SEVA get the two `ncf2` conditioning views. Multi-frame seeding needs supplied
-   depth, and two independent MoGe depths do not share a scale. Its score is therefore a
-   **lower bound and not a like-for-like comparison.** `provenance.json` records `n_seed`;
-   the verifier prints the distribution and warns when it is all-1.
+1. **Conditioning asymmetry (the big one) -- and it is OUR wrapper's, not GEN3C's.**
+   The existing integration seeds from **one** view (`eval_gen3c_nvs.py` passes
+   `gt_frames_hwc[0]` to `gen3c_single_image`), while ours and SEVA get the two `ncf2`
+   views. **GEN3C itself supports multiview** --
+   `cosmos_predict1/diffusion/inference/gen3c_multiview.py` is present in the checkout and
+   documented as README Example 3. So the published 19.20 dB is a lower bound for the
+   *wrapper*, not a fair-comparison number for the *model*, and any conclusion that Gen3C
+   is broken should not be drawn from it.
+
+   The real obstacle is that `gen3c_multiview` needs `depth_key_frames`, and our fair
+   scenes ship images + `transforms.json` only. Two independent monocular depths would not
+   share a scale -- but a joint multi-view estimator (VGGT, as GEN3C's own README
+   suggests) predicts depth and cameras together, so the two views are scale-consistent by
+   construction; rescale by the GT baseline and the problem goes away.
+   `build_gen3c_npz.py` does the geometry half of that.
 2. **121-frame window.** Gen3C must generate 121 frames; the runner resamples our camera
    path across that window and slices the original indices back out. An off-by-one in that
    slice shifts every frame and tanks PSNR while leaving the images looking fine — compare
